@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:progmob_magical_destroyers/configs/themes/theme.dart';
 import 'package:progmob_magical_destroyers/screens/get_started_screen.dart';
-import 'package:progmob_magical_destroyers/screens/intriduction_screen.dart';
+import 'package:progmob_magical_destroyers/screens/introduction_screen.dart';
 import 'package:progmob_magical_destroyers/screens/main/main_screen.dart';
 import 'package:progmob_magical_destroyers/screens/sign_in_screen.dart';
 import 'package:progmob_magical_destroyers/widgets/loading.dart';
