@@ -3,8 +3,13 @@ import 'package:get/get.dart';
 
 class AppBarWithBackButton extends StatelessWidget
     implements PreferredSizeWidget {
-  const AppBarWithBackButton({
+  late final String? title;
+  bool? centerTitle = true;
+
+  AppBarWithBackButton({
     super.key,
+    this.title,
+    this.centerTitle,
   });
 
   @override
@@ -17,6 +22,15 @@ class AppBarWithBackButton extends StatelessWidget
         onPressed: () {
           Get.back();
         },
+      ),
+      centerTitle: this.centerTitle,
+      title: Text(
+        this.title!,
+        style: TextStyle(
+          color: Colors.black,
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+        ),
       ),
     );
   }

@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
+import 'package:progmob_magical_destroyers/screens/account/edit_profile.dart';
+import 'package:progmob_magical_destroyers/screens/account/notification.dart';
 import 'package:progmob_magical_destroyers/widgets/text_title.dart';
 
 class Account extends StatefulWidget {
@@ -15,12 +17,16 @@ class _AccountState extends State<Account> {
   bool isLightMode = true;
 
   List _items = [
-    {'text': 'Edit Profile', 'icon': Icons.person_outline, 'screen': null},
+    {
+      'text': 'Edit Profile',
+      'icon': Icons.person_outline,
+      'screen': EditProfile()
+    },
     {'text': 'Address', 'icon': Icons.location_on_outlined, 'screen': null},
     {
       'text': 'Notification',
       'icon': Icons.notifications_none_outlined,
-      'screen': null
+      'screen': Notification_()
     },
     {'text': 'Payment', 'icon': Icons.payment_outlined, 'screen': null},
     {'text': 'Security', 'icon': Icons.security_outlined, 'screen': null},
@@ -74,7 +80,11 @@ class _AccountState extends State<Account> {
       contentPadding: EdgeInsets.zero,
       trailing: Icon(trailing),
       visualDensity: VisualDensity(vertical: -2),
-      onTap: () => null,
+      onTap: () {
+        if (item['screen'] != null) {
+          Get.to(() => item['screen'] as Widget);
+        }
+      },
     );
   }
 
