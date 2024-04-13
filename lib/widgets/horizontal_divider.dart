@@ -12,7 +12,8 @@ class HorizontalDivider extends StatelessWidget {
         child: Divider(
           indent: 0,
           endIndent: 10.0,
-          thickness: 0.5,
+          thickness: 1,
+          color: Colors.grey.shade400,
         ),
       ),
       Text(this.text),
@@ -20,7 +21,8 @@ class HorizontalDivider extends StatelessWidget {
         child: Divider(
           indent: 10.0,
           endIndent: 0,
-          thickness: 0.5,
+          thickness: 1,
+          color: Colors.grey.shade400,
         ),
       ),
     ]);

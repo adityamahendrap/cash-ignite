@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
 
 ThemeData lightMode = ThemeData(
   brightness: Brightness.light,
@@ -24,15 +25,15 @@ ThemeData lightMode = ThemeData(
 ThemeData darkMode = ThemeData(
   brightness: Brightness.dark,
   textTheme: GoogleFonts.poppinsTextTheme().copyWith(
-    bodySmall: const TextStyle(color: Colors.white),
-    bodyMedium: const TextStyle(color: Colors.white),
-    bodyLarge: const TextStyle(color: Colors.white),
-    labelSmall: const TextStyle(color: Colors.white),
-    labelMedium: const TextStyle(color: Colors.white),
-    labelLarge: const TextStyle(color: Colors.white),
-    displaySmall: const TextStyle(color: Colors.white),
-    displayMedium: const TextStyle(color: Colors.white),
-    displayLarge: const TextStyle(color: Colors.white),
+    bodySmall: GoogleFonts.poppins().copyWith(color: Colors.white),
+    bodyMedium: GoogleFonts.poppins().copyWith(color: Colors.white),
+    bodyLarge: GoogleFonts.poppins().copyWith(color: Colors.white),
+    labelSmall: GoogleFonts.poppins().copyWith(color: Colors.white),
+    labelMedium: GoogleFonts.poppins().copyWith(color: Colors.white),
+    labelLarge: GoogleFonts.poppins().copyWith(color: Colors.white),
+    displaySmall: GoogleFonts.poppins().copyWith(color: Colors.white),
+    displayMedium: GoogleFonts.poppins().copyWith(color: Colors.white),
+    displayLarge: GoogleFonts.poppins().copyWith(color: Colors.white),
   ),
   colorScheme: ColorScheme.dark(
     background: Color(0xFF181A20),

@@ -82,7 +82,7 @@ class _MainState extends State<Main> {
       ),
       PersistentBottomNavBarItem(
         icon: Icon(Icons.person),
-        inactiveIcon: Icon(Icons.percent_outlined),
+        inactiveIcon: Icon(Icons.person_outline),
         title: ("Account"),
         activeColorPrimary: mainColor,
         inactiveColorPrimary: CupertinoColors.systemGrey,

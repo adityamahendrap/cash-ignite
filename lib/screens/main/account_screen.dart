@@ -5,6 +5,6 @@ class Account extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text('Upcoming account screen');
+    return Center(child: Text('Upcoming account screen'));
   }
 }

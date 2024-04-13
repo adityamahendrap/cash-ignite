@@ -8,6 +8,7 @@ import 'package:progmob_magical_destroyers/screens/sign_in_screen.dart';
 import 'package:progmob_magical_destroyers/widgets/app_snack_bar.dart';
 import 'package:progmob_magical_destroyers/widgets/full_width_button_bottom_bar.dart';
 import 'package:progmob_magical_destroyers/widgets/horizontal_divider.dart';
+import 'package:progmob_magical_destroyers/widgets/icon_button_circ;e.dart';
 import 'package:progmob_magical_destroyers/widgets/oauth_button.dart';
 import 'package:progmob_magical_destroyers/widgets/text_title.dart';
 import 'package:progmob_magical_destroyers/widgets/wrapper/bottom_sheet_fit_content_wrapper.dart';
@@ -205,21 +206,23 @@ class _SignUpState extends State<SignUp> {
                   ],
                 ),
                 SizedBox(height: 10),
-                HorizontalDivider(text: "or"),
+                HorizontalDivider(text: "or continue with"),
                 SizedBox(height: 25),
-                OauthButton(
-                  iconPath: "assets/google_icon.png",
-                  text: "Continue with Google",
-                ),
-                SizedBox(height: 15),
-                OauthButton(
-                  iconPath: "assets/facebook_icon.png",
-                  text: "Continue with Facebook",
-                ),
-                SizedBox(height: 15),
-                OauthButton(
-                  iconPath: "assets/github_icon.png",
-                  text: "Continue with GitHub",
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    IconButtonCircle(
+                      icon: Image.asset('assets/google_icon.png'),
+                    ),
+                    SizedBox(width: 20),
+                    IconButtonCircle(
+                      icon: Image.asset('assets/facebook_icon.png'),
+                    ),
+                    SizedBox(width: 20),
+                    IconButtonCircle(
+                      icon: Image.asset('assets/github_icon.png'),
+                    ),
+                  ],
                 ),
                 SizedBox(height: 100),
               ],

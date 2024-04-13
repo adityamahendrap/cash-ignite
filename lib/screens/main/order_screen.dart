@@ -5,6 +5,6 @@ class Order extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text('Upcoming order screen');
+    return Center(child: Text('Upcoming order screen'));
   }
 }

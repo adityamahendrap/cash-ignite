@@ -1,8 +1,12 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
+import 'package:flutter_layout_grid/flutter_layout_grid.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
 import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
 import 'package:progmob_magical_destroyers/screens/main/main_screen.dart';
+import 'package:progmob_magical_destroyers/widgets/card_item.dart';
 
 class Home extends StatelessWidget {
   Home({super.key});
@@ -94,96 +98,6 @@ class Home extends StatelessWidget {
     );
   }
 
-  // Widget _header() {
-  //   return Container(
-  //     padding: EdgeInsets.only(left: 20, right: 20, top: 40, bottom: 20),
-  //     decoration: BoxDecoration(
-  //       // color: Color(0xFF14141e),
-  //       color: Color(0xFF14141e),
-  //       borderRadius: BorderRadius.only(
-  //         bottomLeft: Radius.circular(25),
-  //         bottomRight: Radius.circular(25),
-  //       ),
-  //     ),
-  //     child: Column(
-  //       children: [
-  //         Row(
-  //           children: [
-  //             CircleAvatar(backgroundColor: Colors.white),
-  //             SizedBox(width: 10),
-  //             Expanded(
-  //               child: Column(
-  //                 crossAxisAlignment: CrossAxisAlignment.start,
-  //                 children: [
-  //                   Text('Good morning,', style: TextStyle(color: Colors.grey)),
-  //                   Text(
-  //                     'John Doe',
-  //                     maxLines: 1,
-  //                     overflow: TextOverflow.ellipsis,
-  //                     style: TextStyle(
-  //                       color: Colors.white,
-  //                       fontSize: 24,
-  //                       fontWeight: FontWeight.w600,
-  //                     ),
-  //                   ),
-  //                 ],
-  //               ),
-  //             ),
-  //             Stack(
-  //               children: [
-  //                 IconButton(
-  //                   onPressed: () {},
-  //                   icon: Icon(Icons.notifications_none_outlined),
-  //                   color: Colors.grey,
-  //                 ),
-  //                 Positioned(
-  //                   top: 11,
-  //                   right: 13,
-  //                   child: Container(
-  //                     width: 10,
-  //                     height: 10,
-  //                     decoration: BoxDecoration(
-  //                       color: Colors.red,
-  //                       shape: BoxShape.circle,
-  //                     ),
-  //                   ),
-  //                 ),
-  //               ],
-  //             ),
-  //             IconButton(
-  //               onPressed: () {},
-  //               icon: Icon(Icons.bookmark_border_outlined),
-  //               color: Colors.grey,
-  //             ),
-  //           ],
-  //         ),
-  //         SizedBox(height: 15),
-  //         Row(
-  //           crossAxisAlignment: CrossAxisAlignment.center,
-  //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //           children: [
-  //             Icon(
-  //               Icons.search,
-  //               color: Colors.white,
-  //             ),
-  //             SizedBox(width: 10),
-  //             Expanded(
-  //               child: _searchInput(),
-  //             ),
-  //             IconButton(
-  //               onPressed: () {},
-  //               icon: Icon(
-  //                 Icons.menu_rounded,
-  //                 color: ColorPlanet.secondary,
-  //               ),
-  //             )
-  //           ],
-  //         )
-  //       ],
-  //     ),
-  //   );
-  // }
-
   TextField _searchInput() {
     return TextField(
       style: TextStyle(color: Colors.black),
@@ -194,10 +108,12 @@ class Home extends StatelessWidget {
         hintStyle: TextStyle(color: Colors.grey),
         border: InputBorder.none,
         fillColor: Colors.grey.shade100,
-        prefixIcon: Icon(Icons.search, color: Colors.grey),
+        prefixIcon: Icon(CupertinoIcons.search, color: Colors.grey),
         contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 50),
-        // filter icon
-        suffixIcon: Icon(Icons.filter_list, color: Colors.black),
+        suffixIcon: Icon(
+          CupertinoIcons.slider_horizontal_3,
+          color: Colors.black,
+        ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
           borderSide: BorderSide(color: Colors.transparent),
@@ -275,7 +191,7 @@ class Home extends StatelessWidget {
       'Amet',
       'Elit',
       'Sed',
-      'Do',
+      'Dod',
     ];
     final icons = [
       Icons.food_bank,
@@ -325,6 +241,8 @@ class Home extends StatelessWidget {
                           SizedBox(height: 10),
                           Text(
                             item,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                             style: TextStyle(fontSize: 16),
                           ),
                         ],
@@ -339,70 +257,6 @@ class Home extends StatelessWidget {
       ],
     );
   }
-
-  // Widget _categories() {
-  //   final items = [
-  //     {'icon': Icons.food_bank, 'title': 'Food', 'color': Colors.blueGrey},
-  //     {
-  //       'icon': Icons.local_drink,
-  //       'title': 'Drink',
-  //       'color': Colors.greenAccent
-  //     },
-  //     {'icon': Icons.cake, 'title': 'Cake', 'color': Colors.pinkAccent},
-  //     {'icon': Icons.local_cafe, 'title': 'Cafe', 'color': Colors.brown},
-  //     {
-  //       'icon': Icons.fastfood,
-  //       'title': 'Fast Food',
-  //       'color': Colors.orangeAccent
-  //     },
-  //   ];
-
-  //   return Column(
-  //     children: [
-  //       Padding(
-  //         padding: EdgeInsets.symmetric(horizontal: 20),
-  //         child: Row(
-  //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //           children: [
-  //             Text('Categories',
-  //                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-  //             _seeAllButton()
-  //           ],
-  //         ),
-  //       ),
-  //       Container(
-  //         height: 120,
-  //         child: ListView.separated(
-  //           shrinkWrap: false,
-  //           scrollDirection: Axis.horizontal,
-  //           itemCount: items.length,
-  //           padding: EdgeInsets.symmetric(horizontal: 20),
-  //           separatorBuilder: (context, index) => SizedBox(width: 10),
-  //           itemBuilder: (context, index) {
-  //             final item = items[index];
-  //             return Container(
-  //               width: 100,
-  //               decoration: BoxDecoration(
-  //                 color: item['color'] as Color,
-  //                 borderRadius: BorderRadius.circular(20),
-  //               ),
-  //               child: Column(
-  //                 mainAxisAlignment: MainAxisAlignment.center,
-  //                 children: [
-  //                   Icon(item['icon'] as IconData, color: Colors.black),
-  //                   Text(
-  //                     item['title'] as String,
-  //                     style: TextStyle(color: Colors.black, fontSize: 20),
-  //                   )
-  //                 ],
-  //               ),
-  //             );
-  //           },
-  //         ),
-  //       )
-  //     ],
-  //   );
-  // }
 
   Widget _mostPopular() {
     final items = ['Lorem', 'Ipsum', 'Dolor', 'Sit', 'Amet'];
@@ -421,40 +275,82 @@ class Home extends StatelessWidget {
             ],
           ),
         ),
-        Container(
-          height: 35,
-          child: ListView.separated(
-            shrinkWrap: false,
-            scrollDirection: Axis.horizontal,
-            itemCount: items.length,
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            separatorBuilder: (context, index) => SizedBox(width: 10),
-            itemBuilder: (context, index) {
-              final item = items[index];
-              return ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor:
-                      activeIndex == index ? ColorPlanet.primary : Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
-                    side: BorderSide(color: ColorPlanet.primary, width: 2),
-                  ),
-                ),
-                onPressed: () {},
-                child: Text(
-                  item,
-                  style: TextStyle(
-                    color: activeIndex == index
-                        ? Colors.white
-                        : ColorPlanet.primary,
-                    fontSize: 16,
-                  ),
-                ),
-              );
-            },
-          ),
-        )
+        _mostPopularButtons(items, activeIndex),
+        SizedBox(height: 20),
+        _mostPopularCards(),
       ],
+    );
+  }
+
+  Widget _mostPopularCards() {
+    final items = [
+      {
+        'id': '1',
+        'name': 'Lorem',
+        'price': 100,
+        'rating': 4.5,
+        'sold': 100,
+      },
+      {
+        'id': '2',
+        'name': 'Ipsum',
+        'price': 200,
+        'rating': 4.5,
+        'sold': 100,
+      },
+    ];
+
+    List<CardItem> cardItems =
+        items.map((item) => CardItem(item: item)).toList();
+    List<TrackSize> rowSizes =
+        List.generate((items.length / 2).ceil(), (index) => auto);
+
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 20),
+      child: Container(
+        child: LayoutGrid(
+          columnGap: 20,
+          rowGap: 20,
+          columnSizes: [1.fr, 1.fr],
+          rowSizes: rowSizes,
+          children: cardItems,
+        ),
+      ),
+    );
+  }
+
+  Container _mostPopularButtons(List<String> items, int activeIndex) {
+    return Container(
+      height: 35,
+      child: ListView.separated(
+        shrinkWrap: false,
+        scrollDirection: Axis.horizontal,
+        itemCount: items.length,
+        padding: EdgeInsets.symmetric(horizontal: 20),
+        separatorBuilder: (context, index) => SizedBox(width: 10),
+        itemBuilder: (context, index) {
+          final item = items[index];
+          return ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor:
+                  activeIndex == index ? ColorPlanet.primary : Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(30),
+                side: BorderSide(color: ColorPlanet.primary, width: 2),
+              ),
+            ),
+            onPressed: () {},
+            child: Text(
+              item,
+              style: TextStyle(
+                color:
+                    activeIndex == index ? Colors.white : ColorPlanet.primary,
+                fontSize: 16,
+              ),
+            ),
+          );
+        },
+      ),
     );
   }
 

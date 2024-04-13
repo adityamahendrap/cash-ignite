@@ -5,6 +5,6 @@ class Cart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text('Upcoming cart screen');
+    return Center(child: Text('Upcoming cart screen'));
   }
 }

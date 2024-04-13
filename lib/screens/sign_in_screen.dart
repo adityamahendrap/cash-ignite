@@ -3,13 +3,12 @@ import 'package:get/get.dart';
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
 import 'package:progmob_magical_destroyers/screens/main/main_screen.dart';
 import 'package:progmob_magical_destroyers/screens/send_forgot_password_email_screen.dart';
-import 'package:progmob_magical_destroyers/screens/main/home_screen.dart';
 import 'package:progmob_magical_destroyers/screens/sign_up_screen.dart';
 import 'package:progmob_magical_destroyers/widgets/app_bar_with_back_button.dart';
 import 'package:progmob_magical_destroyers/widgets/app_snack_bar.dart';
 import 'package:progmob_magical_destroyers/widgets/full_width_button_bottom_bar.dart';
 import 'package:progmob_magical_destroyers/widgets/horizontal_divider.dart';
-import 'package:progmob_magical_destroyers/widgets/oauth_button.dart';
+import 'package:progmob_magical_destroyers/widgets/icon_button_circ;e.dart';
 import 'package:progmob_magical_destroyers/widgets/text_title.dart';
 
 class SignIn extends StatefulWidget {
@@ -86,6 +85,7 @@ class _SignInState extends State<SignIn> {
       resizeToAvoidBottomInset: false,
       appBar: AppBarWithBackButton(),
       body: Stack(
+        fit: StackFit.expand,
         children: [
           SingleChildScrollView(
             padding: EdgeInsets.fromLTRB(20, 30, 20, 20),
@@ -135,7 +135,10 @@ class _SignInState extends State<SignIn> {
                           ),
                         ),
                         SizedBox(width: 10),
-                        Text("Remember me"),
+                        GestureDetector(
+                          onTap: () => _toggleRememberMe(),
+                          child: Text("Remember me"),
+                        ),
                       ],
                     ),
                     TextButton(
@@ -172,21 +175,23 @@ class _SignInState extends State<SignIn> {
                   ],
                 ),
                 SizedBox(height: 10),
-                HorizontalDivider(text: "or"),
+                HorizontalDivider(text: "or continue with"),
                 SizedBox(height: 25),
-                OauthButton(
-                  iconPath: "assets/google_icon.png",
-                  text: "Continue with Google",
-                ),
-                SizedBox(height: 15),
-                OauthButton(
-                  iconPath: "assets/facebook_icon.png",
-                  text: "Continue with Facebook",
-                ),
-                SizedBox(height: 15),
-                OauthButton(
-                  iconPath: "assets/github_icon.png",
-                  text: "Continue with GitHub",
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    IconButtonCircle(
+                      icon: Image.asset('assets/google_icon.png'),
+                    ),
+                    SizedBox(width: 20),
+                    IconButtonCircle(
+                      icon: Image.asset('assets/facebook_icon.png'),
+                    ),
+                    SizedBox(width: 20),
+                    IconButtonCircle(
+                      icon: Image.asset('assets/github_icon.png'),
+                    ),
+                  ],
                 ),
                 SizedBox(height: 100),
               ],
@@ -198,7 +203,7 @@ class _SignInState extends State<SignIn> {
             onPressed: () {
               _signIn();
             },
-          ),
+          )
         ],
       ),
     );
