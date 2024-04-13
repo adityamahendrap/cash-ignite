@@ -5,6 +5,7 @@ import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
 import 'package:progmob_magical_destroyers/screens/account/edit_profile.dart';
 import 'package:progmob_magical_destroyers/screens/account/language.dart';
 import 'package:progmob_magical_destroyers/screens/account/notification.dart';
+import 'package:progmob_magical_destroyers/screens/account/security.dart';
 import 'package:progmob_magical_destroyers/widgets/text_title.dart';
 
 class Account extends StatefulWidget {
@@ -30,7 +31,7 @@ class _AccountState extends State<Account> {
       'screen': Notification_()
     },
     {'text': 'Payment', 'icon': Icons.payment_outlined, 'screen': null},
-    {'text': 'Security', 'icon': Icons.security_outlined, 'screen': null},
+    {'text': 'Security', 'icon': Icons.security_outlined, 'screen': Security()},
     {'text': 'Logout', 'icon': Icons.logout, 'screen': null},
   ];
 
