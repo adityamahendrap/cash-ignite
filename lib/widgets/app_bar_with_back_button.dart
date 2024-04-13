@@ -25,7 +25,7 @@ class AppBarWithBackButton extends StatelessWidget
       ),
       centerTitle: this.centerTitle,
       title: Text(
-        this.title!,
+        this.title ?? '',
         style: TextStyle(
           color: Colors.black,
           fontSize: 20,

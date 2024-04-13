@@ -24,13 +24,13 @@ class _AccountState extends State<Account> {
       'icon': Icons.person_outline,
       'screen': EditProfile()
     },
-    {'text': 'Address', 'icon': Icons.location_on_outlined, 'screen': null},
+    // {'text': 'Address', 'icon': Icons.location_on_outlined, 'screen': null},
     {
       'text': 'Notification',
       'icon': Icons.notifications_none_outlined,
       'screen': Notification_()
     },
-    {'text': 'Payment', 'icon': Icons.payment_outlined, 'screen': null},
+    // {'text': 'Payment', 'icon': Icons.payment_outlined, 'screen': null},
     {'text': 'Security', 'icon': Icons.security_outlined, 'screen': Security()},
     {'text': 'Logout', 'icon': Icons.logout, 'screen': null},
   ];
@@ -41,8 +41,8 @@ class _AccountState extends State<Account> {
     Widget _languageItemTile = _languageListTile();
     Widget _lightModeItemTile = _lightModeListTile();
 
-    _itemTiles.insert(5, _lightModeItemTile);
-    _itemTiles.insert(6, _languageItemTile);
+    _itemTiles.insert(_items.length - 1, _lightModeItemTile);
+    _itemTiles.insert(_items.length - 1, _languageItemTile);
 
     return Scaffold(
       appBar: _appBar(),
