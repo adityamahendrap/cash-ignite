@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
 import 'package:progmob_magical_destroyers/screens/account/edit_profile.dart';
+import 'package:progmob_magical_destroyers/screens/account/language.dart';
 import 'package:progmob_magical_destroyers/screens/account/notification.dart';
 import 'package:progmob_magical_destroyers/widgets/text_title.dart';
 
@@ -107,7 +108,7 @@ class _AccountState extends State<Account> {
       trailing: Icon(CupertinoIcons.chevron_right),
       contentPadding: EdgeInsets.zero,
       visualDensity: VisualDensity(vertical: -2),
-      onTap: () => null,
+      onTap: () => Get.to(() => Language()),
     );
   }
 
