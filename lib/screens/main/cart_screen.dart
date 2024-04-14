@@ -1,10 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
 import 'package:progmob_magical_destroyers/screens/main/main_screen.dart';
 import 'package:progmob_magical_destroyers/widgets/app_bar_with_logo.dart';
+import 'package:progmob_magical_destroyers/widgets/text_title.dart';
+import 'package:progmob_magical_destroyers/widgets/twin_buttons.dart';
+import 'package:progmob_magical_destroyers/widgets/wrapper/bottom_sheet_fit_content_wrapper.dart';
 
 final bgColor = Color(0xFDFDFD);
 
@@ -138,24 +142,38 @@ class Cart extends StatelessWidget {
 }
 
 class CartItem extends StatelessWidget {
-  const CartItem({super.key});
+  bool? forDeleteConfirmation;
+
+  CartItem({
+    super.key,
+    this.forDeleteConfirmation = false,
+  });
+
+  void _onDeleteButtonPressed(BuildContext context) {
+    bottomSheetFitContentWrapper(
+        context: context, content: _removeConfirmation());
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 20),
-      padding: EdgeInsets.all(20),
+      margin: this.forDeleteConfirmation!
+          ? null
+          : EdgeInsets.symmetric(horizontal: 20),
+      padding: this.forDeleteConfirmation! ? null : EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(15),
-        boxShadow: [
-          BoxShadow(
-            color: ColorPlanet.primary.withOpacity(0.2),
-            offset: Offset(0, 6),
-            blurRadius: 21,
-            spreadRadius: -3,
-          )
-        ],
+        boxShadow: this.forDeleteConfirmation!
+            ? null
+            : [
+                BoxShadow(
+                  color: ColorPlanet.primary.withOpacity(0.2),
+                  offset: Offset(0, 6),
+                  blurRadius: 21,
+                  spreadRadius: -3,
+                )
+              ],
       ),
       // color: Colors.red,
       child: Row(
@@ -183,16 +201,19 @@ class CartItem extends StatelessWidget {
                             fontSize: 16,
                           ),
                         ),
-                        Container(
-                          width: 30,
-                          height: 30,
-                          child: IconButton(
-                            icon: Icon(CupertinoIcons.delete),
-                            onPressed: () {},
-                            color: Colors.black,
-                            padding: EdgeInsets.zero,
-                          ),
-                        ),
+                        this.forDeleteConfirmation!
+                            ? Container()
+                            : Container(
+                                width: 30,
+                                height: 30,
+                                child: IconButton(
+                                  icon: Icon(CupertinoIcons.delete),
+                                  onPressed: () =>
+                                      _onDeleteButtonPressed(context),
+                                  color: Colors.black,
+                                  padding: EdgeInsets.zero,
+                                ),
+                              ),
                       ],
                     ),
                   ),
@@ -227,6 +248,32 @@ class CartItem extends StatelessWidget {
           )
         ],
       ),
+    );
+  }
+
+  Widget _removeConfirmation() {
+    return Column(
+      children: [
+        Text(
+          'Remove From Cart?',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
+          ),
+        ),
+        Divider(color: Colors.grey.shade300),
+        SizedBox(height: 20),
+        CartItem(forDeleteConfirmation: true),
+        SizedBox(height: 20),
+        Divider(color: Colors.grey.shade300),
+        SizedBox(height: 20),
+        TwinButtons(
+          textOkButton: 'Yes, Remove',
+          textCancelButton: 'Cancel',
+          onPressedOkButton: () {},
+          onPressedCancelButton: () => Get.back(),
+        )
+      ],
     );
   }
 

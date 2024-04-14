@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:progmob_magical_destroyers/widgets/full_width_button.dart';
+import 'package:progmob_magical_destroyers/widgets/twin_buttons.dart';
 import 'package:progmob_magical_destroyers/widgets/wrapper/bottom_sheet_fit_content_wrapper.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:flutter/material.dart';
@@ -158,27 +159,16 @@ class _EditProfileState extends State<EditProfile> {
           },
         ),
         SizedBox(height: 10),
-        Row(
-          children: [
-            Expanded(
-              child: FullWidthButton(
-                type: FullWidthButtonType.secondary,
-                text: "Cancel",
-                onPressed: () => Get.back(),
-              ),
-            ),
-            SizedBox(width: 20),
-            Expanded(
-              child: FullWidthButton(
-                type: FullWidthButtonType.primary,
-                text: "OK",
-                onPressed: () {
-                  _birthdayController.text = _tempBirthday!;
-                  Get.back();
-                },
-              ),
-            )
-          ],
+        TwinButtons(
+          textOkButton: "OK",
+          textCancelButton: "Cancel",
+          onPressedOkButton: () {
+            _birthdayController.text = _tempBirthday!;
+            Get.back();
+          },
+          onPressedCancelButton: () {
+            Get.back();
+          },
         ),
       ],
     );
