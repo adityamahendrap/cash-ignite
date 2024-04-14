@@ -53,9 +53,10 @@ class _LanguageState extends State<Language> {
               ),
               onTap: () => _changeLanguage(languages[index]['name']),
               contentPadding: EdgeInsets.zero,
-              trailing: Container(
-                margin: EdgeInsets.zero,
+              trailing: Transform.scale(
+                scale: 1.2,
                 child: Radio(
+                  visualDensity: VisualDensity.compact,
                   value: languages[index]['name'],
                   groupValue: _selectedLanguage,
                   onChanged: (value) => _changeLanguage(value.toString()),

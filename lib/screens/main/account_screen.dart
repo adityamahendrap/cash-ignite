@@ -6,6 +6,8 @@ import 'package:progmob_magical_destroyers/screens/account/edit_profile.dart';
 import 'package:progmob_magical_destroyers/screens/account/language.dart';
 import 'package:progmob_magical_destroyers/screens/account/notification.dart';
 import 'package:progmob_magical_destroyers/screens/account/security.dart';
+import 'package:progmob_magical_destroyers/widgets/app_bar_with_back_button.dart';
+import 'package:progmob_magical_destroyers/widgets/app_bar_with_logo.dart';
 import 'package:progmob_magical_destroyers/widgets/text_title.dart';
 
 class Account extends StatefulWidget {
@@ -45,7 +47,7 @@ class _AccountState extends State<Account> {
     _itemTiles.insert(_items.length - 1, _languageItemTile);
 
     return Scaffold(
-      appBar: _appBar(),
+      appBar: AppBarWithLogo(title: 'Account'),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.all(20),
@@ -150,8 +152,8 @@ class _AccountState extends State<Account> {
           ),
         ),
         Positioned(
-          bottom: 0,
-          right: 0,
+          bottom: 5,
+          right: 5,
           child: Container(
             width: 26,
             height: 26,
@@ -166,27 +168,6 @@ class _AccountState extends State<Account> {
           ),
         )
       ],
-    );
-  }
-
-  AppBar _appBar() {
-    return AppBar(
-      leading: IconButton(
-        icon: Container(
-          height: 24,
-          width: 24,
-          child: Image.asset("assets/logo.png", color: ColorPlanet.primary),
-        ),
-        onPressed: null,
-      ),
-      centerTitle: true,
-      title: Text(
-        'Account',
-        style: TextStyle(
-          fontSize: 20,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
     );
   }
 }
