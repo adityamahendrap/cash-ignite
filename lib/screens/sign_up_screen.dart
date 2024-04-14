@@ -5,10 +5,13 @@ import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
 import 'package:progmob_magical_destroyers/screens/main/home_screen.dart';
 import 'package:progmob_magical_destroyers/screens/main/main_screen.dart';
 import 'package:progmob_magical_destroyers/screens/sign_in_screen.dart';
+import 'package:progmob_magical_destroyers/widgets/app_bar_with_back_button.dart';
 import 'package:progmob_magical_destroyers/widgets/app_snack_bar.dart';
 import 'package:progmob_magical_destroyers/widgets/full_width_button_bottom_bar.dart';
 import 'package:progmob_magical_destroyers/widgets/horizontal_divider.dart';
 import 'package:progmob_magical_destroyers/widgets/icon_button_circ;e.dart';
+import 'package:progmob_magical_destroyers/widgets/input/password_input.dart';
+import 'package:progmob_magical_destroyers/widgets/input/text_input.dart';
 import 'package:progmob_magical_destroyers/widgets/oauth_button.dart';
 import 'package:progmob_magical_destroyers/widgets/text_title.dart';
 import 'package:progmob_magical_destroyers/widgets/wrapper/bottom_sheet_fit_content_wrapper.dart';
@@ -99,16 +102,7 @@ class _SignUpState extends State<SignUp> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () {
-            Get.back();
-          },
-        ),
-      ),
+      appBar: AppBarWithBackButton(),
       body: Stack(
         children: [
           SingleChildScrollView(
@@ -126,65 +120,36 @@ class _SignUpState extends State<SignUp> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        "Email",
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                      TextInput(
+                        title: 'Email',
+                        hintText: 'Email',
+                        prefixIcon: Icons.email_outlined,
+                        controller: _emailController,
+                        validator: _checkEmail,
                       ),
-                      SizedBox(height: 10),
-                      _emailInput(),
                       SizedBox(height: 20),
-                      Text(
-                        "Password",
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                      PasswordInput(
+                        title: 'Password',
+                        hintText: 'Password',
+                        isObscure: _isPasswordHidden,
+                        toggleObscure: _togglePasswordVisibility,
+                        controller: _passwordController,
+                        validator: _checkPassword,
                       ),
-                      SizedBox(height: 10),
-                      _passwordInput(),
                       SizedBox(height: 20),
-                      Text(
-                        "Confirm Password",
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                      PasswordInput(
+                        title: 'Confirm Password',
+                        hintText: 'Confirm Password',
+                        isObscure: _isConfirmPasswordHidden,
+                        toggleObscure: _toggleConfirmPasswordVisibility,
+                        controller: _confirmPasswordController,
+                        validator: _checkConfirmPassword,
                       ),
-                      SizedBox(height: 10),
-                      _confirmPasswordInput(),
                     ],
                   ),
                 ),
                 SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      height: 24,
-                      width: 24,
-                      child: Checkbox(
-                        value: _isAgree,
-                        onChanged: (value) => _toggleAgree(),
-                        activeColor: ColorPlanet.primary,
-                      ),
-                    ),
-                    SizedBox(width: 10),
-                    GestureDetector(
-                      onTap: () => _toggleAgree(),
-                      child: Text("I agree to APP_NAME "),
-                    ),
-                    TextButton(
-                      onPressed: () => bottomSheetFitContentWrapper(
-                        context: context,
-                        content: _termsAndConditionsContent(),
-                      ),
-                      style: ButtonStyle(
-                        padding: MaterialStateProperty.all(EdgeInsets.zero),
-                      ),
-                      child: Text(
-                        "Terms & Conditions.",
-                        style: TextStyle(
-                          color: ColorPlanet.primary,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    )
-                  ],
-                ),
+                _agreement(context),
                 SizedBox(height: 10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -208,22 +173,7 @@ class _SignUpState extends State<SignUp> {
                 SizedBox(height: 10),
                 HorizontalDivider(text: "or continue with"),
                 SizedBox(height: 25),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    IconButtonCircle(
-                      icon: Image.asset('assets/google_icon.png'),
-                    ),
-                    SizedBox(width: 20),
-                    IconButtonCircle(
-                      icon: Image.asset('assets/facebook_icon.png'),
-                    ),
-                    SizedBox(width: 20),
-                    IconButtonCircle(
-                      icon: Image.asset('assets/github_icon.png'),
-                    ),
-                  ],
-                ),
+                _oauthButtons(),
                 SizedBox(height: 100),
               ],
             ),
@@ -238,6 +188,63 @@ class _SignUpState extends State<SignUp> {
         ],
       ),
     );
+  }
+
+  Row _oauthButtons() {
+    return Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  IconButtonCircle(
+                    icon: Image.asset('assets/google_icon.png'),
+                  ),
+                  SizedBox(width: 20),
+                  IconButtonCircle(
+                    icon: Image.asset('assets/facebook_icon.png'),
+                  ),
+                  SizedBox(width: 20),
+                  IconButtonCircle(
+                    icon: Image.asset('assets/github_icon.png'),
+                  ),
+                ],
+              );
+  }
+
+  Row _agreement(BuildContext context) {
+    return Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: 24,
+                    width: 24,
+                    child: Checkbox(
+                      value: _isAgree,
+                      onChanged: (value) => _toggleAgree(),
+                      activeColor: ColorPlanet.primary,
+                    ),
+                  ),
+                  SizedBox(width: 10),
+                  GestureDetector(
+                    onTap: () => _toggleAgree(),
+                    child: Text("I agree to APP_NAME "),
+                  ),
+                  TextButton(
+                    onPressed: () => bottomSheetFitContentWrapper(
+                      context: context,
+                      content: _termsAndConditionsContent(),
+                    ),
+                    style: ButtonStyle(
+                      padding: MaterialStateProperty.all(EdgeInsets.zero),
+                    ),
+                    child: Text(
+                      "Terms & Conditions.",
+                      style: TextStyle(
+                        color: ColorPlanet.primary,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  )
+                ],
+              );
   }
 
   TextFormField _confirmPasswordInput() {

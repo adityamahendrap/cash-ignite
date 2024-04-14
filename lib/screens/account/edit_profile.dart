@@ -1,11 +1,40 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
 import 'package:progmob_magical_destroyers/widgets/app_bar_with_back_button.dart';
+import 'package:progmob_magical_destroyers/widgets/app_snack_bar.dart';
 import 'package:progmob_magical_destroyers/widgets/full_width_button_bottom_bar.dart';
+import 'package:progmob_magical_destroyers/widgets/input/text_input.dart';
 
 class EditProfile extends StatelessWidget {
-  const EditProfile({super.key});
+  EditProfile({super.key});
+
+  final _nameController = TextEditingController();
+  final _bitrhdayController = TextEditingController();
+  final _countryController = TextEditingController();
+  final _phoneNumberController = TextEditingController();
+  final _genderController = TextEditingController();
+
+  String? _checkName(String? value) {
+    if (value!.isEmpty) {
+      return 'Name is required';
+    }
+    return null;
+  }
+
+  bool _validateInput() {
+    return _checkName(_nameController.text) == null;
+  }
+
+  void save() async {
+    if (!_validateInput()) {
+      AppSnackBar.error("Failed", "Please fill the form correctly");
+      return;
+    }
+
+    AppSnackBar.success("Success", "Profile updated");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,10 +51,12 @@ class EditProfile extends StatelessWidget {
                   Form(
                     child: Column(
                       children: [
-                        _textInput(
+                        TextInput(
                           title: 'Name',
                           hintText: 'Name',
                           prefixIcon: Icons.person_outline,
+                          controller: _nameController,
+                          validator: _checkName,
                         ),
                       ],
                     ),
@@ -41,54 +72,6 @@ class EditProfile extends StatelessWidget {
           )
         ],
       ),
-    );
-  }
-
-  Widget _textInput({
-    TextEditingController? controller,
-    String? Function(String?)? validator,
-    required String title,
-    required String hintText,
-    required IconData prefixIcon,
-  }) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          title,
-          textAlign: TextAlign.start,
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-        SizedBox(height: 10),
-        TextFormField(
-          // controller: _emailController,
-          autovalidateMode: AutovalidateMode.onUserInteraction,
-          // validator: (value) => _checkEmail(value),
-          textAlignVertical: TextAlignVertical.center,
-          obscureText: false,
-          cursorColor: ColorPlanet.primary,
-          cursorErrorColor: ColorPlanet.primary,
-          decoration: InputDecoration(
-            contentPadding: EdgeInsets.symmetric(horizontal: 0),
-            prefixIcon: Icon(
-              prefixIcon,
-              color: Colors.black,
-            ),
-            hintText: hintText,
-            hintStyle: TextStyle(color: Color(0xff9E9E9E)),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(15.0),
-            ),
-            filled: true,
-            fillColor: Color.fromARGB(101, 241, 241, 241),
-            focusedBorder: InputBorder.none,
-            enabledBorder: InputBorder.none,
-            disabledBorder: InputBorder.none,
-            errorBorder: InputBorder.none,
-            focusedErrorBorder: InputBorder.none,
-          ),
-        ),
-      ],
     );
   }
 }

@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
       theme: lightMode,
       darkTheme: darkMode,
       themeMode: ThemeMode.light,
-      home: Main(),
+      home: SignIn(),
       builder: EasyLoading.init(),
     );
   }

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:progmob_magical_destroyers/widgets/app_bar_with_back_button.dart';
+import 'package:progmob_magical_destroyers/widgets/app_snack_bar.dart';
 import 'package:progmob_magical_destroyers/widgets/full_width_button_bottom_bar.dart';
+import 'package:progmob_magical_destroyers/widgets/input/text_input.dart';
 import 'package:progmob_magical_destroyers/widgets/text_title.dart';
 
 class SendForgotPasswordEmail extends StatelessWidget {
@@ -9,24 +12,34 @@ class SendForgotPasswordEmail extends StatelessWidget {
 
   final _emailController = TextEditingController();
 
+  bool _validateInput() {
+    return _checkEmail(_emailController.text) == null;
+  }
+
   void _sendEmail() {
+    if (!_validateInput()) {
+      AppSnackBar.error("Failed", "Please fill the field correctly");
+    }
+
+    AppSnackBar.success("Success", "Email sent");
     _emailController.text = '';
+  }
+
+  String? _checkEmail(String? value) {
+    if (value!.isEmpty) {
+      return 'This field must be filled';
+    }
+    if (!GetUtils.isEmail(value)) {
+      return 'Invalid email format';
+    }
+    return null;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () {
-            Get.back();
-          },
-        ),
-      ),
+      appBar: AppBarWithBackButton(),
       body: Stack(
         children: [
           Padding(
@@ -39,34 +52,13 @@ class SendForgotPasswordEmail extends StatelessWidget {
                 Text(
                     "No worries! Enter your registered email below to reset your password."),
                 SizedBox(height: 25),
-                Text(
-                  "Your Registered Email",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                SizedBox(height: 10),
-                TextField(
+                TextInput(
+                  title: 'Your Registered Email',
+                  hintText: 'Email',
+                  prefixIcon: Icons.email_outlined,
                   controller: _emailController,
-                  textAlignVertical: TextAlignVertical.center,
-                  obscureText: false,
-                  decoration: InputDecoration(
-                    prefixIcon: Icon(
-                      Icons.email_outlined,
-                      color: Colors.black,
-                    ),
-                    hintText: 'Email',
-                    hintStyle: TextStyle(color: Color(0xff9E9E9E)),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15.0),
-                    ),
-                    filled: true,
-                    fillColor: Color.fromARGB(101, 241, 241, 241),
-                    focusedBorder: InputBorder.none,
-                    enabledBorder: InputBorder.none,
-                    errorBorder: InputBorder.none,
-                    disabledBorder: InputBorder.none,
-                  ),
+                  validator: _checkEmail,
                 ),
-                SizedBox(height: 100),
               ],
             ),
           ),

@@ -9,6 +9,8 @@ import 'package:progmob_magical_destroyers/widgets/app_snack_bar.dart';
 import 'package:progmob_magical_destroyers/widgets/full_width_button_bottom_bar.dart';
 import 'package:progmob_magical_destroyers/widgets/horizontal_divider.dart';
 import 'package:progmob_magical_destroyers/widgets/icon_button_circ;e.dart';
+import 'package:progmob_magical_destroyers/widgets/input/password_input.dart';
+import 'package:progmob_magical_destroyers/widgets/input/text_input.dart';
 import 'package:progmob_magical_destroyers/widgets/text_title.dart';
 
 class SignIn extends StatefulWidget {
@@ -102,19 +104,22 @@ class _SignInState extends State<SignIn> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        "Email",
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                      TextInput(
+                        title: 'Email',
+                        hintText: 'Email',
+                        prefixIcon: Icons.email_outlined,
+                        controller: _emailController,
+                        validator: _checkEmail,
                       ),
-                      SizedBox(height: 10),
-                      _emailInput(),
                       SizedBox(height: 20),
-                      Text(
-                        "Password",
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(height: 10),
-                      _passwordInput(),
+                      PasswordInput(
+                        title: 'Password',
+                        hintText: 'Password',
+                        controller: _passwordController,
+                        validator: _checkPassword,
+                        isObscure: _isPasswordHidden,
+                        toggleObscure: _togglePasswordVisibility,
+                      )
                     ],
                   ),
                 ),
@@ -122,77 +127,16 @@ class _SignInState extends State<SignIn> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          height: 24,
-                          width: 24,
-                          child: Checkbox(
-                            value: _isRememberMe,
-                            onChanged: (value) => _toggleRememberMe(),
-                            activeColor: ColorPlanet.primary,
-                          ),
-                        ),
-                        SizedBox(width: 10),
-                        GestureDetector(
-                          onTap: () => _toggleRememberMe(),
-                          child: Text("Remember me"),
-                        ),
-                      ],
-                    ),
-                    TextButton(
-                      onPressed: () => Get.off(() => SendForgotPasswordEmail()),
-                      child: Text(
-                        "Forgot Password?",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: ColorPlanet.primary,
-                        ),
-                      ),
-                    ),
+                    _rememberMe(),
+                    _forgotPassword(),
                   ],
                 ),
                 SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text("Doesn't have an account? "),
-                    TextButton(
-                      onPressed: () {
-                        Get.off(() => SignUp());
-                      },
-                      style: ButtonStyle(
-                        padding: MaterialStateProperty.all(EdgeInsets.zero),
-                      ),
-                      child: Text(
-                        "Sign Up",
-                        style: TextStyle(
-                            color: ColorPlanet.primary,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ],
-                ),
+                _signInButton(),
                 SizedBox(height: 10),
                 HorizontalDivider(text: "or continue with"),
                 SizedBox(height: 25),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    IconButtonCircle(
-                      icon: Image.asset('assets/google_icon.png'),
-                    ),
-                    SizedBox(width: 20),
-                    IconButtonCircle(
-                      icon: Image.asset('assets/facebook_icon.png'),
-                    ),
-                    SizedBox(width: 20),
-                    IconButtonCircle(
-                      icon: Image.asset('assets/github_icon.png'),
-                    ),
-                  ],
-                ),
+                _oauthButtons(),
                 SizedBox(height: 100),
               ],
             ),
@@ -209,74 +153,80 @@ class _SignInState extends State<SignIn> {
     );
   }
 
-  TextFormField _passwordInput() {
-    return TextFormField(
-      controller: _passwordController,
-      autovalidateMode: AutovalidateMode.onUserInteraction,
-      validator: (value) => _checkPassword(value),
-      textAlignVertical: TextAlignVertical.center,
-      obscureText: _isPasswordHidden,
-      cursorColor: ColorPlanet.primary,
-      cursorErrorColor: ColorPlanet.primary,
-      decoration: InputDecoration(
-        contentPadding: EdgeInsets.symmetric(horizontal: 0),
-        prefixIcon: Icon(
-          Icons.lock_outline,
-          color: Colors.black,
-        ),
-        hintText: 'Password',
-        hintStyle: TextStyle(color: Color(0xff9E9E9E)),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(15.0),
-        ),
-        filled: true,
-        fillColor: Color.fromARGB(101, 241, 241, 241),
-        suffixIcon: IconButton(
-          icon: Icon(
-            _isPasswordHidden
-                ? Icons.visibility_off_outlined
-                : Icons.visibility_outlined,
-            color: Colors.black,
-          ),
-          onPressed: () => _togglePasswordVisibility(),
-        ),
-        focusedBorder: InputBorder.none,
-        enabledBorder: InputBorder.none,
-        disabledBorder: InputBorder.none,
-        errorBorder: InputBorder.none,
-        focusedErrorBorder: InputBorder.none,
-      ),
-    );
+  Row _signInButton() {
+    return Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text("Doesn't have an account? "),
+                  TextButton(
+                    onPressed: () {
+                      Get.off(() => SignUp());
+                    },
+                    style: ButtonStyle(
+                      padding: MaterialStateProperty.all(EdgeInsets.zero),
+                    ),
+                    child: Text(
+                      "Sign Up",
+                      style: TextStyle(
+                          color: ColorPlanet.primary,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ],
+              );
   }
 
-  TextFormField _emailInput() {
-    return TextFormField(
-      controller: _emailController,
-      autovalidateMode: AutovalidateMode.onUserInteraction,
-      validator: (value) => _checkEmail(value),
-      textAlignVertical: TextAlignVertical.center,
-      obscureText: false,
-      cursorColor: ColorPlanet.primary,
-      cursorErrorColor: ColorPlanet.primary,
-      decoration: InputDecoration(
-        contentPadding: EdgeInsets.symmetric(horizontal: 0),
-        prefixIcon: Icon(
-          Icons.email_outlined,
-          color: Colors.black,
-        ),
-        hintText: 'Email',
-        hintStyle: TextStyle(color: Color(0xff9E9E9E)),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(15.0),
-        ),
-        filled: true,
-        fillColor: Color.fromARGB(101, 241, 241, 241),
-        focusedBorder: InputBorder.none,
-        enabledBorder: InputBorder.none,
-        disabledBorder: InputBorder.none,
-        errorBorder: InputBorder.none,
-        focusedErrorBorder: InputBorder.none,
-      ),
-    );
+  Row _oauthButtons() {
+    return Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  IconButtonCircle(
+                    icon: Image.asset('assets/google_icon.png'),
+                  ),
+                  SizedBox(width: 20),
+                  IconButtonCircle(
+                    icon: Image.asset('assets/facebook_icon.png'),
+                  ),
+                  SizedBox(width: 20),
+                  IconButtonCircle(
+                    icon: Image.asset('assets/github_icon.png'),
+                  ),
+                ],
+              );
+  }
+
+  TextButton _forgotPassword() {
+    return TextButton(
+                    onPressed: () => Get.off(() => SendForgotPasswordEmail()),
+                    child: Text(
+                      "Forgot Password?",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: ColorPlanet.primary,
+                      ),
+                    ),
+                  );
+  }
+
+  Row _rememberMe() {
+    return Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        height: 24,
+                        width: 24,
+                        child: Checkbox(
+                          value: _isRememberMe,
+                          onChanged: (value) => _toggleRememberMe(),
+                          activeColor: ColorPlanet.primary,
+                        ),
+                      ),
+                      SizedBox(width: 10),
+                      GestureDetector(
+                        onTap: () => _toggleRememberMe(),
+                        child: Text("Remember me"),
+                      ),
+                    ],
+                  );
   }
 }
