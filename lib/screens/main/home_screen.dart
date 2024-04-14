@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -7,6 +8,7 @@ import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
 import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
 import 'package:progmob_magical_destroyers/screens/main/main_screen.dart';
 import 'package:progmob_magical_destroyers/widgets/card_item.dart';
+import 'package:progmob_magical_destroyers/widgets/carousel_slider.dart';
 
 class Home extends StatelessWidget {
   Home({super.key});
@@ -15,26 +17,76 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              _header(),
-              _specialOffers(),
-              SizedBox(height: 20),
-              _categories(),
-              SizedBox(height: 40),
-              _mostPopular(),
-              SizedBox(height: 50),
-            ],
-          ),
+        child: CustomScrollView(
+          slivers: [
+            SliverPadding(
+              padding: EdgeInsets.only(bottom: 10),
+              sliver: SliverToBoxAdapter(
+                child: _header(),
+              ),
+            ),
+            SliverAppBar(
+              title: _searchInput(),
+              floating: true,
+              pinned: true,
+              titleSpacing: 0,
+              toolbarHeight: 80,
+              surfaceTintColor: Colors.white,
+            ),
+            SliverPadding(
+              padding: EdgeInsets.only(bottom: 15, top: 5),
+              sliver: SliverToBoxAdapter(
+                child: _specialOffers(),
+              ),
+            ),
+            SliverPadding(
+              padding: EdgeInsets.symmetric(vertical: 20),
+              sliver: SliverToBoxAdapter(
+                child: _categories(),
+              ),
+            ),
+            SliverPadding(
+              padding: EdgeInsets.only(top: 40),
+              sliver: SliverToBoxAdapter(
+                child: _mostPopular(),
+              ),
+            ),
+            SliverPadding(
+              padding: EdgeInsets.only(top: 50),
+              sliver: SliverToBoxAdapter(child: Container()), // Spacer
+            ),
+          ],
         ),
       ),
     );
   }
 
+  // @override
+  // Widget build(BuildContext context) {
+  //   return Scaffold(
+  //     body: SafeArea(
+  //       child: SingleChildScrollView(
+  //         child: Column(
+  //           children: [
+  //             _header(),
+  //             _searchInput(),
+  //             SizedBox(height: 15),
+  //             _specialOffers(),
+  //             SizedBox(height: 20),
+  //             _categories(),
+  //             SizedBox(height: 40),
+  //             _mostPopular(),
+  //             SizedBox(height: 50),
+  //           ],
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
+
   Widget _header() {
     return Container(
-      padding: EdgeInsets.all(20),
+      padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
       child: Column(
         children: [
           Row(
@@ -67,8 +119,6 @@ class Home extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: 15),
-          _searchInput(),
         ],
       ),
     );
@@ -98,26 +148,35 @@ class Home extends StatelessWidget {
     );
   }
 
-  TextField _searchInput() {
-    return TextField(
-      style: TextStyle(color: Colors.black),
-      cursorColor: ColorPlanet.primary,
-      decoration: InputDecoration(
-        filled: true,
-        hintText: 'Search',
-        hintStyle: TextStyle(color: Colors.grey),
-        border: InputBorder.none,
-        fillColor: Colors.grey.shade100,
-        prefixIcon: Icon(CupertinoIcons.search, color: Colors.grey),
-        contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 50),
-        suffixIcon: Icon(
-          CupertinoIcons.slider_horizontal_3,
-          color: Colors.black,
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: BorderSide(color: Colors.transparent),
-        ),
+  Widget _searchInput() {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 20),
+      color: Colors.white,
+      child: Column(
+        children: [
+          TextField(
+            style: TextStyle(color: Colors.black),
+            cursorColor: ColorPlanet.primary,
+            decoration: InputDecoration(
+              filled: true,
+              hintText: 'Search products skibidi ...',
+              hintStyle: TextStyle(color: Colors.grey),
+              border: InputBorder.none,
+              fillColor: Colors.grey.shade100,
+              prefixIcon: Icon(CupertinoIcons.search, color: Colors.grey),
+              contentPadding:
+                  EdgeInsets.symmetric(vertical: 15, horizontal: 50),
+              suffixIcon: Icon(
+                CupertinoIcons.slider_horizontal_3,
+                color: Colors.black,
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide(color: Colors.transparent),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -136,49 +195,8 @@ class Home extends StatelessWidget {
             ],
           ),
         ),
-        _carousel(),
+        CarouselSlider(items: [1, 2, 3, 4, 5]),
       ],
-    );
-  }
-
-  Widget _carousel() {
-    return FlutterCarousel(
-      options: CarouselOptions(
-        height: 200.0,
-        showIndicator: true,
-        slideIndicator: CircularSlideIndicator(
-          currentIndicatorColor: ColorPlanet.primary,
-          padding: EdgeInsets.only(bottom: 10),
-          indicatorBackgroundColor: Colors.grey.shade300,
-        ),
-        floatingIndicator: true,
-        autoPlay: true,
-        autoPlayInterval: Duration(seconds: 3),
-        autoPlayCurve: Curves.fastOutSlowIn,
-        enableInfiniteScroll: true,
-        reverse: false,
-        padEnds: true,
-      ),
-      items: [1, 2, 3, 4, 5].map((i) {
-        return Builder(
-          builder: (BuildContext context) {
-            return Container(
-              width: MediaQuery.of(context).size.width,
-              margin: EdgeInsets.symmetric(horizontal: 5.0),
-              decoration: BoxDecoration(
-                color: ColorPlanet.secondary,
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Center(
-                child: Text(
-                  'Image $i',
-                  style: TextStyle(fontSize: 16.0, color: ColorPlanet.primary),
-                ),
-              ),
-            );
-          },
-        );
-      }).toList(),
     );
   }
 
