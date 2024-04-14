@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
+import 'package:progmob_magical_destroyers/screens/main/home_screen.dart';
 
 class CardItem extends StatelessWidget {
-  late final Map item;
+  late final ProductCard item;
 
   CardItem({super.key, required this.item});
 
@@ -25,7 +26,7 @@ class CardItem extends StatelessWidget {
                 ),
                 child: Center(
                   child: Text(
-                    'Image ${item['id']}',
+                    'Image ${this.item.id}',
                     style: TextStyle(
                       color: ColorPlanet.primary,
                       fontSize: 16.0,
@@ -53,7 +54,7 @@ class CardItem extends StatelessWidget {
           ),
           SizedBox(height: 10),
           Text(
-            '${item['name']}',
+            this.item.name,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
@@ -69,7 +70,7 @@ class CardItem extends StatelessWidget {
                 color: ColorPlanet.primary,
               ),
               SizedBox(width: 5),
-              Text('${item['rating']} | '),
+              Text('${this.item.rating} | '),
               SizedBox(width: 5),
               Container(
                 padding: EdgeInsets.symmetric(
@@ -80,12 +81,12 @@ class CardItem extends StatelessWidget {
                   borderRadius: BorderRadius.circular(5),
                   color: ColorPlanet.secondary,
                 ),
-                child: Text('${item['sold']} sold'),
+                child: Text('${this.item.sold} sold'),
               )
             ],
           ),
           Text(
-            '\$${item['price']}',
+            '\$${this.item.price}',
             style: TextStyle(
               fontSize: 15,
               fontWeight: FontWeight.bold,

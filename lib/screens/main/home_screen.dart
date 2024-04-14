@@ -10,6 +10,29 @@ import 'package:progmob_magical_destroyers/screens/main/main_screen.dart';
 import 'package:progmob_magical_destroyers/widgets/card_item.dart';
 import 'package:progmob_magical_destroyers/widgets/carousel_slider.dart';
 
+class CategoryItem {
+  final String name;
+  final IconData icon;
+
+  CategoryItem({required this.name, required this.icon});
+}
+
+class ProductCard {
+  final String id;
+  final String name;
+  final double price;
+  final double rating;
+  final int sold;
+
+  ProductCard({
+    required this.id,
+    required this.name,
+    required this.price,
+    required this.rating,
+    required this.sold,
+  });
+}
+
 class Home extends StatelessWidget {
   Home({super.key});
 
@@ -201,25 +224,15 @@ class Home extends StatelessWidget {
   }
 
   Widget _categories() {
-    final items = [
-      'Lorem',
-      'Ipsum',
-      'Dolor',
-      'Sit',
-      'Amet',
-      'Elit',
-      'Sed',
-      'Dod',
-    ];
-    final icons = [
-      Icons.food_bank,
-      Icons.local_drink,
-      Icons.cake,
-      Icons.local_cafe,
-      Icons.fastfood,
-      Icons.food_bank,
-      Icons.local_drink,
-      Icons.cake,
+    final List<CategoryItem> categoryItems = [
+      CategoryItem(name: 'Food', icon: Icons.food_bank),
+      CategoryItem(name: 'Drink', icon: Icons.local_drink),
+      CategoryItem(name: 'Cake', icon: Icons.cake),
+      CategoryItem(name: 'Cafe', icon: Icons.local_cafe),
+      CategoryItem(name: 'Fastfood', icon: Icons.fastfood),
+      CategoryItem(name: 'Food', icon: Icons.food_bank),
+      CategoryItem(name: 'Drink', icon: Icons.local_drink),
+      CategoryItem(name: 'Cake', icon: Icons.cake),
     ];
 
     return Column(
@@ -230,14 +243,14 @@ class Home extends StatelessWidget {
             child: GridView.builder(
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
-              itemCount: items.length,
+              itemCount: categoryItems.length,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 4,
                 crossAxisSpacing: 30,
                 mainAxisSpacing: 40,
               ),
               itemBuilder: (context, index) {
-                final item = items[index];
+                final item = categoryItems[index];
                 return Center(
                   child: Wrap(
                     children: [
@@ -252,13 +265,13 @@ class Home extends StatelessWidget {
                               borderRadius: BorderRadius.circular(100),
                             ),
                             child: Center(
-                              child: Icon(icons[index],
-                                  color: ColorPlanet.primary),
+                              child:
+                                  Icon(item.icon, color: ColorPlanet.primary),
                             ),
                           ),
                           SizedBox(height: 10),
                           Text(
-                            item,
+                            item.name,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(fontSize: 16),
@@ -301,27 +314,44 @@ class Home extends StatelessWidget {
   }
 
   Widget _mostPopularCards() {
-    final items = [
-      {
-        'id': '1',
-        'name': 'Lorem',
-        'price': 100,
-        'rating': 4.5,
-        'sold': 100,
-      },
-      {
-        'id': '2',
-        'name': 'Ipsum',
-        'price': 200,
-        'rating': 4.5,
-        'sold': 100,
-      },
+    // final items = [
+    //   {
+    //     'id': '1',
+    //     'name': 'Lorem',
+    //     'price': 100,
+    //     'rating': 4.5,
+    //     'sold': 100,
+    //   },
+    //   {
+    //     'id': '2',
+    //     'name': 'Ipsum',
+    //     'price': 200,
+    //     'rating': 4.5,
+    //     'sold': 100,
+    //   },
+    // ];
+
+    final List<ProductCard> productCardss = [
+      ProductCard(
+        id: '1',
+        name: 'Lorem',
+        price: 100,
+        rating: 4.5,
+        sold: 100,
+      ),
+      ProductCard(
+        id: '2',
+        name: 'Ipsum',
+        price: 200,
+        rating: 4.5,
+        sold: 100,
+      ),
     ];
 
     List<CardItem> cardItems =
-        items.map((item) => CardItem(item: item)).toList();
+        productCardss.map((e) => CardItem(item: e)).toList();
     List<TrackSize> rowSizes =
-        List.generate((items.length / 2).ceil(), (index) => auto);
+        List.generate((productCardss.length / 2).ceil(), (index) => auto);
 
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20),

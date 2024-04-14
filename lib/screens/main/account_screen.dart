@@ -10,6 +10,14 @@ import 'package:progmob_magical_destroyers/widgets/app_bar_with_back_button.dart
 import 'package:progmob_magical_destroyers/widgets/app_bar_with_logo.dart';
 import 'package:progmob_magical_destroyers/widgets/text_title.dart';
 
+class AccountItem {
+  final String text;
+  final IconData icon;
+  final Widget? screen;
+
+  AccountItem({required this.text, required this.icon, required this.screen});
+}
+
 class Account extends StatefulWidget {
   Account({super.key});
 
@@ -20,31 +28,38 @@ class Account extends StatefulWidget {
 class _AccountState extends State<Account> {
   bool isLightMode = true;
 
-  List _items = [
-    {
-      'text': 'Edit Profile',
-      'icon': Icons.person_outline,
-      'screen': EditProfile()
-    },
-    // {'text': 'Address', 'icon': Icons.location_on_outlined, 'screen': null},
-    {
-      'text': 'Notification',
-      'icon': Icons.notifications_none_outlined,
-      'screen': Notification_()
-    },
-    // {'text': 'Payment', 'icon': Icons.payment_outlined, 'screen': null},
-    {'text': 'Security', 'icon': Icons.security_outlined, 'screen': Security()},
-    {'text': 'Logout', 'icon': Icons.logout, 'screen': null},
+  List<AccountItem> _accountItems = [
+    AccountItem(
+      text: 'Edit Profile',
+      icon: Icons.person_outline,
+      screen: EditProfile(),
+    ),
+    AccountItem(
+      text: 'Notification',
+      icon: Icons.notifications_none_outlined,
+      screen: Notification_(),
+    ),
+    AccountItem(
+      text: 'Security',
+      icon: Icons.security_outlined,
+      screen: Security(),
+    ),
+    AccountItem(
+      text: 'Logout',
+      icon: Icons.logout,
+      screen: null,
+    ),
   ];
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> _itemTiles = _items.map((e) => _mainListTile(e)).toList();
+    List<Widget> _accountItemTiles =
+        _accountItems.map((e) => _mainListTile(e)).toList();
     Widget _languageItemTile = _languageListTile();
     Widget _lightModeItemTile = _lightModeListTile();
 
-    _itemTiles.insert(_items.length - 1, _lightModeItemTile);
-    _itemTiles.insert(_items.length - 1, _languageItemTile);
+    _accountItemTiles.insert(_accountItems.length - 1, _lightModeItemTile);
+    _accountItemTiles.insert(_accountItems.length - 1, _languageItemTile);
 
     return Scaffold(
       appBar: AppBarWithLogo(title: 'Account'),
@@ -59,22 +74,22 @@ class _AccountState extends State<Account> {
             Text('+62 812 3456 7890'),
             SizedBox(height: 20),
             Divider(color: Colors.grey.shade300),
-            ..._itemTiles,
+            ..._accountItemTiles,
           ]),
         ),
       ),
     );
   }
 
-  Widget _mainListTile(Map item) {
+  Widget _mainListTile(AccountItem item) {
     final trailing =
-        item['text'] == 'Logout' ? null : CupertinoIcons.chevron_right;
-    final color = item['text'] == 'Logout' ? Colors.red : Colors.black;
+        item.text == 'Logout' ? null : CupertinoIcons.chevron_right;
+    final color = item.text == 'Logout' ? Colors.red : Colors.black;
 
     return ListTile(
-      leading: Icon(item['icon'], color: color),
+      leading: Icon(item.icon, color: color),
       title: Text(
-        item['text'],
+        item.text,
         style: TextStyle(
           fontWeight: FontWeight.w600,
           fontSize: 16,
@@ -85,8 +100,8 @@ class _AccountState extends State<Account> {
       trailing: Icon(trailing),
       visualDensity: VisualDensity(vertical: -2),
       onTap: () {
-        if (item['screen'] != null) {
-          Get.to(() => item['screen'] as Widget);
+        if (item.screen != null) {
+          Get.to(() => item.screen as Widget);
         }
       },
     );
