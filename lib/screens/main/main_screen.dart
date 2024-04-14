@@ -76,7 +76,7 @@ class _MainState extends State<Main> {
       PersistentBottomNavBarItem(
         icon: Icon(Icons.receipt),
         inactiveIcon: Icon(Icons.receipt_long_outlined),
-        title: ("Order"),
+        title: ("Orders"),
         activeColorPrimary: mainColor,
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
