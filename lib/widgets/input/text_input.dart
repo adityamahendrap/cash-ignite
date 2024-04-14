@@ -7,6 +7,8 @@ class TextInput extends StatelessWidget {
   final String title;
   final String hintText;
   final IconData prefixIcon;
+  final bool? readOnly;
+  final Function? onTap;
 
   TextInput({
     super.key,
@@ -15,6 +17,8 @@ class TextInput extends StatelessWidget {
     required this.title,
     required this.hintText,
     required this.prefixIcon,
+    this.readOnly,
+    this.onTap,
   });
 
   @override
@@ -23,23 +27,26 @@ class TextInput extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          title,
+          this.title,
           textAlign: TextAlign.start,
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         SizedBox(height: 10),
         TextFormField(
+          onTap: () => this.onTap != null ? this.onTap!() : null,
           controller: this.controller,
           autovalidateMode: AutovalidateMode.onUserInteraction,
-          validator: (value) => this.validator!(value),
+          validator: (value) =>
+              this.validator != null ? this.validator!(value) : null,
           textAlignVertical: TextAlignVertical.center,
           obscureText: false,
           cursorColor: ColorPlanet.primary,
           cursorErrorColor: ColorPlanet.primary,
+          readOnly: this.readOnly ?? false,
           decoration: InputDecoration(
             contentPadding: EdgeInsets.symmetric(horizontal: 0),
             prefixIcon: Icon(
-              prefixIcon,
+              this.prefixIcon,
               color: Colors.black,
             ),
             hintText: hintText,

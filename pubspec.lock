@@ -105,6 +105,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.2"
+  dropdown_button2:
+    dependency: "direct main"
+    description:
+      name: dropdown_button2
+      sha256: b0fe8d49a030315e9eef6c7ac84ca964250155a6224d491c1365061bc974a9e1
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.3.9"
+  equatable:
+    dependency: transitive
+    description:
+      name: equatable
+      sha256: c2b87cb7756efdf69892005af546c56c0b5037f54d2a88269b4f347a505e3ca2
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.5"
   fake_async:
     dependency: transitive
     description:
@@ -280,6 +296,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.1.7"
+  intl:
+    dependency: "direct main"
+    description:
+      name: intl
+      sha256: d6f56758b7d3014a48af9701c085700aac781a92a87a62b1333b46d8879661cf
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.19.0"
+  intl_phone_number_input:
+    dependency: "direct main"
+    description:
+      name: intl_phone_number_input
+      sha256: "1c4328713a9503ab26a1fdbb6b00b4cada68c18aac922b35bedbc72eff1297c3"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.7.4"
   introduction_screen:
     dependency: "direct main"
     description:
@@ -292,10 +324,10 @@ packages:
     dependency: transitive
     description:
       name: js
-      sha256: c1b2e9b5ea78c45e1a0788d29606ba27dc5f71f019f32ca5140f61ef071838cf
+      sha256: f2c445dce49627136094980615a031419f7f3eb393237e4ecd97ac15dea343f3
       url: "https://pub.dev"
     source: hosted
-    version: "0.7.1"
+    version: "0.6.7"
   leak_tracker:
     dependency: transitive
     description:
@@ -320,6 +352,30 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.1"
+  libphonenumber_platform_interface:
+    dependency: transitive
+    description:
+      name: libphonenumber_platform_interface
+      sha256: f801f6c65523f56504b83f0890e6dad584ab3a7507dca65fec0eed640afea40f
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.4.2"
+  libphonenumber_plugin:
+    dependency: transitive
+    description:
+      name: libphonenumber_plugin
+      sha256: c615021d9816fbda2b2587881019ed595ecdf54d999652d7e4cce0e1f026368c
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.3"
+  libphonenumber_web:
+    dependency: transitive
+    description:
+      name: libphonenumber_web
+      sha256: "8186f420dbe97c3132283e52819daff1e55d60d6db46f7ea5ac42f42a28cc2ef"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.2"
   lottie:
     dependency: "direct main"
     description:
@@ -501,6 +557,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.0"
+  syncfusion_flutter_core:
+    dependency: transitive
+    description:
+      name: syncfusion_flutter_core
+      sha256: "159b125f55d95534c0c39a5efd644f50a310821191946e15eac50a49032fb42c"
+      url: "https://pub.dev"
+    source: hosted
+    version: "25.1.39"
+  syncfusion_flutter_datepicker:
+    dependency: "direct main"
+    description:
+      name: syncfusion_flutter_datepicker
+      sha256: "742bbe6aba9df10553a177e3f6e4a3c07bbea39244e3af3f898864823b003de9"
+      url: "https://pub.dev"
+    source: hosted
+    version: "25.1.39"
   term_glyph:
     dependency: transitive
     description:

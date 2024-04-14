@@ -46,6 +46,10 @@ dependencies:
   flutter_carousel_widget: ^2.2.0
   flutter_rating_bar: ^4.0.1
   flutter_layout_grid: ^2.0.6
+  intl: ^0.19.0
+  syncfusion_flutter_datepicker: ^25.1.39
+  dropdown_button2: ^2.3.9
+  intl_phone_number_input: ^0.7.4
 
 dev_dependencies:
   flutter_test:

@@ -155,78 +155,77 @@ class _SignInState extends State<SignIn> {
 
   Row _signInButton() {
     return Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text("Doesn't have an account? "),
-                  TextButton(
-                    onPressed: () {
-                      Get.off(() => SignUp());
-                    },
-                    style: ButtonStyle(
-                      padding: MaterialStateProperty.all(EdgeInsets.zero),
-                    ),
-                    child: Text(
-                      "Sign Up",
-                      style: TextStyle(
-                          color: ColorPlanet.primary,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                ],
-              );
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text("Doesn't have an account? "),
+        TextButton(
+          onPressed: () {
+            Get.off(() => SignUp());
+          },
+          style: ButtonStyle(
+            padding: MaterialStateProperty.all(EdgeInsets.zero),
+          ),
+          child: Text(
+            "Sign Up",
+            style: TextStyle(
+                color: ColorPlanet.primary, fontWeight: FontWeight.bold),
+          ),
+        ),
+      ],
+    );
   }
 
   Row _oauthButtons() {
     return Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  IconButtonCircle(
-                    icon: Image.asset('assets/google_icon.png'),
-                  ),
-                  SizedBox(width: 20),
-                  IconButtonCircle(
-                    icon: Image.asset('assets/facebook_icon.png'),
-                  ),
-                  SizedBox(width: 20),
-                  IconButtonCircle(
-                    icon: Image.asset('assets/github_icon.png'),
-                  ),
-                ],
-              );
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        IconButtonCircle(
+          icon: Image.asset('assets/google_icon.png'),
+        ),
+        SizedBox(width: 20),
+        IconButtonCircle(
+          icon: Image.asset('assets/facebook_icon.png'),
+        ),
+        SizedBox(width: 20),
+        IconButtonCircle(
+          icon: Image.asset('assets/github_icon.png'),
+        ),
+      ],
+    );
   }
 
   TextButton _forgotPassword() {
     return TextButton(
-                    onPressed: () => Get.off(() => SendForgotPasswordEmail()),
-                    child: Text(
-                      "Forgot Password?",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: ColorPlanet.primary,
-                      ),
-                    ),
-                  );
+      onPressed: () => Get.off(() => SendForgotPasswordEmail()),
+      child: Text(
+        "Forgot Password?",
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+          color: ColorPlanet.primary,
+        ),
+      ),
+    );
   }
 
   Row _rememberMe() {
     return Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        height: 24,
-                        width: 24,
-                        child: Checkbox(
-                          value: _isRememberMe,
-                          onChanged: (value) => _toggleRememberMe(),
-                          activeColor: ColorPlanet.primary,
-                        ),
-                      ),
-                      SizedBox(width: 10),
-                      GestureDetector(
-                        onTap: () => _toggleRememberMe(),
-                        child: Text("Remember me"),
-                      ),
-                    ],
-                  );
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        SizedBox(
+          height: 24,
+          width: 24,
+          child: Checkbox(
+            value: _isRememberMe,
+            onChanged: (value) => _toggleRememberMe(),
+            activeColor: ColorPlanet.primary,
+          ),
+        ),
+        SizedBox(width: 10),
+        GestureDetector(
+          onTap: () => _toggleRememberMe(),
+          child: Text("Remember me"),
+        ),
+      ],
+    );
   }
 }
