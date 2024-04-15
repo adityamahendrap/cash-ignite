@@ -9,6 +9,7 @@ import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
 import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
 import 'package:progmob_magical_destroyers/screens/main/detail_product_screen.dart';
 import 'package:progmob_magical_destroyers/screens/main/main_screen.dart';
+import 'package:progmob_magical_destroyers/screens/main/search_screen.dart';
 import 'package:progmob_magical_destroyers/widgets/product_card.dart';
 import 'package:progmob_magical_destroyers/widgets/carousel_slider_hero.dart';
 
@@ -159,6 +160,10 @@ class Home extends StatelessWidget {
           TextField(
             style: TextStyle(color: Colors.black),
             cursorColor: ColorPlanet.primary,
+            readOnly: true,
+            onTap: () {
+              Get.to(() => Search(), transition: Transition.cupertinoDialog);
+            },
             decoration: InputDecoration(
               filled: true,
               hintText: 'Search products skibidi ...',
