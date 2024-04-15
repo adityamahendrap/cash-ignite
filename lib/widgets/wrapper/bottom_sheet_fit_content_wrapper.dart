@@ -5,6 +5,7 @@ Future<dynamic> bottomSheetFitContentWrapper({
   required BuildContext context,
   required Widget content,
   bool enableDrag = true,
+  bool isHorizontalPaddingActive = true,
 }) {
   return showMaterialModalBottomSheet(
     context: context,
@@ -18,7 +19,9 @@ Future<dynamic> bottomSheetFitContentWrapper({
     builder: (context) => SingleChildScrollView(
       child: Container(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20),
+          padding: EdgeInsets.symmetric(
+            horizontal: isHorizontalPaddingActive ? 20 : 0,
+          ),
           child: Column(
             children: [
               SizedBox(height: 10),

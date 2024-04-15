@@ -51,6 +51,7 @@ dependencies:
   dropdown_button2: ^2.3.9
   intl_phone_number_input: ^0.7.4
   readmore: ^3.0.0
+  syncfusion_flutter_sliders: ^25.1.39
 
 dev_dependencies:
   flutter_test:
