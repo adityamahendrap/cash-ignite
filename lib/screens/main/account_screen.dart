@@ -8,6 +8,7 @@ import 'package:progmob_magical_destroyers/screens/account/notification.dart';
 import 'package:progmob_magical_destroyers/screens/account/security.dart';
 import 'package:progmob_magical_destroyers/widgets/app_bar_with_back_button.dart';
 import 'package:progmob_magical_destroyers/widgets/app_bar_with_logo.dart';
+import 'package:progmob_magical_destroyers/widgets/profile_picture.dart';
 import 'package:progmob_magical_destroyers/widgets/text_title.dart';
 
 class AccountItem {
@@ -67,7 +68,7 @@ class _AccountState extends State<Account> {
         child: Padding(
           padding: EdgeInsets.all(20),
           child: Column(children: [
-            Center(child: _profilePicture()),
+            Center(child: ProfilePicture()),
             SizedBox(height: 20),
             TextTitle(title: 'Aditya Mahendra'),
             SizedBox(height: 5),
@@ -152,37 +153,6 @@ class _AccountState extends State<Account> {
       onTap: () => setState(() {
         isLightMode = !isLightMode;
       }),
-    );
-  }
-
-  Stack _profilePicture() {
-    return Stack(
-      children: [
-        Container(
-          width: 100,
-          height: 100,
-          decoration: BoxDecoration(
-            color: ColorPlanet.primary,
-            borderRadius: BorderRadius.circular(100),
-          ),
-        ),
-        Positioned(
-          bottom: 5,
-          right: 5,
-          child: Container(
-            width: 26,
-            height: 26,
-            decoration: BoxDecoration(
-              color: Colors.black,
-              borderRadius: BorderRadius.circular(7),
-            ),
-            child: Icon(
-              Icons.edit,
-              color: Colors.white,
-            ),
-          ),
-        )
-      ],
     );
   }
 }

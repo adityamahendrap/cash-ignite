@@ -3,6 +3,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:progmob_magical_destroyers/configs/themes/theme.dart';
+import 'package:progmob_magical_destroyers/controller.dart/profile_controller.dart';
 import 'package:progmob_magical_destroyers/screens/account/edit_profile.dart';
 import 'package:progmob_magical_destroyers/screens/get_started_screen.dart';
 import 'package:progmob_magical_destroyers/screens/introduction_screen.dart';
@@ -16,6 +17,7 @@ void main() async {
     ..loadingStyle = EasyLoadingStyle.light
     ..maskType = EasyLoadingMaskType.black
     ..dismissOnTap = false;
+  Get.put(ProfileController());
   runApp(MyApp());
 }
 
