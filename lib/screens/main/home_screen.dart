@@ -4,11 +4,13 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:get/get.dart';
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
 import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
+import 'package:progmob_magical_destroyers/screens/main/detail_product_screen.dart';
 import 'package:progmob_magical_destroyers/screens/main/main_screen.dart';
-import 'package:progmob_magical_destroyers/widgets/card_item.dart';
-import 'package:progmob_magical_destroyers/widgets/carousel_slider.dart';
+import 'package:progmob_magical_destroyers/widgets/product_card.dart';
+import 'package:progmob_magical_destroyers/widgets/carousel_slider_hero.dart';
 
 class CategoryItem {
   final String name;
@@ -17,14 +19,14 @@ class CategoryItem {
   CategoryItem({required this.name, required this.icon});
 }
 
-class ProductCard {
+class Product {
   final String id;
   final String name;
   final double price;
   final double rating;
   final int sold;
 
-  ProductCard({
+  Product({
     required this.id,
     required this.name,
     required this.price,
@@ -83,29 +85,6 @@ class Home extends StatelessWidget {
       ),
     );
   }
-
-  // @override
-  // Widget build(BuildContext context) {
-  //   return Scaffold(
-  //     body: SafeArea(
-  //       child: SingleChildScrollView(
-  //         child: Column(
-  //           children: [
-  //             _header(),
-  //             _searchInput(),
-  //             SizedBox(height: 15),
-  //             _specialOffers(),
-  //             SizedBox(height: 20),
-  //             _categories(),
-  //             SizedBox(height: 40),
-  //             _mostPopular(),
-  //             SizedBox(height: 50),
-  //           ],
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
 
   Widget _header() {
     return Container(
@@ -218,7 +197,7 @@ class Home extends StatelessWidget {
             ],
           ),
         ),
-        CarouselSlider(items: [1, 2, 3, 4, 5]),
+        CarouselSliderHero(items: [1, 2, 3, 4, 5]),
       ],
     );
   }
@@ -314,32 +293,15 @@ class Home extends StatelessWidget {
   }
 
   Widget _mostPopularCards() {
-    // final items = [
-    //   {
-    //     'id': '1',
-    //     'name': 'Lorem',
-    //     'price': 100,
-    //     'rating': 4.5,
-    //     'sold': 100,
-    //   },
-    //   {
-    //     'id': '2',
-    //     'name': 'Ipsum',
-    //     'price': 200,
-    //     'rating': 4.5,
-    //     'sold': 100,
-    //   },
-    // ];
-
-    final List<ProductCard> productCardss = [
-      ProductCard(
+    final List<Product> products = [
+      Product(
         id: '1',
         name: 'Lorem',
         price: 100,
         rating: 4.5,
         sold: 100,
       ),
-      ProductCard(
+      Product(
         id: '2',
         name: 'Ipsum',
         price: 200,
@@ -348,10 +310,14 @@ class Home extends StatelessWidget {
       ),
     ];
 
-    List<CardItem> cardItems =
-        productCardss.map((e) => CardItem(item: e)).toList();
+    List<ProductCard> cardItems = products
+        .map((e) => ProductCard(
+              item: e,
+              onCardPressed: null,
+            ))
+        .toList();
     List<TrackSize> rowSizes =
-        List.generate((productCardss.length / 2).ceil(), (index) => auto);
+        List.generate((products.length / 2).ceil(), (index) => auto);
 
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20),

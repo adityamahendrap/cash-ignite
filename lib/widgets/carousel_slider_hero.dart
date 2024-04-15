@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
 
-class CarouselSlider extends StatelessWidget {
+class CarouselSliderHero extends StatelessWidget {
   final List items;
 
-  CarouselSlider({
+  CarouselSliderHero({
     super.key,
     required this.items,
   });

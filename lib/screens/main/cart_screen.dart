@@ -6,6 +6,7 @@ import 'package:introduction_screen/introduction_screen.dart';
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
 import 'package:progmob_magical_destroyers/screens/main/main_screen.dart';
 import 'package:progmob_magical_destroyers/widgets/app_bar_with_logo.dart';
+import 'package:progmob_magical_destroyers/widgets/quantity_counter.dart';
 import 'package:progmob_magical_destroyers/widgets/text_title.dart';
 import 'package:progmob_magical_destroyers/widgets/twin_buttons.dart';
 import 'package:progmob_magical_destroyers/widgets/wrapper/bottom_sheet_fit_content_wrapper.dart';
@@ -239,7 +240,11 @@ class CartItem extends StatelessWidget {
                           fontSize: 16,
                         ),
                       ),
-                      _quantityButton()
+                      QuantityCounter(
+                        qty: 1,
+                        onMinusButtonPressed: () {},
+                        onPlusButtonPressed: () {},
+                      ),
                     ],
                   )
                 ],
@@ -304,33 +309,6 @@ class CartItem extends StatelessWidget {
             fontWeight: FontWeight.w600,
           ),
         ),
-      ),
-    );
-  }
-
-  Container _quantityButton() {
-    return Container(
-      decoration: BoxDecoration(
-        color: ColorPlanet.secondary,
-        borderRadius: BorderRadius.circular(100),
-      ),
-      child: Row(
-        children: [
-          IconButton(
-            icon: Icon(Icons.remove),
-            onPressed: () {},
-            color: ColorPlanet.primary,
-          ),
-          Text(
-            ' 1 ',
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-          IconButton(
-            icon: Icon(Icons.add),
-            onPressed: () {},
-            color: ColorPlanet.primary,
-          ),
-        ],
       ),
     );
   }
