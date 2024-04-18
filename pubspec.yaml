@@ -54,6 +54,9 @@ dependencies:
   syncfusion_flutter_sliders: ^25.1.39
   image_picker: ^1.0.8
   color_log: ^0.0.6
+  flutter_map: ^6.1.0
+  flutter_map_dragmarker: ^6.0.0
+  geolocator: ^11.0.0
 
 dev_dependencies:
   flutter_test:

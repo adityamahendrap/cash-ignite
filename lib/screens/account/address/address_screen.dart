@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
+import 'package:progmob_magical_destroyers/screens/account/address/add_new_address_screen.dart';
 import 'package:progmob_magical_destroyers/screens/main/home_screen.dart';
 import 'package:progmob_magical_destroyers/widgets/address_card.dart';
 import 'package:progmob_magical_destroyers/widgets/app_bar_with_back_button.dart';
@@ -12,7 +14,7 @@ class Address extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarWithBackButton(title: 'Address'),
+      appBar: AppBarWithBackButton(title: 'Address', centerTitle: true,),
       body: Stack(
         children: [
           Padding(
@@ -27,7 +29,9 @@ class Address extends StatelessWidget {
           FullWidthButtonBottomBar(
             context: context,
             text: 'Add New Adress',
-            onPressed: () {},
+            onPressed: () {
+              Get.to(() => AddNewAddress());
+            },
           )
         ],
       ),

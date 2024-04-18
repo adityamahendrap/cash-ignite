@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
-import 'package:progmob_magical_destroyers/screens/account/address_screen.dart';
+import 'package:progmob_magical_destroyers/screens/account/address/address_screen.dart';
 import 'package:progmob_magical_destroyers/screens/account/edit_profile.dart';
 import 'package:progmob_magical_destroyers/screens/account/language_screen.dart';
 import 'package:progmob_magical_destroyers/screens/account/notification_screen.dart';
@@ -93,7 +93,7 @@ class _AccountState extends State<Account> {
         item.text == 'Logout' ? null : CupertinoIcons.chevron_right;
     final color = item.text == 'Logout' ? Colors.red : Colors.black;
 
-    return ListTile(
+  return ListTile(
       leading: Icon(item.icon, color: color),
       title: Text(
         item.text,
