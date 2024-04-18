@@ -2,10 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
+import 'package:progmob_magical_destroyers/screens/account/address_screen.dart';
 import 'package:progmob_magical_destroyers/screens/account/edit_profile.dart';
-import 'package:progmob_magical_destroyers/screens/account/language.dart';
-import 'package:progmob_magical_destroyers/screens/account/notification.dart';
-import 'package:progmob_magical_destroyers/screens/account/security.dart';
+import 'package:progmob_magical_destroyers/screens/account/language_screen.dart';
+import 'package:progmob_magical_destroyers/screens/account/notification_screen.dart';
+import 'package:progmob_magical_destroyers/screens/account/security_screen.dart';
 import 'package:progmob_magical_destroyers/widgets/app_bar_with_back_button.dart';
 import 'package:progmob_magical_destroyers/widgets/app_bar_with_logo.dart';
 import 'package:progmob_magical_destroyers/widgets/profile_picture.dart';
@@ -32,8 +33,13 @@ class _AccountState extends State<Account> {
   List<AccountItem> _accountItems = [
     AccountItem(
       text: 'Edit Profile',
-      icon: Icons.person_outline,
+    icon: Icons.person_outline,
       screen: EditProfile(),
+    ),
+    AccountItem(
+      text: 'Address',
+      icon: Icons.location_on_outlined,
+      screen: Address(),
     ),
     AccountItem(
       text: 'Notification',

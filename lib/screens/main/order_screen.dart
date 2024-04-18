@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
+import 'package:progmob_magical_destroyers/widgets/text_label.dart';
+
 
 final bgColor = Color(0xFDFDFD);
 
@@ -174,14 +176,7 @@ class OrderItem extends StatelessWidget {
                     ],
                   ),
                   SizedBox(height: 10),
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                    decoration: BoxDecoration(
-                      color: ColorPlanet.secondary,
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    child: Text(this.status),
-                  ),
+                  TextLabel(text: this.status),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
