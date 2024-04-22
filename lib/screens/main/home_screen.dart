@@ -9,7 +9,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
 import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
-import 'package:progmob_magical_destroyers/controller.dart/profile_controller.dart';
+import 'package:progmob_magical_destroyers/controller/profile_controller.dart';
 import 'package:progmob_magical_destroyers/screens/main/detail_product_screen.dart';
 import 'package:progmob_magical_destroyers/screens/main/main_screen.dart';
 import 'package:progmob_magical_destroyers/screens/main/search_screen.dart';
