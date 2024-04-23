@@ -1,7 +1,9 @@
 import 'package:color_log/color_log.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/mobile_api.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/login_rype.dart';
@@ -34,6 +36,7 @@ class _SignInState extends State<SignIn> {
   bool _isRememberMe = false;
 
   MoblieApiRequester _mobileApi = MoblieApiRequester();
+  final box = GetStorage();
 
   void _togglePasswordVisibility() {
     setState(() {
@@ -59,13 +62,18 @@ class _SignInState extends State<SignIn> {
     }
 
     try {
+      EasyLoading.show();
       LoginData? data = await _mobileApi.login(
         email: _emailController.text,
         password: _passwordController.text,
       );
+      box.write('token', data!.token);
+      clog.info('Sign in success!');
     } on DioException catch (e) {
       HelplessUtil.handleApiError(e);
       return;
+    } finally {
+      EasyLoading.dismiss();
     }
 
     Get.offAll(() => Main());

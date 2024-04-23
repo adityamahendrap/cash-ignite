@@ -1,10 +1,15 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
+import 'package:progmob_magical_destroyers/external/requester/mobile_api/mobile_api.dart';
+import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/register_type.dart';
 import 'package:progmob_magical_destroyers/screens/main/home_screen.dart';
 import 'package:progmob_magical_destroyers/screens/main/main_screen.dart';
 import 'package:progmob_magical_destroyers/screens/sign_in_screen.dart';
+import 'package:progmob_magical_destroyers/utils/helpless_util.dart';
 import 'package:progmob_magical_destroyers/widgets/app_bar_with_back_button.dart';
 import 'package:progmob_magical_destroyers/widgets/app_snack_bar.dart';
 import 'package:progmob_magical_destroyers/widgets/full_width_button_bottom_bar.dart';
@@ -26,6 +31,7 @@ class SignUp extends StatefulWidget {
 class _SignUpState extends State<SignUp> {
   final _signUpFormKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
+  final _nameController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
 
@@ -33,11 +39,24 @@ class _SignUpState extends State<SignUp> {
   bool _isConfirmPasswordHidden = true;
   bool _isAgree = false;
 
+  MoblieApiRequester _mobileApi = MoblieApiRequester();
+
   bool _validateInput() {
     return _checkEmail(_emailController.text) == null &&
         _checkPassword(_passwordController.text) == null &&
         _checkConfirmPassword(_confirmPasswordController.text) == null &&
+        _checkName(_nameController.text) == null &&
         _isAgree;
+  }
+
+  void _clearInput() {
+    _emailController.clear();
+    _nameController.clear();
+    _passwordController.clear();
+    _confirmPasswordController.clear();
+    setState(() {
+      _isAgree = false;
+    });
   }
 
   void _signUp() async {
@@ -47,7 +66,26 @@ class _SignUpState extends State<SignUp> {
       return;
     }
 
-    Get.offAll(() => Main());
+    try {
+      EasyLoading.show();
+      await _mobileApi.register(
+        name: _nameController.text,
+        email: _emailController.text,
+        password: _passwordController.text,
+      );
+    } on DioException catch (e) {
+      if (e.response?.data['message']['email'] != null)
+        AppSnackBar.error('Failed', e.response?.data['message']['email'][0]);
+      else
+        HelplessUtil.handleApiError(e);
+      return;
+    } finally {
+      EasyLoading.dismiss();
+    }
+
+    Get.off(() => SignIn());
+    AppSnackBar.success('Success',
+        'Account created! Now you can sign in to enjoy our services. 🥳');
   }
 
   void _toggleAgree() {
@@ -66,6 +104,16 @@ class _SignUpState extends State<SignUp> {
     setState(() {
       _isConfirmPasswordHidden = !_isConfirmPasswordHidden;
     });
+  }
+
+  String? _checkName(String? value) {
+    if (value!.trim().isEmpty) {
+      return 'This field must be filled';
+    }
+    if (value.length < 3) {
+      return 'Name must be at least 3 characters';
+    }
+    return null;
   }
 
   String? _checkEmail(String? value) {
@@ -120,6 +168,14 @@ class _SignUpState extends State<SignUp> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      TextInput(
+                        title: 'Name',
+                        hintText: 'Name',
+                        prefixIcon: Icons.person_outline,
+                        controller: _nameController,
+                        validator: _checkName,
+                      ),
+                      SizedBox(height: 20),
                       TextInput(
                         title: 'Email',
                         hintText: 'Email',
@@ -192,169 +248,58 @@ class _SignUpState extends State<SignUp> {
 
   Row _oauthButtons() {
     return Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  IconButtonCircle(
-                    icon: Image.asset('assets/google_icon.png'),
-                  ),
-                  SizedBox(width: 20),
-                  IconButtonCircle(
-                    icon: Image.asset('assets/facebook_icon.png'),
-                  ),
-                  SizedBox(width: 20),
-                  IconButtonCircle(
-                    icon: Image.asset('assets/github_icon.png'),
-                  ),
-                ],
-              );
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        IconButtonCircle(
+          icon: Image.asset('assets/google_icon.png'),
+        ),
+        SizedBox(width: 20),
+        IconButtonCircle(
+          icon: Image.asset('assets/facebook_icon.png'),
+        ),
+        SizedBox(width: 20),
+        IconButtonCircle(
+          icon: Image.asset('assets/github_icon.png'),
+        ),
+      ],
+    );
   }
 
   Row _agreement(BuildContext context) {
     return Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: 24,
-                    width: 24,
-                    child: Checkbox(
-                      value: _isAgree,
-                      onChanged: (value) => _toggleAgree(),
-                      activeColor: ColorPlanet.primary,
-                    ),
-                  ),
-                  SizedBox(width: 10),
-                  GestureDetector(
-                    onTap: () => _toggleAgree(),
-                    child: Text("I agree to APP_NAME "),
-                  ),
-                  TextButton(
-                    onPressed: () => bottomSheetFitContentWrapper(
-                      context: context,
-                      content: _termsAndConditionsContent(),
-                    ),
-                    style: ButtonStyle(
-                      padding: MaterialStateProperty.all(EdgeInsets.zero),
-                    ),
-                    child: Text(
-                      "Terms & Conditions.",
-                      style: TextStyle(
-                        color: ColorPlanet.primary,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  )
-                ],
-              );
-  }
-
-  TextFormField _confirmPasswordInput() {
-    return TextFormField(
-      controller: _confirmPasswordController,
-      autovalidateMode: AutovalidateMode.onUserInteraction,
-      validator: (value) => _checkConfirmPassword(value),
-      textAlignVertical: TextAlignVertical.center,
-      obscureText: _isConfirmPasswordHidden,
-      cursorErrorColor: ColorPlanet.primary,
-      cursorColor: ColorPlanet.primary,
-      decoration: InputDecoration(
-        contentPadding: EdgeInsets.symmetric(horizontal: 0),
-        prefixIcon: Icon(
-          Icons.lock_outline,
-          color: Colors.black,
-        ),
-        hintText: "Confirm Password",
-        hintStyle: TextStyle(color: Color(0xff9E9E9E)),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(15.0),
-        ),
-        filled: true,
-        fillColor: Color.fromARGB(101, 241, 241, 241),
-        suffixIcon: IconButton(
-          icon: Icon(
-            _isConfirmPasswordHidden
-                ? Icons.visibility_off_outlined
-                : Icons.visibility_outlined,
-            color: Colors.black,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        SizedBox(
+          height: 24,
+          width: 24,
+          child: Checkbox(
+            value: _isAgree,
+            onChanged: (value) => _toggleAgree(),
+            activeColor: ColorPlanet.primary,
           ),
-          onPressed: () => _toggleConfirmPasswordVisibility(),
         ),
-        focusedBorder: InputBorder.none,
-        enabledBorder: InputBorder.none,
-        disabledBorder: InputBorder.none,
-        errorBorder: InputBorder.none,
-        focusedErrorBorder: InputBorder.none,
-      ),
-    );
-  }
-
-  TextFormField _passwordInput() {
-    return TextFormField(
-      controller: _passwordController,
-      autovalidateMode: AutovalidateMode.onUserInteraction,
-      validator: (value) => _checkPassword(value),
-      textAlignVertical: TextAlignVertical.center,
-      obscureText: _isPasswordHidden,
-      cursorColor: ColorPlanet.primary,
-      cursorErrorColor: ColorPlanet.primary,
-      decoration: InputDecoration(
-        contentPadding: EdgeInsets.symmetric(horizontal: 0),
-        prefixIcon: Icon(
-          Icons.lock_outline,
-          color: Colors.black,
+        SizedBox(width: 10),
+        GestureDetector(
+          onTap: () => _toggleAgree(),
+          child: Text("I agree to APP_NAME "),
         ),
-        hintText: 'Password',
-        hintStyle: TextStyle(color: Color(0xff9E9E9E)),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(15.0),
-        ),
-        filled: true,
-        fillColor: Color.fromARGB(101, 241, 241, 241),
-        suffixIcon: IconButton(
-          icon: Icon(
-            _isPasswordHidden
-                ? Icons.visibility_off_outlined
-                : Icons.visibility_outlined,
-            color: Colors.black,
+        TextButton(
+          onPressed: () => bottomSheetFitContentWrapper(
+            context: context,
+            content: _termsAndConditionsContent(),
           ),
-          onPressed: () => _togglePasswordVisibility(),
-        ),
-        focusedBorder: InputBorder.none,
-        enabledBorder: InputBorder.none,
-        disabledBorder: InputBorder.none,
-        errorBorder: InputBorder.none,
-        focusedErrorBorder: InputBorder.none,
-      ),
-    );
-  }
-
-  TextFormField _emailInput() {
-    return TextFormField(
-      controller: _emailController,
-      autovalidateMode: AutovalidateMode.onUserInteraction,
-      validator: (value) => _checkEmail(value),
-      textAlignVertical: TextAlignVertical.center,
-      obscureText: false,
-      cursorColor: ColorPlanet.primary,
-      cursorErrorColor: ColorPlanet.primary,
-      decoration: InputDecoration(
-        contentPadding: EdgeInsets.symmetric(horizontal: 0),
-        prefixIcon: Icon(
-          Icons.email_outlined,
-          color: Colors.black,
-        ),
-        hintText: 'Email',
-        hintStyle: TextStyle(color: Color(0xff9E9E9E)),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(15.0),
-        ),
-        filled: true,
-        fillColor: Color.fromARGB(101, 241, 241, 241),
-        focusedBorder: InputBorder.none,
-        enabledBorder: InputBorder.none,
-        disabledBorder: InputBorder.none,
-        errorBorder: InputBorder.none,
-        focusedErrorBorder: InputBorder.none,
-      ),
+          style: ButtonStyle(
+            padding: MaterialStateProperty.all(EdgeInsets.zero),
+          ),
+          child: Text(
+            "Terms & Conditions.",
+            style: TextStyle(
+              color: ColorPlanet.primary,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        )
+      ],
     );
   }
 

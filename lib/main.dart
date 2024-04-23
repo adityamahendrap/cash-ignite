@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:progmob_magical_destroyers/configs/themes/theme.dart';
 import 'package:progmob_magical_destroyers/controller/profile_controller.dart';
@@ -12,6 +13,7 @@ import 'package:progmob_magical_destroyers/screens/sign_in_screen.dart';
 import 'package:progmob_magical_destroyers/widgets/loading.dart';
 
 void main() async {
+  await GetStorage.init();
   EasyLoading.instance
     ..indicatorWidget = Loading()
     ..loadingStyle = EasyLoadingStyle.light

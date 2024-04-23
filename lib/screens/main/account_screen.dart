@@ -7,6 +7,7 @@ import 'package:progmob_magical_destroyers/screens/account/edit_profile.dart';
 import 'package:progmob_magical_destroyers/screens/account/language_screen.dart';
 import 'package:progmob_magical_destroyers/screens/account/notification_screen.dart';
 import 'package:progmob_magical_destroyers/screens/account/security_screen.dart';
+import 'package:progmob_magical_destroyers/screens/get_started_screen.dart';
 import 'package:progmob_magical_destroyers/screens/sign_in_screen.dart';
 import 'package:progmob_magical_destroyers/widgets/app_bar_with_back_button.dart';
 import 'package:progmob_magical_destroyers/widgets/app_bar_with_logo.dart';
@@ -111,7 +112,7 @@ class _AccountState extends State<Account> {
         if (item.screen != null) {
           Get.to(() => item.screen as Widget);
         } else {
-          Get.offAll(() => SignIn());
+          Get.offAll(() => GetStarted());
         }
       },
     );
