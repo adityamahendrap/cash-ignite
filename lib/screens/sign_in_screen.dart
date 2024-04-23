@@ -1,9 +1,14 @@
+import 'package:color_log/color_log.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
+import 'package:progmob_magical_destroyers/external/requester/mobile_api/mobile_api.dart';
+import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/login_rype.dart';
 import 'package:progmob_magical_destroyers/screens/main/main_screen.dart';
 import 'package:progmob_magical_destroyers/screens/send_forgot_password_email_screen.dart';
 import 'package:progmob_magical_destroyers/screens/sign_up_screen.dart';
+import 'package:progmob_magical_destroyers/utils/helpless_util.dart';
 import 'package:progmob_magical_destroyers/widgets/app_bar_with_back_button.dart';
 import 'package:progmob_magical_destroyers/widgets/app_snack_bar.dart';
 import 'package:progmob_magical_destroyers/widgets/full_width_button_bottom_bar.dart';
@@ -28,6 +33,8 @@ class _SignInState extends State<SignIn> {
   bool _isPasswordHidden = true;
   bool _isRememberMe = false;
 
+  MoblieApiRequester _mobileApi = MoblieApiRequester();
+
   void _togglePasswordVisibility() {
     setState(() {
       _isPasswordHidden = !_isPasswordHidden;
@@ -48,6 +55,16 @@ class _SignInState extends State<SignIn> {
   void _signIn() async {
     if (!_validateInput()) {
       AppSnackBar.error("Failed", "Please fill the form correctly");
+      return;
+    }
+
+    try {
+      LoginData? data = await _mobileApi.login(
+        email: _emailController.text,
+        password: _passwordController.text,
+      );
+    } on DioException catch (e) {
+      HelplessUtil.handleApiError(e);
       return;
     }
 
@@ -72,6 +89,11 @@ class _SignInState extends State<SignIn> {
       return 'Password must be at least 6 characters long';
     }
     return null;
+  }
+
+  @override
+  void initState() {
+    super.initState();
   }
 
   @override
