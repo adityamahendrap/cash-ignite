@@ -230,7 +230,7 @@ class _SignUpState extends State<SignUp> {
                 HorizontalDivider(text: "or continue with"),
                 SizedBox(height: 25),
                 _oauthButtons(),
-                SizedBox(height: 100),
+                _paddingBottomWithViewInsets()
               ],
             ),
           ),
@@ -244,6 +244,12 @@ class _SignUpState extends State<SignUp> {
         ],
       ),
     );
+  }
+
+  SizedBox _paddingBottomWithViewInsets() {
+    return MediaQuery.of(context).viewInsets.bottom == 0
+        ? SizedBox(height: 100)
+        : SizedBox(height: MediaQuery.of(context).viewInsets.bottom);
   }
 
   Row _oauthButtons() {
