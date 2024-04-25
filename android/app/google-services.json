@@ -1,0 +1,90 @@
+{
+  "project_info": {
+    "project_number": "156259830183",
+    "project_id": "waterloo-5ec9e",
+    "storage_bucket": "waterloo-5ec9e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:156259830183:android:2686688b8ccb2cc69d8e82",
+        "android_client_info": {
+          "package_name": "com.example.progmob_magical_destroyers"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "156259830183-u9cucfh2vmai2e3cdveuuuvhv99al1ks.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA-d5eKyP-NdXKxgKOhwrsMI8_1yajivMU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "156259830183-rpe9i7eiemo460mvd88jjt73p71v15fj.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "156259830183-jpos3qdnqkjbaa8oghk5i7bo3eluiooh.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.progmobMagicalDestroyers"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:156259830183:android:8326dfb2e929357f9d8e82",
+        "android_client_info": {
+          "package_name": "com.example.waterloo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "156259830183-q1urimsps4vknksgdpa960tv49m4u5bs.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.waterloo",
+            "certificate_hash": "ec5954ae593904d9fd87098ac5b6ba269a7fff25"
+          }
+        },
+        {
+          "client_id": "156259830183-u9cucfh2vmai2e3cdveuuuvhv99al1ks.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA-d5eKyP-NdXKxgKOhwrsMI8_1yajivMU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "156259830183-rpe9i7eiemo460mvd88jjt73p71v15fj.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "156259830183-jpos3qdnqkjbaa8oghk5i7bo3eluiooh.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.progmobMagicalDestroyers"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
