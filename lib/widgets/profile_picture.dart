@@ -4,9 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
-import 'package:color_log/color_log.dart';
-import 'package:progmob_magical_destroyers/controller/profile_controller.dart';
+import 'package:progmob_magical_destroyers/controller/getx/profile_controller.dart';
 
 class ProfilePicture extends StatefulWidget {
   const ProfilePicture({super.key});
@@ -16,7 +14,7 @@ class ProfilePicture extends StatefulWidget {
 }
 
 class _ProfilePictureState extends State<ProfilePicture> {
-  XFile? _image;
+  // XFile? _image;
   final _profileC = Get.find<ProfileController>();
 
   final _picker = ImagePicker();

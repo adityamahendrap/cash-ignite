@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
 
 ThemeData lightMode = ThemeData(
   brightness: Brightness.light,

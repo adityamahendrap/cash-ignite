@@ -1,16 +1,8 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
 import 'package:progmob_magical_destroyers/controller/auth_controller.dart';
-import 'package:progmob_magical_destroyers/external/requester/mobile_api/mobile_api.dart';
-import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/register_type.dart';
-import 'package:progmob_magical_destroyers/screens/main/home_screen.dart';
-import 'package:progmob_magical_destroyers/screens/main/main_screen.dart';
 import 'package:progmob_magical_destroyers/screens/sign_in_screen.dart';
-import 'package:progmob_magical_destroyers/utils/helpless_util.dart';
 import 'package:progmob_magical_destroyers/widgets/app_bar_with_back_button.dart';
 import 'package:progmob_magical_destroyers/widgets/app_snack_bar.dart';
 import 'package:progmob_magical_destroyers/widgets/full_width_button_bottom_bar.dart';
@@ -18,7 +10,6 @@ import 'package:progmob_magical_destroyers/widgets/horizontal_divider.dart';
 import 'package:progmob_magical_destroyers/widgets/icon_button_circ;e.dart';
 import 'package:progmob_magical_destroyers/widgets/input/password_input.dart';
 import 'package:progmob_magical_destroyers/widgets/input/text_input.dart';
-import 'package:progmob_magical_destroyers/widgets/oauth_button.dart';
 import 'package:progmob_magical_destroyers/widgets/text_title.dart';
 import 'package:progmob_magical_destroyers/widgets/wrapper/bottom_sheet_fit_content_wrapper.dart';
 
@@ -40,7 +31,6 @@ class _SignUpState extends State<SignUp> {
   bool _isConfirmPasswordHidden = true;
   bool _isAgree = false;
 
-  MoblieApiRequester _mobileApi = MoblieApiRequester();
   AuthController _authController = AuthController();
 
   bool _validateInput() {
@@ -67,29 +57,11 @@ class _SignUpState extends State<SignUp> {
           "Please fill the form correctly and agree terms & conditions");
       return;
     }
-
-    // TODO: check if email not registered using oauth
-
-    try {
-      EasyLoading.show();
-      await _mobileApi.register(
-        name: _nameController.text,
-        email: _emailController.text,
-        password: _passwordController.text,
-      );
-    } on DioException catch (e) {
-      if (e.response?.data['message']['email'] != null)
-        AppSnackBar.error('Failed', e.response?.data['message']['email'][0]);
-      else
-        HelplessUtil.handleApiError(e);
-      return;
-    } finally {
-      EasyLoading.dismiss();
-    }
-
-    Get.off(() => SignIn());
-    AppSnackBar.success('Success',
-        'Account created! Now you can sign in to enjoy our services. 🥳');
+    await _authController.signUp(
+      name: _nameController.text,
+      email: _emailController.text,
+      password: _passwordController.text,
+    );
   }
 
   void _toggleAgree() {

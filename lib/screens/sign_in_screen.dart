@@ -1,18 +1,9 @@
-import 'package:color_log/color_log.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
 import 'package:progmob_magical_destroyers/controller/auth_controller.dart';
-import 'package:progmob_magical_destroyers/external/requester/mobile_api/mobile_api.dart';
-import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/login_rype.dart';
-import 'package:progmob_magical_destroyers/screens/main/main_screen.dart';
 import 'package:progmob_magical_destroyers/screens/send_forgot_password_email_screen.dart';
 import 'package:progmob_magical_destroyers/screens/sign_up_screen.dart';
-import 'package:progmob_magical_destroyers/service/auth_service.dart';
-import 'package:progmob_magical_destroyers/utils/helpless_util.dart';
 import 'package:progmob_magical_destroyers/widgets/app_bar_with_back_button.dart';
 import 'package:progmob_magical_destroyers/widgets/app_snack_bar.dart';
 import 'package:progmob_magical_destroyers/widgets/full_width_button_bottom_bar.dart';
@@ -37,9 +28,7 @@ class _SignInState extends State<SignIn> {
   bool _isPasswordHidden = true;
   bool _isRememberMe = false;
 
-  MoblieApiRequester _mobileApi = MoblieApiRequester();
   AuthController _authController = AuthController();
-  final box = GetStorage();
 
   void _togglePasswordVisibility() {
     setState(() {
@@ -64,24 +53,10 @@ class _SignInState extends State<SignIn> {
       return;
     }
 
-    // TODO: check if email not registered using oauth
-
-    try {
-      EasyLoading.show();
-      LoginData? data = await _mobileApi.login(
-        email: _emailController.text,
-        password: _passwordController.text,
-      );
-      box.write('token', data!.token);
-      clog.info('Sign in success!');
-    } on DioException catch (e) {
-      HelplessUtil.handleApiError(e);
-      return;
-    } finally {
-      EasyLoading.dismiss();
-    }
-
-    Get.offAll(() => Main());
+    await _authController.signIn(
+      email: _emailController.text,
+      password: _passwordController.text,
+    );
   }
 
   String? _checkEmail(String? value) {

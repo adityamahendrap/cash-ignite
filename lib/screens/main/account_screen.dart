@@ -8,19 +8,10 @@ import 'package:progmob_magical_destroyers/screens/account/language_screen.dart'
 import 'package:progmob_magical_destroyers/screens/account/notification_screen.dart';
 import 'package:progmob_magical_destroyers/screens/account/security_screen.dart';
 import 'package:progmob_magical_destroyers/screens/get_started_screen.dart';
-import 'package:progmob_magical_destroyers/screens/sign_in_screen.dart';
-import 'package:progmob_magical_destroyers/widgets/app_bar_with_back_button.dart';
+import 'package:progmob_magical_destroyers/types/account_item_type.dart';
 import 'package:progmob_magical_destroyers/widgets/app_bar_with_logo.dart';
 import 'package:progmob_magical_destroyers/widgets/profile_picture.dart';
 import 'package:progmob_magical_destroyers/widgets/text_title.dart';
-
-class AccountItem {
-  final String text;
-  final IconData icon;
-  final Widget? screen;
-
-  AccountItem({required this.text, required this.icon, required this.screen});
-}
 
 class Account extends StatefulWidget {
   Account({super.key});

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:progmob_magical_destroyers/widgets/full_width_button.dart';
 
 class TwinButtons extends StatelessWidget {

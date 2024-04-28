@@ -2,43 +2,16 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
-import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
-import 'package:progmob_magical_destroyers/controller/profile_controller.dart';
-import 'package:progmob_magical_destroyers/screens/main/detail_product_screen.dart';
-import 'package:progmob_magical_destroyers/screens/main/main_screen.dart';
+import 'package:progmob_magical_destroyers/controller/getx/profile_controller.dart';
 import 'package:progmob_magical_destroyers/screens/main/search_screen.dart';
+import 'package:progmob_magical_destroyers/types/category_item_type.dart';
+import 'package:progmob_magical_destroyers/types/product_type.dart';
 import 'package:progmob_magical_destroyers/widgets/product_card.dart';
 import 'package:progmob_magical_destroyers/widgets/carousel_slider_hero.dart';
 import 'package:progmob_magical_destroyers/widgets/profile_picture.dart';
-
-class CategoryItem {
-  final String name;
-  final IconData icon;
-
-  CategoryItem({required this.name, required this.icon});
-}
-
-class Product {
-  final String id;
-  final String name;
-  final double price;
-  final double rating;
-  final int sold;
-
-  Product({
-    required this.id,
-    required this.name,
-    required this.price,
-    required this.rating,
-    required this.sold,
-  });
-}
 
 class Home extends StatelessWidget {
   Home({super.key});

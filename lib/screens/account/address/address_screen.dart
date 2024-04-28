@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
 import 'package:progmob_magical_destroyers/screens/account/address/add_new_address_screen.dart';
-import 'package:progmob_magical_destroyers/screens/main/home_screen.dart';
 import 'package:progmob_magical_destroyers/widgets/address_card.dart';
 import 'package:progmob_magical_destroyers/widgets/app_bar_with_back_button.dart';
 import 'package:progmob_magical_destroyers/widgets/full_width_button_bottom_bar.dart';
-import 'package:progmob_magical_destroyers/widgets/text_label.dart';
 
 class Address extends StatelessWidget {
   const Address({super.key});

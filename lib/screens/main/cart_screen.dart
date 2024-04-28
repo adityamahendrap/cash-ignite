@@ -1,13 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:introduction_screen/introduction_screen.dart';
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
-import 'package:progmob_magical_destroyers/screens/main/main_screen.dart';
-import 'package:progmob_magical_destroyers/widgets/app_bar_with_logo.dart';
 import 'package:progmob_magical_destroyers/widgets/quantity_counter.dart';
-import 'package:progmob_magical_destroyers/widgets/text_title.dart';
 import 'package:progmob_magical_destroyers/widgets/twin_buttons.dart';
 import 'package:progmob_magical_destroyers/widgets/wrapper/bottom_sheet_fit_content_wrapper.dart';
 
