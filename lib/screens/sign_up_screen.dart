@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
+import 'package:progmob_magical_destroyers/controller/auth_controller.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/mobile_api.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/register_type.dart';
 import 'package:progmob_magical_destroyers/screens/main/home_screen.dart';
@@ -40,6 +41,7 @@ class _SignUpState extends State<SignUp> {
   bool _isAgree = false;
 
   MoblieApiRequester _mobileApi = MoblieApiRequester();
+  AuthController _authController = AuthController();
 
   bool _validateInput() {
     return _checkEmail(_emailController.text) == null &&
@@ -65,6 +67,8 @@ class _SignUpState extends State<SignUp> {
           "Please fill the form correctly and agree terms & conditions");
       return;
     }
+
+    // TODO: check if email not registered using oauth
 
     try {
       EasyLoading.show();
@@ -258,14 +262,17 @@ class _SignUpState extends State<SignUp> {
       children: [
         IconButtonCircle(
           icon: Image.asset('assets/google_icon.png'),
+          onPressed: () => _authController.signInWithGoogle(),
         ),
         SizedBox(width: 20),
         IconButtonCircle(
           icon: Image.asset('assets/facebook_icon.png'),
+          onPressed: () => _authController.signInWithFacebook(),
         ),
         SizedBox(width: 20),
         IconButtonCircle(
           icon: Image.asset('assets/github_icon.png'),
+          onPressed: () => _authController.signInWithGithub(),
         ),
       ],
     );

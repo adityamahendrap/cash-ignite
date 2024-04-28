@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:progmob_magical_destroyers/controller/auth_controller.dart';
 import 'package:progmob_magical_destroyers/screens/sign_in_screen.dart';
 import 'package:progmob_magical_destroyers/screens/sign_up_screen.dart';
+import 'package:progmob_magical_destroyers/service/auth_service.dart';
+import 'package:progmob_magical_destroyers/service/firebase_service.dart';
 import 'package:progmob_magical_destroyers/widgets/full_width_button.dart';
 import 'package:progmob_magical_destroyers/widgets/oauth_button.dart';
 import 'package:progmob_magical_destroyers/widgets/text_title.dart';
 import 'package:progmob_magical_destroyers/widgets/wrapper/bottom_sheet_fit_content_wrapper.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class GetStarted extends StatelessWidget {
   GetStarted({Key? key}) : super(key: key);
+
+  AuthController _authController = AuthController();
 
   @override
   Widget build(BuildContext context) {
@@ -39,16 +44,19 @@ class GetStarted extends StatelessWidget {
                   OauthButton(
                     iconPath: "assets/google_icon.png",
                     text: "Continue with Google",
+                    onPressed: () => _authController.signInWithGoogle(),
                   ),
                   SizedBox(height: 15),
                   OauthButton(
                     iconPath: "assets/facebook_icon.png",
                     text: "Continue with Facebook",
+                    onPressed: () => _authController.signInWithFacebook(),
                   ),
                   SizedBox(height: 15),
                   OauthButton(
                     iconPath: "assets/github_icon.png",
                     text: "Continue with GitHub",
+                    onPressed: () => _authController.signInWithGithub(),
                   ),
                   SizedBox(height: 50),
                   FullWidthButton(

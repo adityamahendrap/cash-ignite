@@ -5,11 +5,13 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
+import 'package:progmob_magical_destroyers/controller/auth_controller.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/mobile_api.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/login_rype.dart';
 import 'package:progmob_magical_destroyers/screens/main/main_screen.dart';
 import 'package:progmob_magical_destroyers/screens/send_forgot_password_email_screen.dart';
 import 'package:progmob_magical_destroyers/screens/sign_up_screen.dart';
+import 'package:progmob_magical_destroyers/service/auth_service.dart';
 import 'package:progmob_magical_destroyers/utils/helpless_util.dart';
 import 'package:progmob_magical_destroyers/widgets/app_bar_with_back_button.dart';
 import 'package:progmob_magical_destroyers/widgets/app_snack_bar.dart';
@@ -36,6 +38,7 @@ class _SignInState extends State<SignIn> {
   bool _isRememberMe = false;
 
   MoblieApiRequester _mobileApi = MoblieApiRequester();
+  AuthController _authController = AuthController();
   final box = GetStorage();
 
   void _togglePasswordVisibility() {
@@ -60,6 +63,8 @@ class _SignInState extends State<SignIn> {
       AppSnackBar.error("Failed", "Please fill the form correctly");
       return;
     }
+
+    // TODO: check if email not registered using oauth
 
     try {
       EasyLoading.show();
@@ -217,14 +222,17 @@ class _SignInState extends State<SignIn> {
       children: [
         IconButtonCircle(
           icon: Image.asset('assets/google_icon.png'),
+          onPressed: () => _authController.signInWithGoogle(),
         ),
         SizedBox(width: 20),
         IconButtonCircle(
           icon: Image.asset('assets/facebook_icon.png'),
+          onPressed: () => _authController.signInWithFacebook(),
         ),
         SizedBox(width: 20),
         IconButtonCircle(
           icon: Image.asset('assets/github_icon.png'),
+          onPressed: () => _authController.signInWithGithub(),
         ),
       ],
     );

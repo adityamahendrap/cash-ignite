@@ -12,4 +12,11 @@ class LoginData {
       user: User.fromJson(json['user']),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'token': token,
+      'user': user.toJson(),
+    };
+  }
 }
