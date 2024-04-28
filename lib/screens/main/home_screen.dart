@@ -4,8 +4,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
 import 'package:progmob_magical_destroyers/controller/getx/profile_controller.dart';
+import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/base/user_type.dart';
 import 'package:progmob_magical_destroyers/screens/main/search_screen.dart';
 import 'package:progmob_magical_destroyers/types/category_item_type.dart';
 import 'package:progmob_magical_destroyers/types/product_type.dart';
@@ -13,10 +15,24 @@ import 'package:progmob_magical_destroyers/widgets/product_card.dart';
 import 'package:progmob_magical_destroyers/widgets/carousel_slider_hero.dart';
 import 'package:progmob_magical_destroyers/widgets/profile_picture.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   Home({super.key});
 
-  final _profileC = Get.find<ProfileController>();
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  final _profileController = Get.find<ProfileController>();
+
+  final GetStorage _box = GetStorage();
+  late User _user;
+
+  @override
+  void initState() {
+    super.initState();
+    _user = User.fromJson(_box.read('user'));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,8 +91,8 @@ class Home extends StatelessWidget {
             children: [
               Obx(
                 () => CircleAvatar(
-                  backgroundImage: _profileC.image.value != null
-                      ? FileImage(File(_profileC.image.value!.path))
+                  backgroundImage: _profileController.image.value != null
+                      ? FileImage(File(_profileController.image.value!.path))
                       : AssetImage(defaultImagePath) as ImageProvider,
                 ),
               ),
@@ -88,7 +104,7 @@ class Home extends StatelessWidget {
                     Text('Good morning, 👋',
                         style: TextStyle(color: Colors.grey.shade800)),
                     Text(
-                      'Aditya Mahendra',
+                      _user.name,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(

@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
 import 'package:progmob_magical_destroyers/controller/auth_controller.dart';
+import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/base/user_type.dart';
 import 'package:progmob_magical_destroyers/screens/account/address/address_screen.dart';
 import 'package:progmob_magical_destroyers/screens/account/edit_profile.dart';
 import 'package:progmob_magical_destroyers/screens/account/language_screen.dart';
@@ -25,6 +27,14 @@ class _AccountState extends State<Account> {
   bool isLightMode = true;
 
   final AuthController _authController = AuthController();
+  final GetStorage _box = GetStorage();
+  late User _user;
+
+  @override
+  void initState() {
+    super.initState();
+    _user = User.fromJson(_box.read('user'));
+  }
 
   List<AccountItem> _accountItems = [
     AccountItem(
@@ -72,9 +82,9 @@ class _AccountState extends State<Account> {
           child: Column(children: [
             Center(child: ProfilePicture()),
             SizedBox(height: 20),
-            TextTitle(title: 'Aditya Mahendra'),
+            TextTitle(title: _user.name),
             SizedBox(height: 5),
-            Text('+62 812 3456 7890'),
+            Text(_user.email),
             SizedBox(height: 20),
             Divider(color: Colors.grey.shade300),
             ..._accountItemTiles,

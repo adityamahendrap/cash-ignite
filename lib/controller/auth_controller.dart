@@ -4,6 +4,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/mobile_api.dart';
+import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/base/user_type.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/login_type.dart';
 import 'package:progmob_magical_destroyers/screens/get_started_screen.dart';
 import 'package:progmob_magical_destroyers/screens/main/main_screen.dart';
@@ -16,6 +17,10 @@ class AuthController {
   final AuthService _authService = AuthService();
   final GetStorage _box = GetStorage();
   final MoblieApiRequester _mobileApi = MoblieApiRequester();
+
+  void _cacheUserData(User user) {
+    _box.write('user', user.toJson());
+  }
 
   Future<void> signUp({
     required String name,
@@ -58,7 +63,10 @@ class AuthController {
         email: email,
         password: password,
       );
+
       _box.write('token', data!.token);
+      _cacheUserData(data.user);
+
       clog.info('Sign in success!');
     } on DioException catch (e) {
       HelplessUtil.handleApiError(e);
@@ -74,12 +82,13 @@ class AuthController {
     try {
       EasyLoading.show();
       final LoginData? result = await _authService.simulateGoogleOauth();
+
       if (result != null) {
         _box.write('token', result.token);
+        _cacheUserData(result.user);
         Get.offAll(() => Main());
-      } else {
+      } else
         throw Exception();
-      }
     } catch (e) {
       print(e);
       AppSnackBar.error('Error', 'Sign in with Google failed');
@@ -98,6 +107,7 @@ class AuthController {
 
   void signOut() {
     _box.remove('token');
+    _box.remove('user');
     clog.info('Signin out success. Token removed.');
     Get.offAll(() => GetStarted());
   }
