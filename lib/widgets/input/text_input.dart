@@ -9,6 +9,7 @@ class TextInput extends StatelessWidget {
   final IconData prefixIcon;
   final bool? readOnly;
   final Function? onTap;
+  final TextInputType? keyboardType;
 
   TextInput({
     super.key,
@@ -19,6 +20,7 @@ class TextInput extends StatelessWidget {
     required this.prefixIcon,
     this.readOnly,
     this.onTap,
+    this.keyboardType = TextInputType.text,
   });
 
   @override
@@ -43,6 +45,7 @@ class TextInput extends StatelessWidget {
           cursorColor: ColorPlanet.primary,
           cursorErrorColor: ColorPlanet.primary,
           readOnly: this.readOnly ?? false,
+          keyboardType: this.keyboardType,
           decoration: InputDecoration(
             contentPadding: EdgeInsets.symmetric(horizontal: 0),
             prefixIcon: Icon(

@@ -5,6 +5,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:progmob_magical_destroyers/configs/themes/theme.dart';
 import 'package:progmob_magical_destroyers/controller/app_controller.dart';
 import 'package:progmob_magical_destroyers/controller/getx/profile_controller.dart';
+import 'package:progmob_magical_destroyers/screens/savings_loan/update_anggota_screen.dart';
 import 'package:progmob_magical_destroyers/widgets/loading.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';

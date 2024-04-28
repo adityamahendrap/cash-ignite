@@ -9,11 +9,11 @@ import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
 import 'package:progmob_magical_destroyers/controller/getx/profile_controller.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/base/user_type.dart';
 import 'package:progmob_magical_destroyers/screens/main/search_screen.dart';
+import 'package:progmob_magical_destroyers/screens/savings_loan/add_anggota_screen.dart';
 import 'package:progmob_magical_destroyers/types/category_item_type.dart';
 import 'package:progmob_magical_destroyers/types/product_type.dart';
 import 'package:progmob_magical_destroyers/widgets/product_card.dart';
 import 'package:progmob_magical_destroyers/widgets/carousel_slider_hero.dart';
-import 'package:progmob_magical_destroyers/widgets/profile_picture.dart';
 
 class Home extends StatefulWidget {
   Home({super.key});
@@ -37,6 +37,14 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => Get.to(() => AddAnggota()),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(100),
+        ),
+        backgroundColor: ColorPlanet.primary,
+        child: Icon(Icons.add),
+      ),
       body: SafeArea(
         child: CustomScrollView(
           slivers: [
@@ -101,7 +109,7 @@ class _HomeState extends State<Home> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Good morning, 👋',
+                    Text('Good ${getTimeOfDay()}, 👋',
                         style: TextStyle(color: Colors.grey.shade800)),
                     Text(
                       _user.name,
@@ -126,6 +134,19 @@ class _HomeState extends State<Home> {
         ],
       ),
     );
+  }
+
+  String getTimeOfDay() {
+    var hour = DateTime.now().hour;
+    if (hour < 12) {
+      return 'morning';
+    } else if (hour < 17) {
+      return 'afternoon';
+    } else if (hour < 20) {
+      return 'evening';
+    } else {
+      return 'night';
+    }
   }
 
   Stack _notificationButton() {
@@ -210,14 +231,14 @@ class _HomeState extends State<Home> {
 
   Widget _categories() {
     final List<CategoryItem> categoryItems = [
-      CategoryItem(name: 'Food', icon: Icons.food_bank),
-      CategoryItem(name: 'Drink', icon: Icons.local_drink),
-      CategoryItem(name: 'Cake', icon: Icons.cake),
-      CategoryItem(name: 'Cafe', icon: Icons.local_cafe),
-      CategoryItem(name: 'Fastfood', icon: Icons.fastfood),
-      CategoryItem(name: 'Food', icon: Icons.food_bank),
-      CategoryItem(name: 'Drink', icon: Icons.local_drink),
-      CategoryItem(name: 'Cake', icon: Icons.cake),
+      CategoryItem(name: 'Lorem', icon: Icons.food_bank),
+      CategoryItem(name: 'Ipsum', icon: Icons.forest),
+      CategoryItem(name: 'Dolor', icon: Icons.ac_unit_sharp),
+      CategoryItem(name: 'Sit', icon: Icons.airplanemode_active),
+      CategoryItem(name: 'Amet', icon: Icons.airport_shuttle),
+      CategoryItem(name: 'Sos', icon: Icons.account_tree),
+      CategoryItem(name: 'Dapibus', icon: Icons.add_business),
+      CategoryItem(name: 'Consectetur', icon: Icons.add_location),
     ];
 
     return Column(

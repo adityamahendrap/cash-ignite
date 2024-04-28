@@ -31,7 +31,7 @@ class TwinButtons extends StatelessWidget {
           child: FullWidthButton(
             type: FullWidthButtonType.primary,
             text: this.textOkButton,
-            onPressed: () => this.onPressedCancelButton(),
+            onPressed: () => this.onPressedOkButton(),
           ),
         )
       ],
