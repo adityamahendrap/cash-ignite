@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:progmob_magical_destroyers/controller/getx/profile_controller.dart';
+import 'package:progmob_magical_destroyers/widgets/photo_view.dart';
 
 class ProfilePicture extends StatefulWidget {
   const ProfilePicture({super.key});
@@ -41,20 +42,27 @@ class _ProfilePictureState extends State<ProfilePicture> {
     if (pickedImage != null) _profileC.image.value = pickedImage;
   }
 
-  Future showChangeImageOptions() async {
+  Future showChangeImageOptions({required ImageProvider currentImage}) async {
     showCupertinoModalPopup(
       context: context,
       builder: (context) => CupertinoActionSheet(
         actions: [
           CupertinoActionSheetAction(
-            child: Text('From Gallery'),
+            child: Text('See Current Picture'),
+            onPressed: () {
+              Navigator.of(context).pop();
+              Get.to(() => ShowPhotoView(image: currentImage));
+            },
+          ),
+          CupertinoActionSheetAction(
+            child: Text('Select From Gallery'),
             onPressed: () {
               Navigator.of(context).pop();
               getImageFromGallery();
             },
           ),
           CupertinoActionSheetAction(
-            child: Text('Take Picture'),
+            child: Text('Take A Picture'),
             onPressed: () {
               Navigator.of(context).pop();
               getImageFromCamera();
@@ -77,19 +85,18 @@ class _ProfilePictureState extends State<ProfilePicture> {
 
   @override
   Widget build(BuildContext context) {
+    final image = _profileC.image.value != null
+        ? FileImage(File(_profileC.image.value!.path))
+        : AssetImage(defaultImagePath) as ImageProvider;
+
     return GestureDetector(
-      onTap: showChangeImageOptions,
+      onTap: () => showChangeImageOptions(currentImage: image),
       child: Stack(
         children: [
           Obx(
             () => CircleAvatar(
               radius: 50,
-              backgroundImage: _profileC.image.value != null
-                  ? FileImage(File(_profileC.image.value!.path))
-                  : AssetImage(defaultImagePath) as ImageProvider,
-              // backgroundImage: _image != null
-              //   ? FileImage(File(_image!.path))
-              //  : AssetImage('assets/magical_destroyers.jpg') as ImageProvider,
+              backgroundImage: image,
             ),
           ),
           Positioned(

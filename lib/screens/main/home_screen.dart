@@ -4,6 +4,7 @@ import 'package:color_log/color_log.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -22,6 +23,7 @@ import 'package:progmob_magical_destroyers/types/product_type.dart';
 import 'package:progmob_magical_destroyers/utils/helpless_util.dart';
 import 'package:progmob_magical_destroyers/widgets/anggota_list.dart';
 import 'package:progmob_magical_destroyers/widgets/app_snack_bar.dart';
+import 'package:progmob_magical_destroyers/widgets/photo_view.dart';
 import 'package:progmob_magical_destroyers/widgets/product_card.dart';
 import 'package:progmob_magical_destroyers/widgets/carousel_slider_hero.dart';
 import 'package:progmob_magical_destroyers/widgets/text_label.dart';
@@ -167,17 +169,25 @@ class _HomeState extends State<Home> {
   }
 
   Widget _header() {
+    final image = _profileController.image.value != null
+        ? FileImage(File(_profileController.image.value!.path))
+        : AssetImage(defaultImagePath) as ImageProvider;
+
     return Container(
       padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
       child: Column(
         children: [
           Row(
             children: [
-              Obx(
-                () => CircleAvatar(
-                  backgroundImage: _profileController.image.value != null
-                      ? FileImage(File(_profileController.image.value!.path))
-                      : AssetImage(defaultImagePath) as ImageProvider,
+              GestureDetector(
+                onTap: () {
+                  print('Profile picture pressed');
+                  Get.to(() => ShowPhotoView(image: image));
+                },
+                child: Obx(
+                  () => CircleAvatar(
+                    backgroundImage: image,
+                  ),
                 ),
               ),
               SizedBox(width: 10),
@@ -252,9 +262,15 @@ class _HomeState extends State<Home> {
                 itemBuilder: (context, index) {
                   final Anggota item = items[index];
                   return ListTile(
-                    leading: CircleAvatar(
-                      backgroundColor: ColorPlanet.primary,
-                      backgroundImage: AssetImage(defaultImagePath),
+                    leading: GestureDetector(
+                      onTap: () {
+                        Get.to(() =>
+                            ShowPhotoView(image: AssetImage(defaultImagePath)));
+                      },
+                      child: CircleAvatar(
+                        backgroundColor: ColorPlanet.primary,
+                        backgroundImage: AssetImage(defaultImagePath),
+                      ),
                     ),
                     contentPadding: EdgeInsets.symmetric(horizontal: 20),
                     title: Column(
