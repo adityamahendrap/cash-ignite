@@ -337,9 +337,23 @@ class _HomeState extends State<Home> {
                   color: ColorPlanet.secondary,
                 ),
                 padding: EdgeInsets.all(5),
-                child: Text(
-                  '...',
-                  style: TextStyle(fontSize: 16, color: ColorPlanet.primary),
+                child: FutureBuilder(
+                  future: _anggotaList,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return Text(
+                        '${snapshot.data!.anggotaList.length}',
+                        style:
+                            TextStyle(fontSize: 16, color: ColorPlanet.primary),
+                      );
+                    } else {
+                      return Text(
+                        '...',
+                        style:
+                            TextStyle(fontSize: 16, color: ColorPlanet.primary),
+                      );
+                    }
+                  },
                 ),
               ),
             ],
