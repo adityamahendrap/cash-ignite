@@ -77,9 +77,8 @@ class _AccountState extends State<Account> {
     return Scaffold(
       appBar: AppBarWithLogo(title: 'Account'),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.all(20),
-          child: Column(children: [
+        child: Column(
+          children: [
             Center(child: ProfilePicture()),
             SizedBox(height: 20),
             TextTitle(title: _user.name),
@@ -88,7 +87,7 @@ class _AccountState extends State<Account> {
             SizedBox(height: 20),
             Divider(color: Colors.grey.shade300),
             ..._accountItemTiles,
-          ]),
+          ],
         ),
       ),
     );
@@ -109,7 +108,7 @@ class _AccountState extends State<Account> {
           color: color,
         ),
       ),
-      contentPadding: EdgeInsets.zero,
+      contentPadding: EdgeInsets.symmetric(horizontal: 20),
       trailing: Icon(trailing),
       visualDensity: VisualDensity(vertical: -2),
       onTap: () {
@@ -139,7 +138,7 @@ class _AccountState extends State<Account> {
         ],
       ),
       trailing: Icon(CupertinoIcons.chevron_right),
-      contentPadding: EdgeInsets.zero,
+      contentPadding: EdgeInsets.symmetric(horizontal: 20),
       visualDensity: VisualDensity(vertical: -2),
       onTap: () => Get.to(() => Language()),
     );
@@ -162,7 +161,7 @@ class _AccountState extends State<Account> {
           });
         },
       ),
-      contentPadding: EdgeInsets.zero,
+      contentPadding: EdgeInsets.symmetric(horizontal: 20),
       visualDensity: VisualDensity(vertical: -2),
       onTap: () => setState(() {
         isLightMode = !isLightMode;
