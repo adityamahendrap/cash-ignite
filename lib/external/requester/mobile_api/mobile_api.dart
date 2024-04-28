@@ -1,5 +1,6 @@
 import 'package:color_log/color_log.dart';
 import 'package:dio/dio.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/add_anggota_type.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/delete_anggota_type.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/edit_anggota_type.dart';
@@ -14,16 +15,23 @@ class MoblieApiRequester {
   static const String BASE_URL = 'https://mobileapis.manpits.xyz/api';
 
   final Dio dio = Dio();
+  late String? token;
+  final GetStorage _box = GetStorage();
 
   MoblieApiRequester() {
-    _configureDio();
+    _loadToken();
+    _setDioOptions();
   }
 
-  void _configureDio() {
+  void _loadToken() {
+    token = _box.read('token');
+  }
+
+  void _setDioOptions() {
     dio.options.baseUrl = BASE_URL;
     dio.options.connectTimeout = Duration(seconds: 5);
     dio.options.receiveTimeout = Duration(seconds: 3);
-    dio.options.headers = {'Authorization': 'Bearer token'};
+    dio.options.headers = {'Authorization': 'Bearer $token'};
   }
 
   T _getDataFromResponse<T>(
@@ -89,7 +97,7 @@ class MoblieApiRequester {
   }
 
   Future<GetAnggotaListData?> getAnggotaList() async {
-    String url = '/anngota';
+    String url = '/anggota';
     Response response = await dio.get(
       url,
     );
@@ -113,7 +121,7 @@ class MoblieApiRequester {
   }
 
   Future<AddAnggotaData?> addAnggota({
-    required String nomorInduk,
+    required int nomorInduk,
     required String nama,
     required String alamat,
     required String tglLahir, // 2000-03-31
@@ -138,7 +146,7 @@ class MoblieApiRequester {
 
   Future<UpdateAnggotaData?> updateAnggota({
     required int id,
-    required String nomorInduk,
+    required int nomorInduk,
     required String nama,
     required String alamat,
     required String tglLahir,
@@ -166,10 +174,8 @@ class MoblieApiRequester {
   Future<DeleteAnggotaData?> deleteAnggota({
     required int id,
   }) async {
-    String url = '/anngota/$id';
-    Response response = await dio.delete(
-      url,
-    );
+    String url = '/anggota/$id';
+    Response response = await dio.delete(url);
     DeleteAnggotaData data =
         _getDataFromResponse(response, DeleteAnggotaData.fromJson);
 

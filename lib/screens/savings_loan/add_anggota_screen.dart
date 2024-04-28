@@ -1,8 +1,14 @@
+import 'package:color_log/color_log.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
+import 'package:progmob_magical_destroyers/external/requester/mobile_api/mobile_api.dart';
+import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/base/anggota_type.dart';
+import 'package:progmob_magical_destroyers/utils/helpless_util.dart';
 import 'package:progmob_magical_destroyers/widgets/app_bar_with_back_button.dart';
 import 'package:progmob_magical_destroyers/widgets/app_snack_bar.dart';
 import 'package:progmob_magical_destroyers/widgets/full_width_button_bottom_bar.dart';
@@ -13,7 +19,9 @@ import 'package:progmob_magical_destroyers/widgets/wrapper/bottom_sheet_fit_cont
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class AddAnggota extends StatefulWidget {
-  const AddAnggota({super.key});
+  final Function(Anggota) addAnggotaCallback;
+  const AddAnggota({Key? key, required this.addAnggotaCallback})
+      : super(key: key);
 
   @override
   State<AddAnggota> createState() => AddAnggotaState();
@@ -29,6 +37,8 @@ class AddAnggotaState extends State<AddAnggota> {
   String? _tempSelectedBirthday;
   String? _selectedBirthday = null;
   PhoneNumber number = PhoneNumber(isoCode: 'ID');
+
+  MoblieApiRequester _apiRequester = MoblieApiRequester();
 
   void _showBirthdayDatePicker() {
     bottomSheetFitContentWrapper(
@@ -89,7 +99,25 @@ class AddAnggotaState extends State<AddAnggota> {
       return;
     }
 
-    AppSnackBar.success("Success", "Profile updated");
+    try {
+      EasyLoading.show();
+      await widget.addAnggotaCallback(
+        Anggota(
+          id: 0,
+          nomorInduk: int.parse(_registrationController.text),
+          nama: _nameController.text,
+          alamat: _addressController.text,
+          tglLahir: _selectedBirthday!,
+          telepon: _phoneNumberController.text,
+        ),
+      );
+      Get.back();
+      AppSnackBar.success('Success', 'Anggota added successfully!');
+    } on DioException catch (e) {
+      HelplessUtil.handleApiError(e);
+    } finally {
+      EasyLoading.dismiss();
+    }
   }
 
   @override
@@ -108,7 +136,7 @@ class AddAnggotaState extends State<AddAnggota> {
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AppBarWithBackButton(title: 'Update Anggota', centerTitle: true),
+      appBar: AppBarWithBackButton(title: 'Add Anggota', centerTitle: true),
       body: Stack(
         fit: StackFit.expand,
         children: [
@@ -265,7 +293,7 @@ class AddAnggotaState extends State<AddAnggota> {
           autoValidateMode: AutovalidateMode.onUserInteraction,
           initialValue: number,
           textFieldController: _phoneNumberController,
-          formatInput: true, 
+          formatInput: true,
           inputDecoration: InputDecoration(
             prefix: SizedBox(width: 10),
             hintText: 'Phone Number',

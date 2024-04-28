@@ -1,6 +1,6 @@
 class Anggota {
   int id;
-  String nomorInduk;
+  int nomorInduk;
   String nama;
   String alamat;
   String tglLahir;
@@ -28,7 +28,7 @@ class Anggota {
       tglLahir: json['tgl_lahir'],
       telepon: json['telepon'],
       imageUrl: json['image_url'],
-      statusAktif: json['status_aktif'],
+      statusAktif: json['status_aktif'] == 1 ? true : false,
     );
   }
 }

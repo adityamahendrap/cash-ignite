@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:color_log/color_log.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
@@ -7,13 +9,22 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
 import 'package:progmob_magical_destroyers/controller/getx/profile_controller.dart';
+import 'package:progmob_magical_destroyers/external/requester/mobile_api/mobile_api.dart';
+import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/base/anggota_type.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/base/user_type.dart';
+import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/get_anggota_list_type.dart';
+import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/get_anggota_ltype.dart';
 import 'package:progmob_magical_destroyers/screens/main/search_screen.dart';
 import 'package:progmob_magical_destroyers/screens/savings_loan/add_anggota_screen.dart';
+import 'package:progmob_magical_destroyers/screens/savings_loan/update_anggota_screen.dart';
 import 'package:progmob_magical_destroyers/types/category_item_type.dart';
 import 'package:progmob_magical_destroyers/types/product_type.dart';
+import 'package:progmob_magical_destroyers/utils/helpless_util.dart';
+import 'package:progmob_magical_destroyers/widgets/anggota_list.dart';
+import 'package:progmob_magical_destroyers/widgets/app_snack_bar.dart';
 import 'package:progmob_magical_destroyers/widgets/product_card.dart';
 import 'package:progmob_magical_destroyers/widgets/carousel_slider_hero.dart';
+import 'package:progmob_magical_destroyers/widgets/text_label.dart';
 
 class Home extends StatefulWidget {
   Home({super.key});
@@ -24,21 +35,80 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final _profileController = Get.find<ProfileController>();
-
   final GetStorage _box = GetStorage();
+  final MoblieApiRequester _apiRequester = MoblieApiRequester();
+
   late User _user;
+  late Future<GetAnggotaListData?> _anggotaList;
+
+  Future<void> _getAnggotaList() async {
+    try {
+      _anggotaList = _apiRequester.getAnggotaList();
+      await _anggotaList; // Wait for the Future to complete
+    } on DioException catch (e) {
+      HelplessUtil.handleApiError(e);
+    }
+  }
+
+  Future<void> _addAnggota(Anggota anggota) async {
+    try {
+      await _apiRequester.addAnggota(
+        nomorInduk: anggota.nomorInduk,
+        nama: anggota.nama,
+        tglLahir: anggota.tglLahir,
+        telepon: anggota.telepon,
+        alamat: anggota.alamat,
+      );
+      await _getAnggotaList();
+      setState(() {}); // Rebuild the widget tree to reflect the updated list
+    } on DioException catch (e) {
+      throw e;
+    }
+  }
+
+  Future<void> _updateAnggota(Anggota anggota) async {
+    try {
+      await _apiRequester.updateAnggota(
+        id: anggota.id,
+        nomorInduk: anggota.nomorInduk,
+        nama: anggota.nama,
+        tglLahir: anggota.tglLahir,
+        telepon: anggota.telepon,
+        alamat: anggota.alamat,
+        status: anggota.statusAktif ?? true,
+      );
+      await _getAnggotaList();
+      setState(() {}); // Rebuild the widget tree to reflect the updated list
+    } on DioException catch (e) {
+      throw e;
+    }
+  }
+
+  Future<void> _deleteAnggota(Anggota anggota) async {
+    try {
+      await _apiRequester.deleteAnggota(id: anggota.id);
+      await _getAnggotaList();
+      setState(() {}); // Rebuild the widget tree to reflect the updated list
+      AppSnackBar.success('Success', 'Anggota deleted successfully!');
+    } on DioException catch (e) {
+      HelplessUtil.handleApiError(e);
+    }
+  }
 
   @override
   void initState() {
     super.initState();
     _user = User.fromJson(_box.read('user'));
+    _getAnggotaList();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () => Get.to(() => AddAnggota()),
+        onPressed: () => Get.to(
+          () => AddAnggota(addAnggotaCallback: _addAnggota),
+        ),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(100),
         ),
@@ -75,14 +145,20 @@ class _HomeState extends State<Home> {
               ),
             ),
             SliverPadding(
-              padding: EdgeInsets.only(top: 40),
+              padding: EdgeInsets.only(top: 30),
+              sliver: SliverToBoxAdapter(
+                child: _anggotaListView(),
+              ),
+            ),
+            SliverPadding(
+              padding: EdgeInsets.only(top: 20),
               sliver: SliverToBoxAdapter(
                 child: _mostPopular(),
               ),
             ),
             SliverPadding(
               padding: EdgeInsets.only(top: 50),
-              sliver: SliverToBoxAdapter(child: Container()), // Spacer
+              sliver: SliverToBoxAdapter(child: Container()),
             ),
           ],
         ),
@@ -132,6 +208,178 @@ class _HomeState extends State<Home> {
             ],
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _anggotaListView() {
+    return Column(
+      children: [
+        _anggotaListViewHeader(),
+        FutureBuilder(
+          future: _anggotaList,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              final List<Anggota> items = snapshot.data!.anggotaList;
+
+              if (items.isEmpty) {
+                return Center(
+                  child: Column(
+                    children: [
+                      SizedBox(
+                          height: 100,
+                          width: 100,
+                          child: Image(image: AssetImage('assets/empty.png'))),
+                      SizedBox(height: 10),
+                      Text(
+                        'Nothing to see here :(',
+                        style: TextStyle(color: Colors.grey.shade500),
+                      ),
+                    ],
+                  ),
+                );
+              }
+
+              return ListView.separated(
+                separatorBuilder: (context, index) => Divider(
+                  color: Colors.grey.shade300,
+                  indent: 20,
+                  endIndent: 20,
+                ),
+                shrinkWrap: true,
+                itemCount: items.length > 3 ? 3 : items.length,
+                physics: NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) {
+                  final Anggota item = items[index];
+                  return ListTile(
+                    leading: CircleAvatar(
+                      backgroundColor: ColorPlanet.primary,
+                      backgroundImage: AssetImage(defaultImagePath),
+                    ),
+                    contentPadding: EdgeInsets.symmetric(horizontal: 20),
+                    title: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          item.nama,
+                          style: TextStyle(
+                              fontWeight: FontWeight.w600, fontSize: 16),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        SizedBox(height: 5),
+                        Row(
+                          children: [
+                            TextLabel(
+                                text:
+                                    '${HelplessUtil.calculateAge(DateTime.parse(item.tglLahir))} years'),
+                            SizedBox(width: 5),
+                            Text(
+                              '| ${item.telepon}',
+                              style: TextStyle(fontSize: 14),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 5),
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.location_on_outlined,
+                              color: ColorPlanet.primary,
+                            ),
+                            SizedBox(width: 5),
+                            Text(
+                              item.alamat,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(fontSize: 14),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    style: ListTileStyle.list,
+                    trailing: _morePopUpAnggota(item),
+                  );
+                },
+              );
+            } else if (snapshot.hasError) {
+              print(snapshot.error);
+            }
+
+            return Container(
+              padding: EdgeInsets.only(top: 10),
+              child: const CircularProgressIndicator(),
+            );
+          },
+        ),
+      ],
+    );
+  }
+
+  Padding _anggotaListViewHeader() {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 20),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
+            children: [
+              Text('Pejuang Progmob',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+              SizedBox(width: 10),
+              Container(
+                width: 30,
+                height: 30,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(100),
+                  color: ColorPlanet.secondary,
+                ),
+                padding: EdgeInsets.all(5),
+                child: Text(
+                  '...',
+                  style: TextStyle(fontSize: 16, color: ColorPlanet.primary),
+                ),
+              ),
+            ],
+          ),
+          _seeAllButton()
+        ],
+      ),
+    );
+  }
+
+  PopupMenuButton<dynamic> _morePopUpAnggota(Anggota anggota) {
+    return PopupMenuButton(
+      onSelected: (item) {
+        switch (item) {
+          case 'edit':
+            Get.to(() => UpdateAnggota(updateAnggotaCallback: _updateAnggota),
+                arguments: {'anggota': anggota});
+            break;
+          case 'delete':
+            _deleteAnggota(anggota);
+            break;
+        }
+      },
+      itemBuilder: (BuildContext context) => [
+        PopupMenuItem(
+          value: 'edit',
+          child: Text('Edit'),
+        ),
+        PopupMenuItem(
+          value: 'delete',
+          child: Text('Delete'),
+        ),
+      ],
+      position: PopupMenuPosition.under,
+      child: Container(
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+        ),
+        padding: EdgeInsets.all(2),
+        child: Icon(Icons.more_vert),
       ),
     );
   }
