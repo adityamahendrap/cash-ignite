@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
 import 'package:introduction_screen/introduction_screen.dart';
@@ -6,7 +7,14 @@ import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
 import 'package:progmob_magical_destroyers/screens/get_started_screen.dart';
 
 class Introduction extends StatelessWidget {
-  const Introduction({super.key});
+  Introduction({super.key});
+
+  final GetStorage _box = GetStorage();
+
+  void _onDownButtonTap() {
+    _box.write('isFirstTime', false);
+    Get.offAll(() => GetStarted());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +43,7 @@ class Introduction extends StatelessWidget {
                     "Ready to experience the future of APP_FOCUS? Tap the button below to begin your journey with APP_NAME. Welcome aboard!",
               )
             ],
-            onDone: () => Get.offAll(() => GetStarted()),
+            onDone: () => _onDownButtonTap(),
             showSkipButton: true,
             skip: Text(
               "Skip",

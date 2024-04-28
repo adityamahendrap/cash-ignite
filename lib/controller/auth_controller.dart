@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/mobile_api.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/login_type.dart';
+import 'package:progmob_magical_destroyers/screens/get_started_screen.dart';
 import 'package:progmob_magical_destroyers/screens/main/main_screen.dart';
 import 'package:progmob_magical_destroyers/screens/sign_in_screen.dart';
 import 'package:progmob_magical_destroyers/service/auth_service.dart';
@@ -93,5 +94,11 @@ class AuthController {
 
   signInWithGithub() {
     AppSnackBar.error('Error', 'Unimplemented feature');
+  }
+
+  void signOut() {
+    _box.remove('token');
+    clog.info('Signin out success. Token removed.');
+    Get.offAll(() => GetStarted());
   }
 }

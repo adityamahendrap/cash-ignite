@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
+import 'package:progmob_magical_destroyers/controller/auth_controller.dart';
 import 'package:progmob_magical_destroyers/screens/account/address/address_screen.dart';
 import 'package:progmob_magical_destroyers/screens/account/edit_profile.dart';
 import 'package:progmob_magical_destroyers/screens/account/language_screen.dart';
@@ -22,6 +23,8 @@ class Account extends StatefulWidget {
 
 class _AccountState extends State<Account> {
   bool isLightMode = true;
+
+  final AuthController _authController = AuthController();
 
   List<AccountItem> _accountItems = [
     AccountItem(
@@ -103,7 +106,7 @@ class _AccountState extends State<Account> {
         if (item.screen != null) {
           Get.to(() => item.screen as Widget);
         } else {
-          Get.offAll(() => GetStarted());
+          _authController.signOut();
         }
       },
     );
