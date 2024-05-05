@@ -34,8 +34,16 @@ class MyApp extends StatelessWidget {
       theme: lightMode,
       darkTheme: darkMode,
       themeMode: ThemeMode.light,
-      home: AppController.getInitialScreen(),
+      home: AppController.getInitialScreen().screen,
       builder: EasyLoading.init(),
+      // routes: {
+      //   '/introduction': (context) => Introduction(),
+      //   '/get-started': (context) => GetStarted(),
+      //   '/signin': (context) => SignIn(),
+      //   '/signup': (context) => SignUp(),
+      //   '/main': (context) => Main(),
+      // },
+      // initialRoute: AppController.getInitialScreen().route,
     );
   }
 }
