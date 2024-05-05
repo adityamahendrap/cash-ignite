@@ -169,10 +169,6 @@ class _HomeState extends State<Home> {
   }
 
   Widget _header() {
-    final image = _profileController.image.value != null
-        ? FileImage(File(_profileController.image.value!.path))
-        : AssetImage(defaultImagePath) as ImageProvider;
-
     return Container(
       padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
       child: Column(
@@ -182,11 +178,17 @@ class _HomeState extends State<Home> {
               GestureDetector(
                 onTap: () {
                   print('Profile picture pressed');
-                  Get.to(() => ShowPhotoView(image: image));
+                  Get.to(() => ShowPhotoView(
+                      image: _profileController.image.value != null
+                          ? FileImage(
+                              File(_profileController.image.value!.path))
+                          : AssetImage(defaultImagePath) as ImageProvider));
                 },
                 child: Obx(
                   () => CircleAvatar(
-                    backgroundImage: image,
+                    backgroundImage: _profileController.image.value != null
+                        ? FileImage(File(_profileController.image.value!.path))
+                        : AssetImage(defaultImagePath) as ImageProvider,
                   ),
                 ),
               ),

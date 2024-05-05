@@ -85,18 +85,19 @@ class _ProfilePictureState extends State<ProfilePicture> {
 
   @override
   Widget build(BuildContext context) {
-    final image = _profileC.image.value != null
-        ? FileImage(File(_profileC.image.value!.path))
-        : AssetImage(defaultImagePath) as ImageProvider;
-
     return GestureDetector(
-      onTap: () => showChangeImageOptions(currentImage: image),
+      onTap: () => showChangeImageOptions(
+          currentImage: _profileC.image.value != null
+              ? FileImage(File(_profileC.image.value!.path))
+              : AssetImage(defaultImagePath) as ImageProvider),
       child: Stack(
         children: [
           Obx(
             () => CircleAvatar(
               radius: 50,
-              backgroundImage: image,
+              backgroundImage: _profileC.image.value != null
+                  ? FileImage(File(_profileC.image.value!.path))
+                  : AssetImage(defaultImagePath) as ImageProvider,
             ),
           ),
           Positioned(
