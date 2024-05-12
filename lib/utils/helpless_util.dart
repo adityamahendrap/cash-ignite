@@ -18,7 +18,7 @@ class HelplessUtil {
           "Your session has been expired, please login again. Sorry for the inconvenience.");
       return;
     }
-
+    
     AppSnackBar.error("Error", e.response?.data?['message'] ?? "Unknown error");
   }
 

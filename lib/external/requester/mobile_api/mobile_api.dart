@@ -29,7 +29,7 @@ class MoblieApiRequester {
 
   void _setDioOptions() {
     dio.options.baseUrl = BASE_URL;
-    dio.options.connectTimeout = Duration(seconds: 5);
+    dio.options.connectTimeout = Duration(seconds: 10);
     dio.options.receiveTimeout = Duration(seconds: 3);
     dio.options.headers = {'Authorization': 'Bearer $token'};
   }

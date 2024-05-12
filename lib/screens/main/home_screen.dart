@@ -1,32 +1,30 @@
 import 'dart:io';
 
-import 'package:color_log/color_log.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
-import 'package:progmob_magical_destroyers/controller/getx/profile_controller.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/mobile_api.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/base/anggota_type.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/base/user_type.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/get_anggota_list_type.dart';
-import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/get_anggota_ltype.dart';
+import 'package:progmob_magical_destroyers/providers/profile_provider.dart';
 import 'package:progmob_magical_destroyers/screens/main/search_screen.dart';
 import 'package:progmob_magical_destroyers/screens/savings_loan/add_anggota_screen.dart';
 import 'package:progmob_magical_destroyers/screens/savings_loan/update_anggota_screen.dart';
 import 'package:progmob_magical_destroyers/types/category_item_type.dart';
 import 'package:progmob_magical_destroyers/types/product_type.dart';
 import 'package:progmob_magical_destroyers/utils/helpless_util.dart';
-import 'package:progmob_magical_destroyers/widgets/anggota_list.dart';
 import 'package:progmob_magical_destroyers/widgets/app_snack_bar.dart';
 import 'package:progmob_magical_destroyers/widgets/photo_view.dart';
 import 'package:progmob_magical_destroyers/widgets/product_card.dart';
 import 'package:progmob_magical_destroyers/widgets/carousel_slider_hero.dart';
+import 'package:progmob_magical_destroyers/widgets/profile_picture.dart';
 import 'package:progmob_magical_destroyers/widgets/text_label.dart';
+import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {
   Home({super.key});
@@ -36,7 +34,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final _profileController = Get.find<ProfileController>();
   final GetStorage _box = GetStorage();
   final MoblieApiRequester _apiRequester = MoblieApiRequester();
 
@@ -179,17 +176,11 @@ class _HomeState extends State<Home> {
                 onTap: () {
                   print('Profile picture pressed');
                   Get.to(() => ShowPhotoView(
-                      image: _profileController.image.value != null
-                          ? FileImage(
-                              File(_profileController.image.value!.path))
-                          : AssetImage(defaultImagePath) as ImageProvider));
+                      image: context.watch<ProfileProvider>().imageProvider));
                 },
-                child: Obx(
-                  () => CircleAvatar(
-                    backgroundImage: _profileController.image.value != null
-                        ? FileImage(File(_profileController.image.value!.path))
-                        : AssetImage(defaultImagePath) as ImageProvider,
-                  ),
+                child: CircleAvatar(
+                  backgroundImage:
+                      context.watch<ProfileProvider>().imageProvider,
                 ),
               ),
               SizedBox(width: 10),

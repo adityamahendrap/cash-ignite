@@ -4,8 +4,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:progmob_magical_destroyers/controller/getx/profile_controller.dart';
+import 'package:progmob_magical_destroyers/providers/profile_provider.dart';
 import 'package:progmob_magical_destroyers/widgets/photo_view.dart';
+import 'package:provider/provider.dart';
 
 class ProfilePicture extends StatefulWidget {
   const ProfilePicture({super.key});
@@ -15,31 +16,22 @@ class ProfilePicture extends StatefulWidget {
 }
 
 class _ProfilePictureState extends State<ProfilePicture> {
-  // XFile? _image;
-  final _profileC = Get.find<ProfileController>();
-
   final _picker = ImagePicker();
 
   Future getImageFromGallery() async {
     final XFile? pickedImage =
         await _picker.pickImage(source: ImageSource.gallery);
 
-    // setState(() {
-    // if (pickedImage != null) _image = pickedImage;
-    // });
-
-    if (pickedImage != null) _profileC.image.value = pickedImage;
+    if (pickedImage != null)
+      context.read<ProfileProvider>().setImageProvider(pickedImage);
   }
 
   Future getImageFromCamera() async {
     final XFile? pickedImage =
         await _picker.pickImage(source: ImageSource.camera);
 
-    // setState(() {
-    // if (pickedImage != null) _image = pickedImage;
-    // });
-
-    if (pickedImage != null) _profileC.image.value = pickedImage;
+    if (pickedImage != null)
+      context.read<ProfileProvider>().setImageProvider(pickedImage);
   }
 
   Future showChangeImageOptions({required ImageProvider currentImage}) async {
@@ -72,10 +64,7 @@ class _ProfilePictureState extends State<ProfilePicture> {
             child: Text('Delete Picture', style: TextStyle(color: Colors.red)),
             onPressed: () {
               Navigator.of(context).pop();
-              setState(() {
-                // _image = null;
-                _profileC.image.value = null;
-              });
+              context.read<ProfileProvider>().setImageProvider(null);
             },
           ),
         ],
@@ -87,18 +76,12 @@ class _ProfilePictureState extends State<ProfilePicture> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => showChangeImageOptions(
-          currentImage: _profileC.image.value != null
-              ? FileImage(File(_profileC.image.value!.path))
-              : AssetImage(defaultImagePath) as ImageProvider),
+          currentImage: context.read<ProfileProvider>().imageProvider),
       child: Stack(
         children: [
-          Obx(
-            () => CircleAvatar(
-              radius: 50,
-              backgroundImage: _profileC.image.value != null
-                  ? FileImage(File(_profileC.image.value!.path))
-                  : AssetImage(defaultImagePath) as ImageProvider,
-            ),
+          CircleAvatar(
+            radius: 50,
+            backgroundImage: context.watch<ProfileProvider>().imageProvider,
           ),
           Positioned(
             bottom: 5,
