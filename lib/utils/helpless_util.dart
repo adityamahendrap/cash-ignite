@@ -37,4 +37,17 @@ class HelplessUtil {
     }
     return age;
   }
+
+  static String getTimeOfDay() {
+    var hour = DateTime.now().hour;
+    if (hour < 12) {
+      return 'morning';
+    } else if (hour < 17) {
+      return 'afternoon';
+    } else if (hour < 20) {
+      return 'evening';
+    } else {
+      return 'night';
+    }
+  }
 }
