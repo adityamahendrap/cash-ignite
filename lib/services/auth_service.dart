@@ -2,7 +2,7 @@ import 'package:color_log/color_log.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/mobile_api.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/login_type.dart';
-import 'package:progmob_magical_destroyers/service/firebase_service.dart';
+import 'package:progmob_magical_destroyers/services/firebase_service.dart';
 
 class AuthService {
   final _apiRequester = MoblieApiRequester();

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
-import 'package:progmob_magical_destroyers/controller/auth_controller.dart';
+import 'package:progmob_magical_destroyers/controllers/auth_controller.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/base/user_type.dart';
 import 'package:progmob_magical_destroyers/screens/account/address/address_screen.dart';
 import 'package:progmob_magical_destroyers/screens/account/edit_profile.dart';

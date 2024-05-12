@@ -3,7 +3,7 @@ import 'dart:developer';
 
 import 'package:color_log/color_log.dart';
 import 'package:dio/dio.dart';
-import 'package:progmob_magical_destroyers/controller/auth_controller.dart';
+import 'package:progmob_magical_destroyers/controllers/auth_controller.dart';
 import 'package:progmob_magical_destroyers/widgets/app_snack_bar.dart';
 
 class HelplessUtil {
@@ -18,7 +18,7 @@ class HelplessUtil {
           "Your session has been expired, please login again. Sorry for the inconvenience.");
       return;
     }
-    
+
     AppSnackBar.error("Error", e.response?.data?['message'] ?? "Unknown error");
   }
 

@@ -9,7 +9,7 @@ import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/l
 import 'package:progmob_magical_destroyers/screens/get_started_screen.dart';
 import 'package:progmob_magical_destroyers/screens/main/main_screen.dart';
 import 'package:progmob_magical_destroyers/screens/sign_in_screen.dart';
-import 'package:progmob_magical_destroyers/service/auth_service.dart';
+import 'package:progmob_magical_destroyers/services/auth_service.dart';
 import 'package:progmob_magical_destroyers/utils/helpless_util.dart';
 import 'package:progmob_magical_destroyers/widgets/app_snack_bar.dart';
 

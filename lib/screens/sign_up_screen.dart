@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
-import 'package:progmob_magical_destroyers/controller/auth_controller.dart';
+import 'package:progmob_magical_destroyers/controllers/auth_controller.dart';
 import 'package:progmob_magical_destroyers/screens/sign_in_screen.dart';
 import 'package:progmob_magical_destroyers/widgets/app_bar_with_back_button.dart';
 import 'package:progmob_magical_destroyers/widgets/app_snack_bar.dart';

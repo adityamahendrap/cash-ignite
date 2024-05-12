@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:progmob_magical_destroyers/controller/auth_controller.dart';
+import 'package:progmob_magical_destroyers/controllers/auth_controller.dart';
 import 'package:progmob_magical_destroyers/screens/sign_in_screen.dart';
 import 'package:progmob_magical_destroyers/screens/sign_up_screen.dart';
 import 'package:progmob_magical_destroyers/widgets/full_width_button.dart';

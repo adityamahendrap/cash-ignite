@@ -3,7 +3,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:progmob_magical_destroyers/configs/themes/theme.dart';
-import 'package:progmob_magical_destroyers/controller/app_controller.dart';
+import 'package:progmob_magical_destroyers/controllers/app_controller.dart';
 import 'package:progmob_magical_destroyers/providers/profile_provider.dart';
 import 'package:progmob_magical_destroyers/widgets/loading.dart';
 import 'package:firebase_core/firebase_core.dart';
