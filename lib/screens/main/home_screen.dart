@@ -1,5 +1,4 @@
-import 'dart:io';
-
+import 'package:color_log/color_log.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +22,7 @@ import 'package:progmob_magical_destroyers/widgets/photo_view.dart';
 import 'package:progmob_magical_destroyers/widgets/product_card.dart';
 import 'package:progmob_magical_destroyers/widgets/carousel_slider_hero.dart';
 import 'package:progmob_magical_destroyers/widgets/profile_picture.dart';
+import 'package:progmob_magical_destroyers/widgets/section_header.dart';
 import 'package:progmob_magical_destroyers/widgets/text_label.dart';
 import 'package:provider/provider.dart';
 
@@ -313,7 +313,22 @@ class _HomeState extends State<Home> {
                 },
               );
             } else if (snapshot.hasError) {
-              print(snapshot.error);
+              clog.error('snaphot err: ${snapshot.error.toString()}');
+              return Center(
+                child: Column(
+                  children: [
+                    SizedBox(
+                        height: 100,
+                        width: 100,
+                        child: Image(image: AssetImage('assets/error.png'))),
+                    SizedBox(height: 10),
+                    Text(
+                      'Something went wrong :(',
+                      style: TextStyle(color: Colors.grey.shade500),
+                    ),
+                  ],
+                ),
+              );
             }
 
             return Container(
@@ -367,7 +382,21 @@ class _HomeState extends State<Home> {
               ),
             ],
           ),
-          _seeAllButton()
+          TextButton(
+            onPressed: () {},
+            style: ButtonStyle(
+              padding: MaterialStateProperty.all(
+                EdgeInsets.zero,
+              ),
+            ),
+            child: Text(
+              'See all',
+              style: TextStyle(
+                color: ColorPlanet.primary,
+                fontSize: 18,
+              ),
+            ),
+          )
         ],
       ),
     );
@@ -484,17 +513,7 @@ class _HomeState extends State<Home> {
   Widget _specialOffers() {
     return Column(
       children: [
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text('Special Offers',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-              _seeAllButton()
-            ],
-          ),
-        ),
+        SectionHeader(title: 'Special Offers'),
         CarouselSliderHero(items: [1, 2, 3, 4, 5]),
       ],
     );
@@ -572,17 +591,7 @@ class _HomeState extends State<Home> {
 
     return Column(
       children: [
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text('Most Popular',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-              _seeAllButton()
-            ],
-          ),
-        ),
+        SectionHeader(title: 'Most Popular'),
         _mostPopularButtons(items, activeIndex),
         SizedBox(height: 20),
         _mostPopularCards(),
@@ -662,24 +671,6 @@ class _HomeState extends State<Home> {
             ),
           );
         },
-      ),
-    );
-  }
-
-  TextButton _seeAllButton() {
-    return TextButton(
-      onPressed: () {},
-      style: ButtonStyle(
-        padding: MaterialStateProperty.all(
-          EdgeInsets.zero,
-        ),
-      ),
-      child: Text(
-        'See all',
-        style: TextStyle(
-          color: ColorPlanet.primary,
-          fontSize: 18,
-        ),
       ),
     );
   }
