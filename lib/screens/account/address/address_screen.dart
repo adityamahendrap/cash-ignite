@@ -5,8 +5,8 @@ import 'package:progmob_magical_destroyers/widgets/address_card.dart';
 import 'package:progmob_magical_destroyers/widgets/app_bar_with_back_button.dart';
 import 'package:progmob_magical_destroyers/widgets/full_width_button_bottom_bar.dart';
 
-class Address extends StatelessWidget {
-  const Address({super.key});
+class AddressScreen extends StatelessWidget {
+  const AddressScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,7 @@ class Address extends StatelessWidget {
             context: context,
             text: 'Add New Adress',
             onPressed: () {
-              Get.to(() => AddNewAddress());
+              Get.to(() => AddNewAddressScreen());
             },
           )
         ],

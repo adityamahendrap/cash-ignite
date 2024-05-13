@@ -10,20 +10,19 @@ import 'package:progmob_magical_destroyers/screens/account/edit_profile.dart';
 import 'package:progmob_magical_destroyers/screens/account/language_screen.dart';
 import 'package:progmob_magical_destroyers/screens/account/notification_screen.dart';
 import 'package:progmob_magical_destroyers/screens/account/security_screen.dart';
-import 'package:progmob_magical_destroyers/screens/get_started_screen.dart';
 import 'package:progmob_magical_destroyers/types/account_item_type.dart';
 import 'package:progmob_magical_destroyers/widgets/app_bar_with_logo.dart';
 import 'package:progmob_magical_destroyers/widgets/profile_picture.dart';
 import 'package:progmob_magical_destroyers/widgets/text_title.dart';
 
-class Account extends StatefulWidget {
-  Account({super.key});
+class AccountScreen extends StatefulWidget {
+  AccountScreen({super.key});
 
   @override
-  State<Account> createState() => _AccountState();
+  State<AccountScreen> createState() => _AccountScreenState();
 }
 
-class _AccountState extends State<Account> {
+class _AccountScreenState extends State<AccountScreen> {
   bool isLightMode = true;
 
   final AuthController _authController = AuthController();
@@ -40,22 +39,22 @@ class _AccountState extends State<Account> {
     AccountItem(
       text: 'Edit Profile',
       icon: Icons.person_outline,
-      screen: EditProfile(),
+      screen: EditProfileScreen(),
     ),
     AccountItem(
       text: 'Address',
       icon: Icons.location_on_outlined,
-      screen: Address(),
+      screen: AddressScreen(),
     ),
     AccountItem(
       text: 'Notification',
       icon: Icons.notifications_none_outlined,
-      screen: Notification_(),
+      screen: NotificationScreen(),
     ),
     AccountItem(
       text: 'Security',
       icon: Icons.security_outlined,
-      screen: Security(),
+      screen: SecurityScreen(),
     ),
     AccountItem(
       text: 'Logout',
@@ -140,7 +139,7 @@ class _AccountState extends State<Account> {
       trailing: Icon(CupertinoIcons.chevron_right),
       contentPadding: EdgeInsets.symmetric(horizontal: 20),
       visualDensity: VisualDensity(vertical: -2),
-      onTap: () => Get.to(() => Language()),
+      onTap: () => Get.to(() => LanguageScreen()),
     );
   }
 

@@ -4,14 +4,14 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter/material.dart';
 import 'package:progmob_magical_destroyers/widgets/app_bar_with_back_button.dart';
 
-class Language extends StatefulWidget {
-  Language({super.key});
+class LanguageScreen extends StatefulWidget {
+  LanguageScreen({super.key});
 
   @override
-  State<Language> createState() => _LanguageState();
+  State<LanguageScreen> createState() => _LanguageScreenState();
 }
 
-class _LanguageState extends State<Language> {
+class _LanguageScreenState extends State<LanguageScreen> {
   late List languages = [];
   String _selectedLanguage = 'English';
 

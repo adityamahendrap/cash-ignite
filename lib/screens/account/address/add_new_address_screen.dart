@@ -48,14 +48,14 @@ Future<Position> determinePosition() async {
   return await Geolocator.getCurrentPosition();
 }
 
-class AddNewAddress extends StatefulWidget {
-  AddNewAddress({super.key});
+class AddNewAddressScreen extends StatefulWidget {
+  AddNewAddressScreen({super.key});
 
   @override
-  State<AddNewAddress> createState() => _AddNewAddressState();
+  State<AddNewAddressScreen> createState() => _AddNewAddressScreenState();
 }
 
-class _AddNewAddressState extends State<AddNewAddress> {
+class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
   LatLng _coords = LatLng(51.509364, -0.128928);
   MapController _mapController = MapController();
   double _defaultZoom = 9.2;

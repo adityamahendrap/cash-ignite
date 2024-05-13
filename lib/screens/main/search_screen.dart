@@ -4,8 +4,8 @@ import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
 import 'package:progmob_magical_destroyers/widgets/wrapper/bottom_sheet_fit_content_wrapper.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
 
-class Search extends StatelessWidget {
-  const Search({super.key});
+class SearchScreen extends StatelessWidget {
+  const SearchScreen({super.key});
 
   void _showSortFilterBottomSheet(BuildContext context) {
     bottomSheetFitContentWrapper(

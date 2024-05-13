@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
 import 'package:progmob_magical_destroyers/widgets/app_bar_with_back_button.dart';
 
-class Notification_ extends StatefulWidget {
-  Notification_({super.key});
+class NotificationScreen extends StatefulWidget {
+  NotificationScreen({super.key});
 
   @override
-  State<Notification_> createState() => _Notification_State();
+  State<NotificationScreen> createState() => _NotificationScreenState();
 }
 
-class _Notification_State extends State<Notification_> {
+class _NotificationScreenState extends State<NotificationScreen> {
   bool _generalNotification = true;
   bool _sound = true;
   bool _vibration = true;

@@ -1,12 +1,12 @@
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/base/anggota_type.dart';
 
-class GetAnggotaData {
+class GetAnggota {
   Anggota anggota;
 
-  GetAnggotaData({required this.anggota});
+  GetAnggota({required this.anggota});
 
-  factory GetAnggotaData.fromJson(Map<String, dynamic> json) {
-    return GetAnggotaData(
+  factory GetAnggota.fromJson(Map<String, dynamic> json) {
+    return GetAnggota(
       anggota: Anggota.fromJson(json['anggota']),
     );
   }

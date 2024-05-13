@@ -1,12 +1,12 @@
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/base/anggota_type.dart';
 
-class DeleteAnggotaData {
+class DeleteAnggota {
   Anggota anggota;
 
-  DeleteAnggotaData({required this.anggota});
+  DeleteAnggota({required this.anggota});
 
-  factory DeleteAnggotaData.fromJson(Map<String, dynamic> json) {
-    return DeleteAnggotaData(
+  factory DeleteAnggota.fromJson(Map<String, dynamic> json) {
+    return DeleteAnggota(
       anggota: Anggota.fromJson(json['anggota']),
     );
   }

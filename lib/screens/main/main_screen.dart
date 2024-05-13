@@ -7,14 +7,14 @@ import 'package:progmob_magical_destroyers/screens/main/cart_screen.dart';
 import 'package:progmob_magical_destroyers/screens/main/home_screen.dart';
 import 'package:progmob_magical_destroyers/screens/main/order_screen.dart';
 
-class Main extends StatefulWidget {
-  const Main({Key? key}) : super(key: key);
+class MainScreen extends StatefulWidget {
+  const MainScreen({Key? key}) : super(key: key);
 
   @override
-  State<Main> createState() => _MainState();
+  State<MainScreen> createState() => _MainScreenState();
 }
 
-class _MainState extends State<Main> {
+class _MainScreenState extends State<MainScreen> {
   Color mainColor = ColorPlanet.primary;
   final PersistentTabController _controller =
       PersistentTabController(initialIndex: 0);
@@ -26,10 +26,10 @@ class _MainState extends State<Main> {
         context,
         controller: _controller,
         screens: [
-          Home(),
-          Cart(),
-          Order(),
-          Account(),
+          HomeScreen(),
+          CartScreen(),
+          OrderScreen(),
+          AccountScreen(),
         ],
         items: _navBarsItems(),
         navBarStyle: NavBarStyle.style6,

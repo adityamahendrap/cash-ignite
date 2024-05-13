@@ -1,11 +1,11 @@
-class RegisterData {
+class Register {
   int id;
   String email;
   String name;
   DateTime createdAt;
   DateTime updatedAt;
 
-  RegisterData({
+  Register({
     required this.id,
     required this.email,
     required this.name,
@@ -13,8 +13,8 @@ class RegisterData {
     required this.updatedAt,
   });
 
-  factory RegisterData.fromJson(Map<String, dynamic> json) {
-    return RegisterData(
+  factory Register.fromJson(Map<String, dynamic> json) {
+    return Register(
       id: json['id'],
       email: json['email'],
       name: json['name'],

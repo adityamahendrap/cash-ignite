@@ -1,4 +1,3 @@
-import 'package:color_log/color_log.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -6,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
-import 'package:progmob_magical_destroyers/external/requester/mobile_api/mobile_api.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/base/anggota_type.dart';
 import 'package:progmob_magical_destroyers/utils/helpless_util.dart';
 import 'package:progmob_magical_destroyers/widgets/app_bar_with_back_button.dart';
@@ -18,16 +16,16 @@ import 'package:progmob_magical_destroyers/widgets/twin_buttons.dart';
 import 'package:progmob_magical_destroyers/widgets/wrapper/bottom_sheet_fit_content_wrapper.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
-class AddAnggota extends StatefulWidget {
+class AddAnggotaScreen extends StatefulWidget {
   final Function(Anggota) addAnggotaCallback;
-  const AddAnggota({Key? key, required this.addAnggotaCallback})
+  const AddAnggotaScreen({Key? key, required this.addAnggotaCallback})
       : super(key: key);
 
   @override
-  State<AddAnggota> createState() => AddAnggotaState();
+  State<AddAnggotaScreen> createState() => AddAnggotaScreenState();
 }
 
-class AddAnggotaState extends State<AddAnggota> {
+class AddAnggotaScreenState extends State<AddAnggotaScreen> {
   final _nameController = TextEditingController();
   final _birthdayController = TextEditingController();
   final _phoneNumberController = TextEditingController();
@@ -37,8 +35,6 @@ class AddAnggotaState extends State<AddAnggota> {
   String? _tempSelectedBirthday;
   String? _selectedBirthday = null;
   PhoneNumber number = PhoneNumber(isoCode: 'ID');
-
-  MoblieApiRequester _apiRequester = MoblieApiRequester();
 
   void _showBirthdayDatePicker() {
     bottomSheetFitContentWrapper(
@@ -150,7 +146,7 @@ class AddAnggotaState extends State<AddAnggota> {
                       children: [
                         input.TextInput(
                           title: 'Nomor Induk',
-                          hintText: 'Nomo Induk',
+                          hintText: 'Nomor Induk',
                           prefixIcon: Icons.confirmation_number_outlined,
                           controller: _registrationController,
                           validator: _checkRegistrationNumber,

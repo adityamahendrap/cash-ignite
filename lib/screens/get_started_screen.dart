@@ -8,8 +8,8 @@ import 'package:progmob_magical_destroyers/widgets/oauth_button.dart';
 import 'package:progmob_magical_destroyers/widgets/text_title.dart';
 import 'package:progmob_magical_destroyers/widgets/wrapper/bottom_sheet_fit_content_wrapper.dart';
 
-class GetStarted extends StatelessWidget {
-  GetStarted({Key? key}) : super(key: key);
+class GetStartedScreen extends StatelessWidget {
+  GetStartedScreen({Key? key}) : super(key: key);
 
   AuthController _authController = AuthController();
 
@@ -60,7 +60,7 @@ class GetStarted extends StatelessWidget {
                     type: FullWidthButtonType.primary,
                     text: "Sign Up",
                     onPressed: () => Get.to(
-                      () => SignUp(),
+                      () => SignUpScreen(),
                     ),
                   ),
                   SizedBox(height: 15),
@@ -68,7 +68,7 @@ class GetStarted extends StatelessWidget {
                     type: FullWidthButtonType.secondary,
                     text: "Sign In",
                     onPressed: () => Get.to(
-                      () => SignIn(),
+                      () => SignInScreen(),
                     ),
                   ),
                   SizedBox(height: 50),

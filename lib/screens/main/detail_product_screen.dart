@@ -8,8 +8,8 @@ import 'package:progmob_magical_destroyers/widgets/quantity_counter.dart';
 import 'package:progmob_magical_destroyers/widgets/text_title.dart';
 import 'package:readmore/readmore.dart';
 
-class DetailProduct extends StatelessWidget {
-  const DetailProduct({super.key});
+class DetailProductScreen extends StatelessWidget {
+  const DetailProductScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

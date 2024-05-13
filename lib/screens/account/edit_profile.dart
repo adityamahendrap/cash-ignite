@@ -22,14 +22,14 @@ final List<String> genders = [
   'Female',
 ];
 
-class EditProfile extends StatefulWidget {
-  EditProfile({super.key});
+class EditProfileScreen extends StatefulWidget {
+  EditProfileScreen({super.key});
 
   @override
-  State<EditProfile> createState() => _EditProfileState();
+  State<EditProfileScreen> createState() => _EditProfileScreenState();
 }
 
-class _EditProfileState extends State<EditProfile> {
+class _EditProfileScreenState extends State<EditProfileScreen> {
   final _nameController = TextEditingController();
   final _birthdayController = TextEditingController();
   final _countrySearchController = TextEditingController();

@@ -46,7 +46,7 @@ class MoblieApiRequester {
     return fromJson(jsonData);
   }
 
-  Future<LoginData?> login({
+  Future<Login?> login({
     required String email,
     required String password,
   }) async {
@@ -58,12 +58,12 @@ class MoblieApiRequester {
         'password': password,
       },
     );
-    LoginData data = _getDataFromResponse(response, LoginData.fromJson);
+    Login data = _getDataFromResponse(response, Login.fromJson);
 
     return data;
   }
 
-  Future<RegisterData?> register({
+  Future<Register?> register({
     required String name,
     required String email,
     required String password,
@@ -77,7 +77,7 @@ class MoblieApiRequester {
         'password': password,
       },
     );
-    RegisterData data = _getDataFromResponse(response, RegisterData.fromJson);
+    Register data = _getDataFromResponse(response, Register.fromJson);
 
     return data;
   }
@@ -87,40 +87,40 @@ class MoblieApiRequester {
     await dio.get(url);
   }
 
-  Future<GetCurrentUserData?> getCurrentUser() async {
+  Future<GetCurrentUser?> getCurrentUser() async {
     String url = '/user';
     Response response = await dio.get(url);
 
-    GetCurrentUserData data =
-        _getDataFromResponse(response, GetCurrentUserData.fromJson);
+    GetCurrentUser data =
+        _getDataFromResponse(response, GetCurrentUser.fromJson);
     return data;
   }
 
-  Future<GetAnggotaListData?> getAnggotaList() async {
+  Future<GetAnggotaList?> getAnggotaList() async {
     String url = '/anggota';
     Response response = await dio.get(
       url,
     );
-    GetAnggotaListData data =
-        _getDataFromResponse(response, GetAnggotaListData.fromJson);
+    GetAnggotaList data =
+        _getDataFromResponse(response, GetAnggotaList.fromJson);
 
     return data;
   }
 
-  Future<GetAnggotaData?> getAnggota({
+  Future<GetAnggota?> getAnggota({
     required int id,
   }) async {
     String url = '/anngota/$id';
     Response response = await dio.get(
       url,
     );
-    GetAnggotaData data =
-        _getDataFromResponse(response, GetAnggotaData.fromJson);
+    GetAnggota data =
+        _getDataFromResponse(response, GetAnggota.fromJson);
 
     return data;
   }
 
-  Future<AddAnggotaData?> addAnggota({
+  Future<AddAnggota?> addAnggota({
     required int nomorInduk,
     required String nama,
     required String alamat,
@@ -138,13 +138,13 @@ class MoblieApiRequester {
         'telepon': telepon,
       },
     );
-    AddAnggotaData data =
-        _getDataFromResponse(response, AddAnggotaData.fromJson);
+    AddAnggota data =
+        _getDataFromResponse(response, AddAnggota.fromJson);
 
     return data;
   }
 
-  Future<UpdateAnggotaData?> updateAnggota({
+  Future<UpdateAnggota?> updateAnggota({
     required int id,
     required int nomorInduk,
     required String nama,
@@ -165,19 +165,19 @@ class MoblieApiRequester {
         'status': status,
       },
     );
-    UpdateAnggotaData data =
-        _getDataFromResponse(response, UpdateAnggotaData.fromJson);
+    UpdateAnggota data =
+        _getDataFromResponse(response, UpdateAnggota.fromJson);
 
     return data;
   }
 
-  Future<DeleteAnggotaData?> deleteAnggota({
+  Future<DeleteAnggota?> deleteAnggota({
     required int id,
   }) async {
     String url = '/anggota/$id';
     Response response = await dio.delete(url);
-    DeleteAnggotaData data =
-        _getDataFromResponse(response, DeleteAnggotaData.fromJson);
+    DeleteAnggota data =
+        _getDataFromResponse(response, DeleteAnggota.fromJson);
 
     return data;
   }

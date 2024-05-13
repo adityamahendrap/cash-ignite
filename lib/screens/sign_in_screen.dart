@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
 import 'package:progmob_magical_destroyers/controllers/auth_controller.dart';
-import 'package:progmob_magical_destroyers/screens/send_forgot_password_email_screen.dart';
+import 'package:progmob_magical_destroyers/screens/forgot_password_screen.dart';
 import 'package:progmob_magical_destroyers/screens/sign_up_screen.dart';
 import 'package:progmob_magical_destroyers/widgets/app_bar_with_back_button.dart';
 import 'package:progmob_magical_destroyers/widgets/app_snack_bar.dart';
@@ -13,14 +13,14 @@ import 'package:progmob_magical_destroyers/widgets/input/password_input.dart';
 import 'package:progmob_magical_destroyers/widgets/input/text_input.dart';
 import 'package:progmob_magical_destroyers/widgets/text_title.dart';
 
-class SignIn extends StatefulWidget {
-  SignIn({Key? key}) : super(key: key);
+class SignInScreen extends StatefulWidget {
+  SignInScreen({Key? key}) : super(key: key);
 
   @override
-  State<SignIn> createState() => _SignInState();
+  State<SignInScreen> createState() => _SignInScreenState();
 }
 
-class _SignInState extends State<SignIn> {
+class _SignInScreenState extends State<SignInScreen> {
   final _signInFormKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -72,9 +72,6 @@ class _SignInState extends State<SignIn> {
   String? _checkPassword(String? value) {
     if (value!.isEmpty) {
       return 'This field must be filled';
-    }
-    if (value.length < 6) {
-      return 'Password must be at least 6 characters long';
     }
     return null;
   }
@@ -170,7 +167,7 @@ class _SignInState extends State<SignIn> {
         Text("Doesn't have an account? "),
         TextButton(
           onPressed: () {
-            Get.off(() => SignUp());
+            Get.off(() => SignUpScreen());
           },
           style: ButtonStyle(
             padding: MaterialStateProperty.all(EdgeInsets.zero),
@@ -215,7 +212,7 @@ class _SignInState extends State<SignIn> {
 
   TextButton _forgotPassword() {
     return TextButton(
-      onPressed: () => Get.off(() => SendForgotPasswordEmail()),
+      onPressed: () => Get.off(() => ForgotPasswordScreen()),
       child: Text(
         "Forgot Password?",
         style: TextStyle(

@@ -46,7 +46,7 @@ class AuthController {
       EasyLoading.dismiss();
     }
 
-    Get.off(() => SignIn());
+    Get.off(() => SignInScreen());
     AppSnackBar.success('Success',
         'Account created! Now you can sign in to enjoy our services. 🥳');
   }
@@ -59,7 +59,7 @@ class AuthController {
 
     try {
       EasyLoading.show();
-      LoginData? data = await _mobileApi.login(
+      Login? data = await _mobileApi.login(
         email: email,
         password: password,
       );
@@ -75,18 +75,18 @@ class AuthController {
       EasyLoading.dismiss();
     }
 
-    Get.offAll(() => Main());
+    Get.offAll(() => MainScreen());
   }
 
   Future<void> signInWithGoogle() async {
     try {
       EasyLoading.show();
-      final LoginData? result = await _authService.simulateGoogleOauth();
+      final Login? result = await _authService.simulateGoogleOauth();
 
       if (result != null) {
         _box.write('token', result.token);
         _cacheUserData(result.user);
-        Get.offAll(() => Main());
+        Get.offAll(() => MainScreen());
       } else
         throw Exception();
     } catch (e) {
@@ -109,6 +109,6 @@ class AuthController {
     _box.remove('token');
     _box.remove('user');
     clog.info('Signin out success. Token removed.');
-    Get.offAll(() => GetStarted());
+    Get.offAll(() => GetStartedScreen());
   }
 }

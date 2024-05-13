@@ -21,7 +21,7 @@ class AppController {
     if (isFirstTime != false) {
       return InitialScreen(
         route: '/introduction',
-        screen: Introduction(),
+        screen: IntroductionScreen(),
       );
     }
 
@@ -30,13 +30,13 @@ class AppController {
     if (token == null) {
       return InitialScreen(
         route: '/get-started',
-        screen: GetStarted(),
+        screen: GetStartedScreen(),
       );
     }
 
     return InitialScreen(
       route: '/main',
-      screen: Main(),
+      screen: MainScreen(),
     );
   }
 }

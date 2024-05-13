@@ -8,8 +8,8 @@ import 'package:progmob_magical_destroyers/widgets/wrapper/bottom_sheet_fit_cont
 
 final bgColor = Color(0xFDFDFD);
 
-class Cart extends StatelessWidget {
-  const Cart({super.key});
+class CartScreen extends StatelessWidget {
+  const CartScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

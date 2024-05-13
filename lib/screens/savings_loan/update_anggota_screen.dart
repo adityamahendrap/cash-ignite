@@ -16,17 +16,17 @@ import 'package:progmob_magical_destroyers/widgets/twin_buttons.dart';
 import 'package:progmob_magical_destroyers/widgets/wrapper/bottom_sheet_fit_content_wrapper.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
-class UpdateAnggota extends StatefulWidget {
+class UpdateAnggotaScreen extends StatefulWidget {
   final Function(Anggota) updateAnggotaCallback;
 
-  const UpdateAnggota({Key? key, required this.updateAnggotaCallback})
+  const UpdateAnggotaScreen({Key? key, required this.updateAnggotaCallback})
       : super(key: key);
 
   @override
-  State<UpdateAnggota> createState() => UpdateAnggotaState();
+  State<UpdateAnggotaScreen> createState() => UpdateAnggotaScreenState();
 }
 
-class UpdateAnggotaState extends State<UpdateAnggota> {
+class UpdateAnggotaScreenState extends State<UpdateAnggotaScreen> {
   final _nameController = TextEditingController();
   final _birthdayController = TextEditingController();
   final _phoneNumberController = TextEditingController();

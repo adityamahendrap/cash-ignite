@@ -2,18 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
-import 'package:introduction_screen/introduction_screen.dart';
+import 'package:introduction_screen/introduction_screen.dart' as pub_dev_introduction_screen;
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
 import 'package:progmob_magical_destroyers/screens/get_started_screen.dart';
 
-class Introduction extends StatelessWidget {
-  Introduction({super.key});
+class IntroductionScreen extends StatelessWidget {
+  IntroductionScreen({super.key});
 
   final GetStorage _box = GetStorage();
 
   void _onDownButtonTap() {
     _box.write('isFirstTime', false);
-    Get.offAll(() => GetStarted());
+    Get.offAll(() => GetStartedScreen());
   }
 
   @override
@@ -21,7 +21,7 @@ class Introduction extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          IntroductionScreen(
+          pub_dev_introduction_screen.IntroductionScreen(
             // pages: listPagesViewModel,
             rawPages: [
               _page(
@@ -80,7 +80,7 @@ class Introduction extends StatelessWidget {
               backgroundColor: ColorPlanet.primary,
               elevation: 0,
             ),
-            dotsDecorator: DotsDecorator(
+            dotsDecorator: pub_dev_introduction_screen.DotsDecorator(
               size: const Size.square(10.0),
               activeSize: const Size(24.0, 10.0),
               activeColor: ColorPlanet.primary,

@@ -6,8 +6,8 @@ import 'package:progmob_magical_destroyers/widgets/full_width_button_bottom_bar.
 import 'package:progmob_magical_destroyers/widgets/input/text_input.dart';
 import 'package:progmob_magical_destroyers/widgets/text_title.dart';
 
-class SendForgotPasswordEmail extends StatelessWidget {
-  SendForgotPasswordEmail({Key? key}) : super(key: key);
+class ForgotPasswordScreen extends StatelessWidget {
+  ForgotPasswordScreen({Key? key}) : super(key: key);
 
   final _emailController = TextEditingController();
 

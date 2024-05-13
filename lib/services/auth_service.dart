@@ -7,7 +7,7 @@ import 'package:progmob_magical_destroyers/services/firebase_service.dart';
 class AuthService {
   final _apiRequester = MoblieApiRequester();
 
-  Future<LoginData?> simulateGoogleOauth() async {
+  Future<Login?> simulateGoogleOauth() async {
     final String provider = 'google.com';
 
     // user select google account
@@ -31,7 +31,7 @@ class AuthService {
     }
 
     // login
-    final LoginData? data = await _apiRequester.login(
+    final Login? data = await _apiRequester.login(
       email: credential.user!.email!,
       password: credential.user!.email!,
     );

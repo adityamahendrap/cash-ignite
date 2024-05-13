@@ -104,7 +104,7 @@ class AnggotaListView extends StatelessWidget {
           case 'edit':
             Get.to(
                 () =>
-                    UpdateAnggota(updateAnggotaCallback: updateAnggotaCallback),
+                    UpdateAnggotaScreen(updateAnggotaCallback: updateAnggotaCallback),
                 arguments: {'anggota': anggota});
             break;
           case 'delete':

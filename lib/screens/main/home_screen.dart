@@ -14,7 +14,6 @@ import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/g
 import 'package:progmob_magical_destroyers/providers/profile_provider.dart';
 import 'package:progmob_magical_destroyers/screens/main/search_screen.dart';
 import 'package:progmob_magical_destroyers/screens/savings_loan/add_anggota_screen.dart';
-import 'package:progmob_magical_destroyers/screens/savings_loan/update_anggota_screen.dart';
 import 'package:progmob_magical_destroyers/types/category_item_type.dart';
 import 'package:progmob_magical_destroyers/types/product_type.dart';
 import 'package:progmob_magical_destroyers/utils/helpless_util.dart';
@@ -25,24 +24,22 @@ import 'package:progmob_magical_destroyers/widgets/data/error_fetching_data.dart
 import 'package:progmob_magical_destroyers/widgets/photo_view.dart';
 import 'package:progmob_magical_destroyers/widgets/product_card.dart';
 import 'package:progmob_magical_destroyers/widgets/carousel_slider_hero.dart';
-import 'package:progmob_magical_destroyers/widgets/profile_picture.dart';
 import 'package:progmob_magical_destroyers/widgets/section_header.dart';
-import 'package:progmob_magical_destroyers/widgets/text_label.dart';
 import 'package:provider/provider.dart';
 
-class Home extends StatefulWidget {
-  Home({super.key});
+class HomeScreen extends StatefulWidget {
+  HomeScreen({super.key});
 
   @override
-  State<Home> createState() => _HomeState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeState extends State<Home> {
+class _HomeScreenState extends State<HomeScreen> {
   final GetStorage _box = GetStorage();
   final MoblieApiRequester _apiRequester = MoblieApiRequester();
 
   late User _user;
-  late Future<GetAnggotaListData?> _anggotaList;
+  late Future<GetAnggotaList?> _anggotaList;
 
   Future<void> _getAnggotaList() async {
     try {
@@ -113,7 +110,7 @@ class _HomeState extends State<Home> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () => Get.to(
-          () => AddAnggota(addAnggotaCallback: _addAnggota),
+          () => AddAnggotaScreen(addAnggotaCallback: _addAnggota),
         ),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(100),
@@ -352,7 +349,7 @@ class _HomeState extends State<Home> {
             cursorColor: ColorPlanet.primary,
             readOnly: true,
             onTap: () {
-              Get.to(() => Search(), transition: Transition.cupertinoDialog);
+              Get.to(() => SearchScreen(), transition: Transition.cupertinoDialog);
             },
             decoration: InputDecoration(
               filled: true,

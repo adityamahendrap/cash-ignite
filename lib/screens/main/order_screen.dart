@@ -3,11 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
 import 'package:progmob_magical_destroyers/widgets/text_label.dart';
 
-
 final bgColor = Color(0xFDFDFD);
 
-class Order extends StatelessWidget {
-  const Order({super.key});
+class OrderScreen extends StatelessWidget {
+  const OrderScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -3,14 +3,14 @@ import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
 import 'package:progmob_magical_destroyers/widgets/app_bar_with_back_button.dart';
 import 'package:progmob_magical_destroyers/widgets/full_width_button.dart';
 
-class Security extends StatefulWidget {
-  const Security({super.key});
+class SecurityScreen extends StatefulWidget {
+  const SecurityScreen({super.key});
 
   @override
-  State<Security> createState() => _SecurityState();
+  State<SecurityScreen> createState() => _SecurityScreenState();
 }
 
-class _SecurityState extends State<Security> {
+class _SecurityScreenState extends State<SecurityScreen> {
   bool _rememberMe = true;
   bool _faceId = true;
   bool _touchId = false;

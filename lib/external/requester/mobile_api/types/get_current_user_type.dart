@@ -1,13 +1,13 @@
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/base/user_type.dart';
 
-class GetCurrentUserData {
+class GetCurrentUser {
   User user;
   String expired;
 
-  GetCurrentUserData({required this.user, required this.expired});
+  GetCurrentUser({required this.user, required this.expired});
 
-  factory GetCurrentUserData.fromJson(Map<String, dynamic> json) {
-    return GetCurrentUserData(
+  factory GetCurrentUser.fromJson(Map<String, dynamic> json) {
+    return GetCurrentUser(
       user: User.fromJson(json['user']),
       expired: json['expired'],
     );
