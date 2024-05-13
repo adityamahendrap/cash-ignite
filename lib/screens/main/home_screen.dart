@@ -265,7 +265,7 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           Row(
             children: [
-              Text('Pejuang Progmob',
+              Text('Daftar Anggota',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
               SizedBox(width: 10),
               Container(
