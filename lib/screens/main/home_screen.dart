@@ -25,6 +25,7 @@ import 'package:progmob_magical_destroyers/widgets/photo_view.dart';
 import 'package:progmob_magical_destroyers/widgets/product_card.dart';
 import 'package:progmob_magical_destroyers/widgets/carousel_slider_hero.dart';
 import 'package:progmob_magical_destroyers/widgets/section_header.dart';
+import 'package:progmob_magical_destroyers/widgets/wrapper/dialog_wrapper.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -85,6 +86,9 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> _deleteAnggota(Anggota anggota) async {
+    final bool isConfirmed = await _showDeleteConfirmationDialog();
+    if (!isConfirmed) return;
+
     EasyLoading.show();
     try {
       await _apiRequester.deleteAnggota(id: anggota.id);
@@ -96,6 +100,40 @@ class _HomeScreenState extends State<HomeScreen> {
     } finally {
       EasyLoading.dismiss();
     }
+  }
+
+  Future<bool> _showDeleteConfirmationDialog() async {
+    late bool isConfirmed;
+    await dialogWrapper(
+      context: context,
+      content: Column(
+        children: [
+          SizedBox(height: 20),
+          Text('Are you sure you want to delete this anggota?'),
+          SizedBox(height: 20),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              TextButton(
+                onPressed: () {
+                  Get.back();
+                  isConfirmed = false;
+                },
+                child: Text('Cancel'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Get.back();
+                  isConfirmed = true;
+                },
+                child: Text('Delete'),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+    return isConfirmed;
   }
 
   @override
@@ -349,7 +387,8 @@ class _HomeScreenState extends State<HomeScreen> {
             cursorColor: ColorPlanet.primary,
             readOnly: true,
             onTap: () {
-              Get.to(() => SearchScreen(), transition: Transition.cupertinoDialog);
+              Get.to(() => SearchScreen(),
+                  transition: Transition.cupertinoDialog);
             },
             decoration: InputDecoration(
               filled: true,
