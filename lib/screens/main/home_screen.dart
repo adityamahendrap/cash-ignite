@@ -217,7 +217,7 @@ class _HomeScreenState extends State<HomeScreen> {
               GestureDetector(
                 onTap: () {
                   print('Profile picture pressed');
-                  Get.to(() => ShowPhotoView(
+                  Get.to(() => PhotoView(
                       image: context.watch<ProfileProvider>().imageProvider));
                 },
                 child: CircleAvatar(

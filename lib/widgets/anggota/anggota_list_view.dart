@@ -39,8 +39,7 @@ class AnggotaListView extends StatelessWidget {
             return ListTile(
               leading: GestureDetector(
                 onTap: () {
-                  Get.to(
-                      () => ShowPhotoView(image: AssetImage(defaultImagePath)));
+                  Get.to(() => PhotoView(image: AssetImage(defaultImagePath)));
                 },
                 child: CircleAvatar(
                   backgroundColor: ColorPlanet.primary,
@@ -103,8 +102,8 @@ class AnggotaListView extends StatelessWidget {
         switch (item) {
           case 'edit':
             Get.to(
-                () =>
-                    UpdateAnggotaScreen(updateAnggotaCallback: updateAnggotaCallback),
+                () => UpdateAnggotaScreen(
+                    updateAnggotaCallback: updateAnggotaCallback),
                 arguments: {'anggota': anggota});
             break;
           case 'delete':

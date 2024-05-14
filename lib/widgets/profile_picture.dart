@@ -41,7 +41,7 @@ class _ProfilePictureState extends State<ProfilePicture> {
             child: Text('See Current Picture'),
             onPressed: () {
               Navigator.of(context).pop();
-              Get.to(() => ShowPhotoView(image: currentImage));
+              Get.to(() => PhotoView(image: currentImage));
             },
           ),
           CupertinoActionSheetAction(
