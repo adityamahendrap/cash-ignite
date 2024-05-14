@@ -81,7 +81,7 @@ class AuthController {
   Future<void> signInWithGoogle() async {
     try {
       EasyLoading.show();
-      final Login? result = await _authService.simulateGoogleOauth();
+      final Login? result = await _authService.emulateGoogleOauth();
 
       if (result != null) {
         _box.write('token', result.token);

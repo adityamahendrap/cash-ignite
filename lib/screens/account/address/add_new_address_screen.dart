@@ -6,6 +6,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:flutter_map_dragmarker/flutter_map_dragmarker.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:progmob_magical_destroyers/widgets/app_snack_bar.dart';
 
 /// Determine the current position of the device.
 ///
@@ -60,19 +61,25 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
   MapController _mapController = MapController();
   double _defaultZoom = 9.2;
 
-  @override
-  void initState() {
-    super.initState();
-    determinePosition().then((Position position) {
+  void initPosition() async {
+    try {
+      final Position position = await determinePosition();
       final newCoords = LatLng(position.latitude, position.longitude);
+
       clog.info('New coords: $newCoords');
       setState(() {
         _coords = newCoords;
         _mapController.move(newCoords, _defaultZoom);
       });
-    }).catchError((e) {
-      clog.error(e.toString());
-    });
+    } catch (e) {
+      AppSnackBar.error('Failed', 'Failed to get your current location');
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    initPosition();
   }
 
   @override
@@ -81,8 +88,8 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
       appBar: AppBarWithBackButton(title: 'Add New Address', centerTitle: true),
       body: FlutterMap(
         options: MapOptions(
-          initialCenter: _coords,
-          initialZoom: _defaultZoom,
+          center: _coords,
+          zoom: _defaultZoom,
         ),
         mapController: _mapController,
         children: [
