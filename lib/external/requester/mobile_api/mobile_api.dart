@@ -90,9 +90,9 @@ class MoblieApiRequester {
   Future<GetCurrentUser?> getCurrentUser() async {
     String url = '/user';
     Response response = await dio.get(url);
-
     GetCurrentUser data =
         _getDataFromResponse(response, GetCurrentUser.fromJson);
+
     return data;
   }
 
@@ -114,8 +114,7 @@ class MoblieApiRequester {
     Response response = await dio.get(
       url,
     );
-    GetAnggota data =
-        _getDataFromResponse(response, GetAnggota.fromJson);
+    GetAnggota data = _getDataFromResponse(response, GetAnggota.fromJson);
 
     return data;
   }
@@ -138,8 +137,7 @@ class MoblieApiRequester {
         'telepon': telepon,
       },
     );
-    AddAnggota data =
-        _getDataFromResponse(response, AddAnggota.fromJson);
+    AddAnggota data = _getDataFromResponse(response, AddAnggota.fromJson);
 
     return data;
   }
@@ -165,8 +163,7 @@ class MoblieApiRequester {
         'status': status,
       },
     );
-    UpdateAnggota data =
-        _getDataFromResponse(response, UpdateAnggota.fromJson);
+    UpdateAnggota data = _getDataFromResponse(response, UpdateAnggota.fromJson);
 
     return data;
   }
@@ -176,8 +173,7 @@ class MoblieApiRequester {
   }) async {
     String url = '/anggota/$id';
     Response response = await dio.delete(url);
-    DeleteAnggota data =
-        _getDataFromResponse(response, DeleteAnggota.fromJson);
+    DeleteAnggota data = _getDataFromResponse(response, DeleteAnggota.fromJson);
 
     return data;
   }

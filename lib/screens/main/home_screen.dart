@@ -17,6 +17,7 @@ import 'package:progmob_magical_destroyers/screens/savings_loan/add_anggota_scre
 import 'package:progmob_magical_destroyers/types/category_item_type.dart';
 import 'package:progmob_magical_destroyers/types/product_type.dart';
 import 'package:progmob_magical_destroyers/utils/helpless_util.dart';
+import 'package:progmob_magical_destroyers/widgets/anggota/anggota_list_tile_skeleton.dart';
 import 'package:progmob_magical_destroyers/widgets/anggota/anggota_list_view.dart';
 import 'package:progmob_magical_destroyers/widgets/app_snack_bar.dart';
 import 'package:progmob_magical_destroyers/widgets/data/empty_data.dart';
@@ -342,10 +343,12 @@ class _HomeScreenState extends State<HomeScreen> {
               return ErrorFetchingData();
             }
 
-            return Container(
-              padding: EdgeInsets.only(top: 10),
-              child: const CircularProgressIndicator(),
-            );
+            // return Container(
+            //   padding: EdgeInsets.only(top: 10),
+            //   child: const CircularProgressIndicator(),
+            // );
+
+            return AnggotaListTileSkeleton();
           },
         ),
       ],
