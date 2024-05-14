@@ -1,6 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:color_log/color_log.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:github_sign_in/github_sign_in.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class FirebaseService {
@@ -67,5 +70,23 @@ class FirebaseService {
     );
 
     return await FirebaseAuth.instance.signInWithCredential(credential);
+  }
+
+  static Future<UserCredential> signInWithGitHub(BuildContext context) async {
+    final GitHubSignIn gitHubSignIn = GitHubSignIn(
+      clientId: "97082719470317a25684",
+      clientSecret: "83e9938608ddf74f678aecb210d95e4d61fb38a2",
+      redirectUrl: 'https://waterloo-5ec9e.firebaseapp.com/__/auth/handler',
+    );
+    final result = await gitHubSignIn.signIn(context);
+
+    final githubAuthCredential = GithubAuthProvider.credential(result.token!);
+    clog.info('github credential: ${githubAuthCredential}');
+
+    // TODO: separate UI things from service layer
+    EasyLoading.show();
+
+    return await FirebaseAuth.instance
+        .signInWithCredential(githubAuthCredential);
   }
 }

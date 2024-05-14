@@ -53,7 +53,7 @@ class GetStartedScreen extends StatelessWidget {
                   OauthButton(
                     iconPath: "assets/github_icon.png",
                     text: "Continue with GitHub",
-                    onPressed: () => _authController.signInWithGithub(),
+                    onPressed: () => _authController.signInWithGithub(context),
                   ),
                   SizedBox(height: 50),
                   FullWidthButton(

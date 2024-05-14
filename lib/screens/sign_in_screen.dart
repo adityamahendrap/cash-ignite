@@ -204,7 +204,7 @@ class _SignInScreenState extends State<SignInScreen> {
         SizedBox(width: 20),
         IconButtonCircle(
           icon: Image.asset('assets/github_icon.png'),
-          onPressed: () => _authController.signInWithGithub(),
+          onPressed: () => _authController.signInWithGithub(context),
         ),
       ],
     );

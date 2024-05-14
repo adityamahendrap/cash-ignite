@@ -1,5 +1,6 @@
 import 'package:color_log/color_log.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -97,11 +98,27 @@ class AuthController {
     }
   }
 
-  signInWithFacebook() {
-    AppSnackBar.error('Error', 'Unimplemented feature');
+  Future<void> signInWithGithub(BuildContext context) async {
+    try {
+      final Login? result = await _authService.emulateGithubOauth(context);
+
+      if (result != null) {
+        _box.write('token', result.token);
+        _cacheUserData(result.user);
+        Get.offAll(() => MainScreen());
+      } else
+        throw Exception();
+    } on DioException catch (e) {
+      HelplessUtil.handleApiError(e);
+    } catch (e) {
+      print(e);
+      AppSnackBar.error('Error', 'Sign in with Github failed');
+    } finally {
+      EasyLoading.dismiss();
+    }
   }
 
-  signInWithGithub() {
+  signInWithFacebook() {
     AppSnackBar.error('Error', 'Unimplemented feature');
   }
 
