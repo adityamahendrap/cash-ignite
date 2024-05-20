@@ -1,76 +1,73 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
 import 'package:progmob_magical_destroyers/screens/main/account_screen.dart';
-import 'package:progmob_magical_destroyers/screens/main/cart_screen.dart';
+import 'package:progmob_magical_destroyers/screens/main/anggota_screen.dart';
 import 'package:progmob_magical_destroyers/screens/main/home_screen.dart';
-import 'package:progmob_magical_destroyers/screens/main/order_screen.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({Key? key}) : super(key: key);
+  const MainScreen({super.key});
 
   @override
   State<MainScreen> createState() => _MainScreenState();
 }
 
 class _MainScreenState extends State<MainScreen> {
-  Color mainColor = ColorPlanet.primary;
-  final PersistentTabController _controller =
-      PersistentTabController(initialIndex: 0);
+  int _selectedIndex = 0;
+  static late List<Widget> _widgetOptions;
+
+  void changeBottomBarIndex(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _widgetOptions = <Widget>[
+      HomeScreen(changeBottomBarIndexCallback: changeBottomBarIndex),
+      AnggotaScreen(),
+      AccountScreen(),
+    ];
+  }
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: PersistentTabView(
-        context,
-        controller: _controller,
-        screens: [
-          HomeScreen(),
-          AccountScreen(),
-        ],
-        items: _navBarsItems(),
-        navBarStyle: NavBarStyle.style6,
-        confineInSafeArea: true,
-        // margin: EdgeInsets.only(bottom: 10.0),
-        backgroundColor: Colors.white, // Default is Colors.white.
-        handleAndroidBackButtonPress: true, // Default is true.
-        resizeToAvoidBottomInset:
-            true, // This needs to be true if you want to move up the screen when keyboard appears. Default is true.
-        stateManagement: true, // Default is true.
-        hideNavigationBarWhenKeyboardShows:
-            true, // Recommended to set 'resizeToAvoidBottomInset' as true while using this argument. Default is true.
-        decoration: NavBarDecoration(
-          borderRadius: BorderRadius.circular(10.0),
-          colorBehindNavBar: Colors.white,
+      body: Center(
+        child: _widgetOptions.elementAt(_selectedIndex),
+      ),
+      bottomNavigationBar: Theme(
+        data: Theme.of(context).copyWith(
+          // splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
         ),
-        popAllScreensOnTapOfSelectedTab: true,
-        popActionScreens: PopActionScreensType.all,
-        itemAnimationProperties: ItemAnimationProperties(
-          // Navigation Bar's items animation properties.
-          duration: Duration(milliseconds: 200),
-          curve: Curves.ease,
+        child: BottomNavigationBar(
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home_outlined),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.group_outlined),
+              label: 'Anggota',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person_outline),
+              label: 'Account',
+            ),
+          ],
+          currentIndex: _selectedIndex,
+          selectedItemColor: ColorPlanet.primary,
+          onTap: _onItemTapped,
         ),
       ),
     );
-  }
-
-  List<PersistentBottomNavBarItem> _navBarsItems() {
-    return [
-      PersistentBottomNavBarItem(
-        icon: Icon(Icons.home),
-        inactiveIcon: Icon(Icons.home_outlined),
-        title: ("Home"),
-        activeColorPrimary: mainColor,
-        inactiveColorPrimary: CupertinoColors.systemGrey,
-      ),
-      PersistentBottomNavBarItem(
-        icon: Icon(Icons.person),
-        inactiveIcon: Icon(Icons.person_outline),
-        title: ("Account"),
-        activeColorPrimary: mainColor,
-        inactiveColorPrimary: CupertinoColors.systemGrey,
-      ),
-    ];
   }
 }

@@ -20,6 +20,7 @@ import 'package:progmob_magical_destroyers/widgets/anggota/anggota_list_view.dar
 import 'package:progmob_magical_destroyers/widgets/app_snack_bar.dart';
 import 'package:progmob_magical_destroyers/widgets/data/empty_data.dart';
 import 'package:progmob_magical_destroyers/widgets/data/error_fetching_data.dart';
+import 'package:progmob_magical_destroyers/widgets/floating_action_button_add.dart';
 import 'package:progmob_magical_destroyers/widgets/notification_button.dart';
 import 'package:progmob_magical_destroyers/widgets/photo_view.dart';
 import 'package:progmob_magical_destroyers/widgets/carousel_slider_hero.dart';
@@ -28,7 +29,8 @@ import 'package:progmob_magical_destroyers/widgets/wrapper/dialog_wrapper.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
-  HomeScreen({super.key});
+  final Function(int)? changeBottomBarIndexCallback;
+  HomeScreen({super.key, this.changeBottomBarIndexCallback});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -145,15 +147,10 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: FloatingActionButtonAdd(
         onPressed: () => Get.to(
           () => AddAnggotaScreen(addAnggotaCallback: _addAnggota),
         ),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(100),
-        ),
-        backgroundColor: ColorPlanet.primary,
-        child: Icon(Icons.add),
       ),
       body: SafeArea(
         child: CustomScrollView(
@@ -185,7 +182,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             SliverPadding(
-              padding: EdgeInsets.only(top: 50),
+              padding: EdgeInsets.only(top: 20),
               sliver: SliverToBoxAdapter(child: Container()),
             ),
           ],
@@ -263,7 +260,7 @@ class _HomeScreenState extends State<HomeScreen> {
             },
             decoration: InputDecoration(
               filled: true,
-              hintText: 'Search saver or loaner skibidi...',
+              hintText: 'Search for skibidi...',
               hintStyle: TextStyle(color: Colors.grey),
               border: InputBorder.none,
               fillColor: Colors.grey.shade100,
@@ -343,7 +340,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
           TextButton(
-            onPressed: () {},
+            onPressed: () => widget.changeBottomBarIndexCallback!(1),
             style: ButtonStyle(
               padding: MaterialStateProperty.all(
                 EdgeInsets.zero,
@@ -382,6 +379,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     items: items,
                     updateAnggotaCallback: _updateAnggota,
                     deleteAnggotaCallback: _deleteAnggota,
+                    limitItems: true,
                   ),
                   items.length >= 3
                       ? Container(
@@ -407,7 +405,7 @@ class _HomeScreenState extends State<HomeScreen> {
               return ErrorFetchingData();
             }
 
-            return AnggotaListTileSkeleton();
+            return AnggotaListTileSkeleton(itemCount: 3);
           },
         ),
       ],

@@ -6,12 +6,14 @@ class AnggotaListView extends StatelessWidget {
   final List<Anggota> items;
   final Function(Anggota) updateAnggotaCallback;
   final Function(Anggota) deleteAnggotaCallback;
+  final bool? limitItems;
 
   const AnggotaListView({
     super.key,
     required this.items,
     required this.updateAnggotaCallback,
     required this.deleteAnggotaCallback,
+    this.limitItems = false,
   });
 
   @override
@@ -26,7 +28,9 @@ class AnggotaListView extends StatelessWidget {
             endIndent: 20,
           ),
           shrinkWrap: true,
-          itemCount: items.length > 3 ? 3 : items.length,
+          itemCount: limitItems!
+              ? (items.length > 3 ? 3 : items.length)
+              : items.length,
           physics: NeverScrollableScrollPhysics(),
           itemBuilder: (context, index) {
             final Anggota item = items[index];
