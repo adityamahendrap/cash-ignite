@@ -3,7 +3,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
@@ -11,12 +10,10 @@ import 'package:progmob_magical_destroyers/configs/constants/app_config.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/mobile_api.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/base/anggota_type.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/base/user_type.dart';
-import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/get_anggota_list_type.dart';
+import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/anggota_list_type.dart';
 import 'package:progmob_magical_destroyers/providers/profile_provider.dart';
 import 'package:progmob_magical_destroyers/screens/main/search_screen.dart';
 import 'package:progmob_magical_destroyers/screens/savings_loan/add_anggota_screen.dart';
-import 'package:progmob_magical_destroyers/types/category_item_type.dart';
-import 'package:progmob_magical_destroyers/types/product_type.dart';
 import 'package:progmob_magical_destroyers/utils/helpless_util.dart';
 import 'package:progmob_magical_destroyers/widgets/anggota/anggota_list_tile_skeleton.dart';
 import 'package:progmob_magical_destroyers/widgets/anggota/anggota_list_view.dart';
@@ -25,7 +22,6 @@ import 'package:progmob_magical_destroyers/widgets/data/empty_data.dart';
 import 'package:progmob_magical_destroyers/widgets/data/error_fetching_data.dart';
 import 'package:progmob_magical_destroyers/widgets/notification_button.dart';
 import 'package:progmob_magical_destroyers/widgets/photo_view.dart';
-import 'package:progmob_magical_destroyers/widgets/product_card.dart';
 import 'package:progmob_magical_destroyers/widgets/carousel_slider_hero.dart';
 import 'package:progmob_magical_destroyers/widgets/section_header.dart';
 import 'package:progmob_magical_destroyers/widgets/wrapper/dialog_wrapper.dart';
@@ -43,7 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final MoblieApiRequester _apiRequester = MoblieApiRequester();
 
   late User _user;
-  late Future<GetAnggotaList?> _anggotaList;
+  late Future<AnggotaList?> _anggotaList;
 
   Future<void> _getAnggotaList() async {
     try {
@@ -73,7 +69,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<void> _updateAnggota(Anggota anggota) async {
     try {
       await _apiRequester.updateAnggota(
-        id: anggota.id,
+        id: anggota.id!,
         nomorInduk: anggota.nomorInduk,
         nama: anggota.nama,
         tglLahir: anggota.tglLahir,
@@ -94,6 +90,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     EasyLoading.show();
     try {
+      clog.debug(anggota.id.toString());
       await _apiRequester.deleteAnggota(id: anggota.id);
       await _getAnggotaList();
       setState(() {}); // Rebuild the widget tree to reflect the updated list

@@ -21,14 +21,28 @@ class Anggota {
 
   factory Anggota.fromJson(Map<String, dynamic> json) {
     return Anggota(
-      id: json['id'],
-      nomorInduk: json['nomor_induk'],
-      nama: json['nama'],
-      alamat: json['alamat'],
-      tglLahir: json['tgl_lahir'],
-      telepon: json['telepon'],
+      id: json['id'] ?? 0,
+      nomorInduk: json['nomor_induk'] ?? 0,
+      nama: json['nama'] ?? '',
+      alamat: json['alamat'] ?? '',
+      tglLahir: json['tgl_lahir'] ?? '',
+      telepon: json['telepon'] ?? '',
       imageUrl: json['image_url'],
-      statusAktif: json['status_aktif'] == 1 ? true : false,
+      statusAktif:
+          json['status_aktif'] == null ? null : json['status_aktif'] == 1,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['nomor_induk'] = this.nomorInduk;
+    data['nama'] = this.nama;
+    data['alamat'] = this.alamat;
+    data['tgl_lahir'] = this.tglLahir;
+    data['telepon'] = this.telepon;
+    data['image_url'] = this.imageUrl;
+    data['status_aktif'] = this.statusAktif;
+    return data;
   }
 }

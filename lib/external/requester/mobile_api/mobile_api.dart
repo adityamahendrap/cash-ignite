@@ -1,14 +1,19 @@
 import 'package:color_log/color_log.dart';
 import 'package:dio/dio.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/add_anggota_type.dart';
-import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/delete_anggota_type.dart';
-import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/update_anggota_type.dart';
-import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/get_anggota_ltype.dart';
-import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/get_anggota_list_type.dart';
-import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/get_current_user_type.dart';
+import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/added_anggota_type.dart';
+import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/anggota_detail_type.dart';
+import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/anggota_list_type.dart';
+import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/current_user_type.dart';
+import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/deleted_anggota_type.dart';
+import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/inserted_transaksi_tabungan_type.dart'
+    as ittt;
+import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/list_tabungan_anggota_type.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/login_type.dart';
+import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/master_jenis_transaksi_type.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/register_type.dart';
+import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/saldo_anggota_type.dart';
+import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/updated_anggota_type.dart';
 import 'package:progmob_magical_destroyers/utils/helpless_util.dart';
 
 class MoblieApiRequester {
@@ -58,9 +63,7 @@ class MoblieApiRequester {
         'password': password,
       },
     );
-    Login data = _getDataFromResponse(response, Login.fromJson);
-
-    return data;
+    return _getDataFromResponse(response, Login.fromJson);
   }
 
   Future<Register?> register({
@@ -77,9 +80,7 @@ class MoblieApiRequester {
         'password': password,
       },
     );
-    Register data = _getDataFromResponse(response, Register.fromJson);
-
-    return data;
+    return _getDataFromResponse(response, Register.fromJson);
   }
 
   Future<void> logout() async {
@@ -87,39 +88,31 @@ class MoblieApiRequester {
     await dio.get(url);
   }
 
-  Future<GetCurrentUser?> getCurrentUser() async {
+  Future<CurrentUser?> getCurrentUser() async {
     String url = '/user';
     Response response = await dio.get(url);
-    GetCurrentUser data =
-        _getDataFromResponse(response, GetCurrentUser.fromJson);
-
-    return data;
+    return _getDataFromResponse(response, CurrentUser.fromJson);
   }
 
-  Future<GetAnggotaList?> getAnggotaList() async {
+  Future<AnggotaList?> getAnggotaList() async {
     String url = '/anggota';
     Response response = await dio.get(
       url,
     );
-    GetAnggotaList data =
-        _getDataFromResponse(response, GetAnggotaList.fromJson);
-
-    return data;
+    return _getDataFromResponse(response, AnggotaList.fromJson);
   }
 
-  Future<GetAnggota?> getAnggota({
+  Future<AnggotaDetail?> getAnggotaDetail({
     required int id,
   }) async {
     String url = '/anngota/$id';
     Response response = await dio.get(
       url,
     );
-    GetAnggota data = _getDataFromResponse(response, GetAnggota.fromJson);
-
-    return data;
+    return _getDataFromResponse(response, AnggotaDetail.fromJson);
   }
 
-  Future<AddAnggota?> addAnggota({
+  Future<AddedAnggota?> addAnggota({
     required int nomorInduk,
     required String nama,
     required String alamat,
@@ -137,12 +130,10 @@ class MoblieApiRequester {
         'telepon': telepon,
       },
     );
-    AddAnggota data = _getDataFromResponse(response, AddAnggota.fromJson);
-
-    return data;
+    return _getDataFromResponse(response, AddedAnggota.fromJson);
   }
 
-  Future<UpdateAnggota?> updateAnggota({
+  Future<UpdatedAnggota?> updateAnggota({
     required int id,
     required int nomorInduk,
     required String nama,
@@ -163,18 +154,61 @@ class MoblieApiRequester {
         'status': status,
       },
     );
-    UpdateAnggota data = _getDataFromResponse(response, UpdateAnggota.fromJson);
-
-    return data;
+    return _getDataFromResponse(response, UpdatedAnggota.fromJson);
   }
 
-  Future<DeleteAnggota?> deleteAnggota({
+  Future<DeletedAnggota?> deleteAnggota({
     required int id,
   }) async {
     String url = '/anggota/$id';
     Response response = await dio.delete(url);
-    DeleteAnggota data = _getDataFromResponse(response, DeleteAnggota.fromJson);
+    return _getDataFromResponse(response, DeletedAnggota.fromJson);
+  }
 
-    return data;
+  Future<MasterJenisTransaksi?> getMasterJenisTransaksi() async {
+    String url = '/jenistransaksi';
+    Response response = await dio.get(url);
+    return _getDataFromResponse(response, MasterJenisTransaksi.fromJson);
+  }
+
+  Future<ListTabunganAnggota> getListAllTabunganByAnggota({
+    required int anggotaId,
+  }) async {
+    String url = '/tabungan/$anggotaId';
+    Response response = await dio.get(url);
+    return _getDataFromResponse(response, ListTabunganAnggota.fromJson);
+  }
+
+  Future<ittt.InsertedTransaksiTabungan> insertTransaksiTabunganByAnggotaId({
+    required String anggotaId,
+    required int trxId,
+    required int trxNominal,
+  }) async {
+    String url = '/tabungan';
+    Response response = await dio.post(
+      url,
+      data: {
+        'anggota_id': anggotaId,
+        'trx_id': trxId,
+        'trx_nominal': trxNominal,
+      },
+    );
+
+    Map<String, dynamic> dataJson = response.data['data'];
+    Map<String, dynamic> reqJson = response.data['req'];
+
+    clog.info('Response Data:');
+    HelplessUtil.printPrettyJson(dataJson);
+
+    return ittt.InsertedTransaksiTabungan(
+      data: ittt.Data.fromJson(dataJson),
+      req: ittt.Req.fromJson(reqJson),
+    );
+  }
+
+  Future<SaldoAnggota> getSaldoByAnggotaId({required String anggotaId}) async {
+    String url = '/tabungan/saldo/$anggotaId';
+    Response response = await dio.get(url);
+    return _getDataFromResponse(response, SaldoAnggota.fromJson);
   }
 }
