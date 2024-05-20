@@ -90,7 +90,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
     EasyLoading.show();
     try {
-      clog.debug(anggota.id.toString());
       await _apiRequester.deleteAnggota(id: anggota.id);
       await _getAnggotaList();
       setState(() {}); // Rebuild the widget tree to reflect the updated list
@@ -377,10 +376,31 @@ class _HomeScreenState extends State<HomeScreen> {
                 return EmptyData();
               }
 
-              return AnggotaListView(
-                items: items,
-                updateAnggotaCallback: _updateAnggota,
-                deleteAnggotaCallback: _deleteAnggota,
+              return Column(
+                children: [
+                  AnggotaListView(
+                    items: items,
+                    updateAnggotaCallback: _updateAnggota,
+                    deleteAnggotaCallback: _deleteAnggota,
+                  ),
+                  items.length >= 3
+                      ? Container(
+                          padding: EdgeInsets.symmetric(vertical: 10),
+                          margin: EdgeInsets.only(right: 20, left: 20, top: 10),
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: ColorPlanet.secondary,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Text(
+                            "You're viewing the top 3 SLs",
+                            style: TextStyle(
+                                color: ColorPlanet.primary, fontSize: 15),
+                            textAlign: TextAlign.center,
+                          ),
+                        )
+                      : Container(),
+                ],
               );
             } else if (snapshot.hasError) {
               clog.error('snaphot err: ${snapshot.error.toString()}');
