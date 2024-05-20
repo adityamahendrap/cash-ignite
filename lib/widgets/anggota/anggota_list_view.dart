@@ -23,6 +23,7 @@ class AnggotaListView extends StatelessWidget {
       children: [
         ListView.separated(
           separatorBuilder: (context, index) => Divider(
+            height: 0,
             color: Colors.grey.shade300,
             indent: 20,
             endIndent: 20,

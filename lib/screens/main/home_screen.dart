@@ -300,7 +300,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Padding _anggotaListViewHeader() {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20),
+      padding: EdgeInsets.only(bottom: 5, left: 20, right: 20),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

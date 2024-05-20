@@ -50,7 +50,7 @@ class AnggotaListTile extends StatelessWidget {
                       '${HelplessUtil.calculateAge(DateTime.parse(item.tglLahir))} years'),
               SizedBox(width: 5),
               Text("| "),
-              Icon(Icons.phone_outlined, color: ColorPlanet.primary, size: 24),
+              Icon(Icons.phone_outlined, color: ColorPlanet.primary, size: 20),
               SizedBox(width: 5),
               Text(
                 '${item.telepon}',
