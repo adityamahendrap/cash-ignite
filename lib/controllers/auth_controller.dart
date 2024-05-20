@@ -19,8 +19,24 @@ class AuthController {
   final GetStorage _box = GetStorage();
   final MoblieApiRequester _mobileApi = MoblieApiRequester();
 
-  void _cacheUserData(User user) {
+  void _saveToken(String token) {
+    _box.write('token', token);
+  }
+
+  void _saveUser(User user) {
     _box.write('user', user.toJson());
+  }
+
+  void _addAccountToRemember(String email, String password) {
+    List<Map<String, dynamic>> rememberedAccounts =
+        _box.read('rememberedAccounts') ?? [];
+
+    bool alreadyRemembered =
+        rememberedAccounts.any((account) => account['email'] == email);
+    if (alreadyRemembered) return;
+
+    rememberedAccounts.add({'email': email, 'password': password});
+    _box.write('rememberedAccounts', rememberedAccounts);
   }
 
   Future<void> signUp({
@@ -55,6 +71,7 @@ class AuthController {
   Future<void> signIn({
     required String email,
     required String password,
+    required bool rememberMe,
   }) async {
     // TODO: check if email not registered using oauth
 
@@ -65,8 +82,9 @@ class AuthController {
         password: password,
       );
 
-      _box.write('token', data!.token);
-      _cacheUserData(data.user);
+      _saveToken(data!.token);
+      _saveUser(data.user);
+      if (rememberMe) _addAccountToRemember(email, password);
 
       clog.info('Sign in success!');
     } on DioException catch (e) {
@@ -86,7 +104,7 @@ class AuthController {
 
       if (result != null) {
         _box.write('token', result.token);
-        _cacheUserData(result.user);
+        _saveUser(result.user);
         Get.offAll(() => MainScreen());
       } else
         throw Exception();
@@ -104,7 +122,7 @@ class AuthController {
 
       if (result != null) {
         _box.write('token', result.token);
-        _cacheUserData(result.user);
+        _saveUser(result.user);
         Get.offAll(() => MainScreen());
       } else
         throw Exception();

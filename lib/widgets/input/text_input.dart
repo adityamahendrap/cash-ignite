@@ -10,6 +10,7 @@ class TextInput extends StatelessWidget {
   final bool? readOnly;
   final Function? onTap;
   final TextInputType? keyboardType;
+  final Iterable<String>? autofillHints;
 
   TextInput({
     super.key,
@@ -21,6 +22,7 @@ class TextInput extends StatelessWidget {
     this.readOnly,
     this.onTap,
     this.keyboardType = TextInputType.text,
+    this.autofillHints,
   });
 
   @override
@@ -37,6 +39,7 @@ class TextInput extends StatelessWidget {
         TextFormField(
           onTap: () => this.onTap != null ? this.onTap!() : null,
           controller: this.controller,
+          autofillHints: this.autofillHints,
           autovalidateMode: AutovalidateMode.onUserInteraction,
           validator: (value) =>
               this.validator != null ? this.validator!(value) : null,

@@ -8,6 +8,7 @@ class PasswordInput extends StatelessWidget {
   final String hintText;
   final bool isObscure;
   final Function toggleObscure;
+  final Iterable<String>? autofillHints;
 
   PasswordInput({
     super.key,
@@ -17,6 +18,7 @@ class PasswordInput extends StatelessWidget {
     required this.hintText,
     required this.isObscure,
     required this.toggleObscure,
+    this.autofillHints,
   });
 
   @override
@@ -33,6 +35,7 @@ class PasswordInput extends StatelessWidget {
         TextFormField(
           controller: this.controller,
           autovalidateMode: AutovalidateMode.onUserInteraction,
+          autofillHints: this.autofillHints,
           validator: (value) =>
               this.validator == null ? null : this.validator!(value),
           textAlignVertical: TextAlignVertical.center,

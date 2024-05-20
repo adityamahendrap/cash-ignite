@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
 import 'package:progmob_magical_destroyers/controllers/auth_controller.dart';
 import 'package:progmob_magical_destroyers/screens/forgot_password_screen.dart';
 import 'package:progmob_magical_destroyers/screens/sign_up_screen.dart';
+import 'package:progmob_magical_destroyers/types/remembered_account.dart';
 import 'package:progmob_magical_destroyers/widgets/app_bar_with_back_button.dart';
 import 'package:progmob_magical_destroyers/widgets/app_snack_bar.dart';
 import 'package:progmob_magical_destroyers/widgets/full_width_button_bottom_bar.dart';
@@ -21,6 +23,8 @@ class SignInScreen extends StatefulWidget {
 }
 
 class _SignInScreenState extends State<SignInScreen> {
+  late List<RememberedAccount> rememberedAccounts;
+
   final _signInFormKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -29,6 +33,15 @@ class _SignInScreenState extends State<SignInScreen> {
   bool _isRememberMe = false;
 
   AuthController _authController = AuthController();
+
+  void _getRememberedAccounts() {
+    final List<dynamic> rememberedAccountsJson =
+        GetStorage().read('rememberedAccounts') ?? [];
+
+    rememberedAccounts = rememberedAccountsJson
+        .map((e) => RememberedAccount.fromJson(e as Map<String, dynamic>))
+        .toList();
+  }
 
   void _togglePasswordVisibility() {
     setState(() {
@@ -54,9 +67,9 @@ class _SignInScreenState extends State<SignInScreen> {
     }
 
     await _authController.signIn(
-      email: _emailController.text,
-      password: _passwordController.text,
-    );
+        email: _emailController.text,
+        password: _passwordController.text,
+        rememberMe: _isRememberMe);
   }
 
   String? _checkEmail(String? value) {
@@ -79,6 +92,7 @@ class _SignInScreenState extends State<SignInScreen> {
   @override
   void initState() {
     super.initState();
+    _getRememberedAccounts();
   }
 
   @override
@@ -108,26 +122,30 @@ class _SignInScreenState extends State<SignInScreen> {
                 SizedBox(height: 25),
                 Form(
                   key: _signInFormKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      TextInput(
-                        title: 'Email',
-                        hintText: 'Email',
-                        prefixIcon: Icons.email_outlined,
-                        controller: _emailController,
-                        validator: _checkEmail,
-                      ),
-                      SizedBox(height: 20),
-                      PasswordInput(
-                        title: 'Password',
-                        hintText: 'Password',
-                        controller: _passwordController,
-                        validator: _checkPassword,
-                        isObscure: _isPasswordHidden,
-                        toggleObscure: _togglePasswordVisibility,
-                      )
-                    ],
+                  child: AutofillGroup(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        TextInput(
+                          title: 'Email',
+                          hintText: 'Email',
+                          prefixIcon: Icons.email_outlined,
+                          controller: _emailController,
+                          validator: _checkEmail,
+                          autofillHints: [AutofillHints.email],
+                        ),
+                        SizedBox(height: 20),
+                        PasswordInput(
+                          title: 'Password',
+                          hintText: 'Password',
+                          controller: _passwordController,
+                          validator: _checkPassword,
+                          isObscure: _isPasswordHidden,
+                          toggleObscure: _togglePasswordVisibility,
+                          autofillHints: [AutofillHints.password],
+                        )
+                      ],
+                    ),
                   ),
                 ),
                 SizedBox(height: 20),
