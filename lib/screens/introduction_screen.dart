@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
 import 'package:introduction_screen/introduction_screen.dart' as pub_dev_introduction_screen;
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
+import 'package:progmob_magical_destroyers/configs/constants/app_config.dart';
 import 'package:progmob_magical_destroyers/screens/get_started_screen.dart';
 
 class IntroductionScreen extends StatelessWidget {
@@ -26,21 +27,21 @@ class IntroductionScreen extends StatelessWidget {
             rawPages: [
               _page(
                 imagePath: "assets/introduction_image_3.jpeg",
-                title: "Welcome to APP_NAME!",
+                title: "Welcome to ${AppConfig.APP_NAME}!",
                 description:
-                    "APP_NAME is here. With cutting-edge technology and user-friendly design, we're excited to embark on this journey with you.",
+                    "${AppConfig.APP_NAME} is here. With cutting-edge technology and user-friendly design, we're excited to embark on this journey with you.",
               ),
               _page(
                 imagePath: "assets/introduction_image_2.jpeg",
                 title: "Explore Exciting Features",
                 description:
-                    "Discover a range of features designed to simplify your life. From FEATURE_1 to FEATURE_2, APP_NAME has everything you need to APP_BENEFIT.",
+                    "Discover a range of features designed to simplify your life. From FEATURE_1 to FEATURE_2, ${AppConfig.APP_NAME} has everything you need to APP_BENEFIT.",
               ),
               _page(
                 imagePath: "assets/introduction_image_1.jpeg",
                 title: "Let's Get Started!",
                 description:
-                    "Ready to experience the future of APP_FOCUS? Tap the button below to begin your journey with APP_NAME. Welcome aboard!",
+                    "Ready to experience the future of APP_FOCUS? Tap the button below to begin your journey with ${AppConfig.APP_NAME}. Welcome aboard!",
               )
             ],
             onDone: () => _onDownButtonTap(),
@@ -159,7 +160,7 @@ class IntroductionScreen extends StatelessWidget {
   //   return [
   //     PageViewModel(
   //       titleWidget: Text(
-  //         "Welcome to APP_NAME!",
+  //         "Welcome to ${AppConfig.APP_NAME}!",
   //         style: GoogleFonts.poppins(
   //           fontWeight: FontWeight.w600,
   //           fontSize: 28,
@@ -167,7 +168,7 @@ class IntroductionScreen extends StatelessWidget {
   //         textAlign: TextAlign.center,
   //       ),
   //       bodyWidget: Text(
-  //         "APP_NAME is here to revolutionize the way you APP_PURPOSE. With cutting-edge technology and user-friendly design, we're excited to embark on this journey with you.",
+  //         "${AppConfig.APP_NAME} is here to revolutionize the way you APP_PURPOSE. With cutting-edge technology and user-friendly design, we're excited to embark on this journey with you.",
   //         style: GoogleFonts.poppins(fontSize: 14),
   //         textAlign: TextAlign.center,
   //       ),
@@ -189,7 +190,7 @@ class IntroductionScreen extends StatelessWidget {
   //         textAlign: TextAlign.center,
   //       ),
   //       bodyWidget: Text(
-  //         "Discover a range of features designed to simplify your life. From FEATURE_1 to FEATURE_2, APP_NAME has everything you need to APP_BENEFIT.",
+  //         "Discover a range of features designed to simplify your life. From FEATURE_1 to FEATURE_2, ${AppConfig.APP_NAME} has everything you need to APP_BENEFIT.",
   //         style: GoogleFonts.poppins(fontSize: 14),
   //         textAlign: TextAlign.center,
   //       ),
@@ -211,7 +212,7 @@ class IntroductionScreen extends StatelessWidget {
   //         textAlign: TextAlign.center,
   //       ),
   //       bodyWidget: Text(
-  //         "Ready to experience the future of APP_FOCUS? Tap the button below to begin your journey with APP_NAME. Welcome aboard!",
+  //         "Ready to experience the future of APP_FOCUS? Tap the button below to begin your journey with ${AppConfig.APP_NAME}. Welcome aboard!",
   //         style: GoogleFonts.poppins(fontSize: 14),
   //         textAlign: TextAlign.center,
   //       ),

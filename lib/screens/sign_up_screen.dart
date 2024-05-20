@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
+import 'package:progmob_magical_destroyers/configs/constants/app_config.dart';
 import 'package:progmob_magical_destroyers/controllers/auth_controller.dart';
 import 'package:progmob_magical_destroyers/screens/sign_in_screen.dart';
 import 'package:progmob_magical_destroyers/widgets/app_bar_with_back_button.dart';
@@ -134,7 +135,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                TextTitle(title: "Join APP_NAME Today!✨"),
+                TextTitle(title: "Join ${AppConfig.APP_NAME} Today!✨"),
                 SizedBox(height: 10),
                 Text(
                     "Create an account to lorem ipsum dolor sit amet, consectetur adipiscing elit."),
@@ -266,7 +267,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         SizedBox(width: 10),
         GestureDetector(
           onTap: () => _toggleAgree(),
-          child: Text("I agree to APP_NAME "),
+          child: Text("I agree to ${AppConfig.APP_NAME} "),
         ),
         TextButton(
           onPressed: () => bottomSheetFitContentWrapper(

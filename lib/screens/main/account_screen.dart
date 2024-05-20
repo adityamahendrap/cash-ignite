@@ -41,11 +41,11 @@ class _AccountScreenState extends State<AccountScreen> {
       icon: Icons.person_outline,
       screen: EditProfileScreen(),
     ),
-    AccountItem(
-      text: 'Address',
-      icon: Icons.location_on_outlined,
-      screen: AddressScreen(),
-    ),
+    // AccountItem(
+    //   text: 'Address',
+    //   icon: Icons.location_on_outlined,
+    //   screen: AddressScreen(),
+    // ),
     AccountItem(
       text: 'Notification',
       icon: Icons.notifications_none_outlined,

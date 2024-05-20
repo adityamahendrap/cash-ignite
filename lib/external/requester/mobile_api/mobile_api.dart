@@ -3,7 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/add_anggota_type.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/delete_anggota_type.dart';
-import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/edit_anggota_type.dart';
+import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/update_anggota_type.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/get_anggota_ltype.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/get_anggota_list_type.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/get_current_user_type.dart';
