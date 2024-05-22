@@ -4,11 +4,13 @@ import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
 class SectionHeader extends StatelessWidget {
   final String title;
   final Function()? onSeeAll;
+  final bool showButton;
 
   const SectionHeader({
     super.key,
     required this.title,
     this.onSeeAll,
+    this.showButton = true,
   });
 
   @override
@@ -20,7 +22,7 @@ class SectionHeader extends StatelessWidget {
         children: [
           Text(title,
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-          _seeAllButton()
+          showButton ? _seeAllButton() : Container(),
         ],
       ),
     );

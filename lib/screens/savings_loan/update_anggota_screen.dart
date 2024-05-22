@@ -141,7 +141,7 @@ class UpdateAnggotaScreenState extends State<UpdateAnggotaScreen> {
 
   @override
   Widget build(BuildContext context) {
-    _birthdayController.text = _selectedBirthday ?? '----/--/--';
+    _birthdayController.text = _selectedBirthday ?? 'yyyy-MM-dd';
 
     return Scaffold(
       resizeToAvoidBottomInset: false,

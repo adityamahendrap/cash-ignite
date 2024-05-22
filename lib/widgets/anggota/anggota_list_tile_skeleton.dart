@@ -17,7 +17,7 @@ class AnggotaListTileSkeleton extends StatelessWidget {
           enabled: true,
           child: ListTile(
             leading: Icon(Icons.account_circle, size: 40),
-            contentPadding: EdgeInsets.symmetric(horizontal: 20),
+            contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             title: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -33,16 +33,6 @@ class AnggotaListTileSkeleton extends StatelessWidget {
                   style: TextStyle(fontSize: 14),
                 ),
                 SizedBox(height: 5),
-                Row(
-                  children: [
-                    Text(
-                      'Item number 1 as location long',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(fontSize: 14),
-                    ),
-                  ],
-                ),
               ],
             ),
             style: ListTileStyle.list,

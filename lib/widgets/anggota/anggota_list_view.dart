@@ -21,13 +21,7 @@ class AnggotaListView extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        ListView.separated(
-          separatorBuilder: (context, index) => Divider(
-            height: 0,
-            color: Colors.grey.shade300,
-            indent: 20,
-            endIndent: 20,
-          ),
+        ListView.builder(
           shrinkWrap: true,
           itemCount: limitItems!
               ? (items.length > 3 ? 3 : items.length)

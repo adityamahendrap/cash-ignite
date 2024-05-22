@@ -56,7 +56,7 @@ class _MainScreenState extends State<MainScreen> {
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.group_outlined),
-              label: 'Anggota',
+              label: 'SLs',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.person_outline),

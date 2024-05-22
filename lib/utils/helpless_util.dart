@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:color_log/color_log.dart';
 import 'package:dio/dio.dart';
+import 'package:intl/intl.dart';
 import 'package:progmob_magical_destroyers/controllers/auth_controller.dart';
 import 'package:progmob_magical_destroyers/widgets/app_snack_bar.dart';
 
@@ -49,5 +50,10 @@ class HelplessUtil {
     } else {
       return 'night';
     }
+  }
+
+  static String formatNumber(int number) {
+    final formatter = NumberFormat('#,##0', 'en_US');
+    return formatter.format(number).replaceAll(',', '.');
   }
 }

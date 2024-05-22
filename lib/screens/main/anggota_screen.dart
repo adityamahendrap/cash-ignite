@@ -135,64 +135,117 @@ class _AnggotaScreenState extends State<AnggotaScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarWithLogo(title: 'All Saver & Loaner'),
+      appBar: _appbar(),
       floatingActionButton: FloatingActionButtonAdd(
         onPressed: () => Get.to(
           () => AddAnggotaScreen(addAnggotaCallback: _addAnggota),
         ),
       ),
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            _anggotaListView(),
-          ],
+        child: Container(
+          decoration: BoxDecoration(
+            color: ColorPlanet.primary,
+            gradient: LinearGradient(
+              begin: Alignment.bottomLeft,
+              end: Alignment.topLeft,
+              colors: [
+                ColorPlanet.primary,
+                ColorPlanet.primary.withOpacity(0.8)
+              ],
+            ),
+          ),
+          child: Column(
+            children: [
+              _boxHeader(),
+              _anggotaListView(),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  Widget _anggotaListView() {
-    return FutureBuilder(
-      future: _anggotaList,
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          final List<Anggota> items = snapshot.data!.anggotaList;
+  AppBar _appbar() {
+    return AppBar(
+      flexibleSpace: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomLeft,
+            colors: [ColorPlanet.primary, ColorPlanet.primary.withOpacity(0.8)],
+          ),
+        ),
+      ),
+      leading: IconButton(
+        icon: Container(
+          height: 24,
+          width: 24,
+          child: Image.asset("assets/logo.png", color: Colors.white),
+        ),
+        onPressed: null,
+      ),
+      centerTitle: true,
+      title: Text(
+        "All Saver & Loaner",
+        style: TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+          color: Colors.white,
+        ),
+      ),
+    );
+  }
 
-          if (items.isEmpty) {
-            return EmptyData();
+  Container _boxHeader() {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 10),
+      margin: EdgeInsets.only(right: 20, left: 20, top: 10, bottom: 25),
+      width: double.infinity,
+      decoration: BoxDecoration(
+        color: ColorPlanet.secondary,
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Text(
+        "You have ... Sls",
+        style: TextStyle(color: ColorPlanet.primary, fontSize: 15),
+        textAlign: TextAlign.center,
+      ),
+    );
+  }
+
+  Widget _anggotaListView() {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20),
+          // topRight: Radius.circular(20),
+        ),
+      ),
+      padding: EdgeInsets.only(top: 25),
+      child: FutureBuilder(
+        future: _anggotaList,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            final List<Anggota> items = snapshot.data!.anggotaList;
+
+            if (items.isEmpty) {
+              return EmptyData();
+            }
+
+            return AnggotaListView(
+              items: items,
+              updateAnggotaCallback: _updateAnggota,
+              deleteAnggotaCallback: _deleteAnggota,
+            );
+          } else if (snapshot.hasError) {
+            clog.error('snaphot err: ${snapshot.error.toString()}');
+            return ErrorFetchingData();
           }
 
-          return Column(
-            children: [
-              Container(
-                padding: EdgeInsets.symmetric(vertical: 10),
-                margin: EdgeInsets.only(right: 20, left: 20, top: 10),
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: ColorPlanet.secondary,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Text(
-                  "You have ${items.length} Sls",
-                  style: TextStyle(color: ColorPlanet.primary, fontSize: 15),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              SizedBox(height: 15),
-              AnggotaListView(
-                items: items,
-                updateAnggotaCallback: _updateAnggota,
-                deleteAnggotaCallback: _deleteAnggota,
-              )
-            ],
-          );
-        } else if (snapshot.hasError) {
-          clog.error('snaphot err: ${snapshot.error.toString()}');
-          return ErrorFetchingData();
-        }
-
-        return AnggotaListTileSkeleton(itemCount: 8);
-      },
+          return AnggotaListTileSkeleton(itemCount: 6);
+        },
+      ),
     );
   }
 }

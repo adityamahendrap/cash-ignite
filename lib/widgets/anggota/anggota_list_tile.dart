@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/base/anggota_type.dart';
 import 'package:progmob_magical_destroyers/providers/profile_provider.dart';
+import 'package:progmob_magical_destroyers/screens/main/detail_anggota_screen.dart';
 import 'package:progmob_magical_destroyers/screens/savings_loan/update_anggota_screen.dart';
 import 'package:progmob_magical_destroyers/utils/helpless_util.dart';
 import 'package:progmob_magical_destroyers/widgets/photo_view.dart';
@@ -20,64 +21,94 @@ class AnggotaListTile extends StatelessWidget {
     required this.deleteAnggotaCallback,
   });
 
+  void _handleListTileOnTap() {
+    Get.to(() => DetailAnggotaScreen(), arguments: {'anggota': item});
+  }
+
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: GestureDetector(
-        onTap: () {
-          Get.to(() => PhotoView(image: AssetImage(defaultImagePath)));
-        },
-        child: CircleAvatar(
-          backgroundColor: ColorPlanet.primary,
-          backgroundImage: AssetImage(defaultImagePath),
+    return Container(
+      decoration: _containerDecoration(),
+      margin: EdgeInsets.only(right: 20, left: 20, bottom: 10),
+      child: ListTile(
+        onTap: () => _handleListTileOnTap(),
+        leading: GestureDetector(
+          onTap: () {
+            Get.to(() => PhotoView(image: AssetImage(defaultImagePath)));
+          },
+          child: CircleAvatar(
+            backgroundColor: ColorPlanet.primary,
+            backgroundImage: AssetImage(defaultImagePath),
+          ),
         ),
+        contentPadding: EdgeInsets.symmetric(horizontal: 20),
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              item.nama,
+              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+            SizedBox(height: 5),
+            Row(
+              children: [
+                TextLabel(
+                    text:
+                        '${HelplessUtil.calculateAge(DateTime.parse(item.tglLahir))} years'),
+                SizedBox(width: 5),
+                Text("| "),
+                Icon(Icons.phone_outlined,
+                    color: ColorPlanet.primary, size: 20),
+                SizedBox(width: 5),
+                Flexible(
+                  child: Text(
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    '${item.telepon}',
+                    style: TextStyle(fontSize: 14),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 5),
+            // Row(
+            //   children: [
+            //     Icon(
+            //       Icons.location_on_outlined,
+            //       color: ColorPlanet.primary,
+            //     ),
+            //     SizedBox(width: 5),
+            //     Text(
+            //       item.alamat,
+            //       maxLines: 1,
+            //       overflow: TextOverflow.ellipsis,
+            //       style: TextStyle(fontSize: 14),
+            //     ),
+            //   ],
+            // ),
+          ],
+        ),
+        style: ListTileStyle.list,
+        trailing: _popUpMenuButton(item),
       ),
-      contentPadding: EdgeInsets.symmetric(horizontal: 20),
-      title: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            item.nama,
-            style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-          SizedBox(height: 5),
-          Row(
-            children: [
-              TextLabel(
-                  text:
-                      '${HelplessUtil.calculateAge(DateTime.parse(item.tglLahir))} years'),
-              SizedBox(width: 5),
-              Text("| "),
-              Icon(Icons.phone_outlined, color: ColorPlanet.primary, size: 20),
-              SizedBox(width: 5),
-              Text(
-                '${item.telepon}',
-                style: TextStyle(fontSize: 14),
-              ),
-            ],
-          ),
-          SizedBox(height: 5),
-          // Row(
-          //   children: [
-          //     Icon(
-          //       Icons.location_on_outlined,
-          //       color: ColorPlanet.primary,
-          //     ),
-          //     SizedBox(width: 5),
-          //     Text(
-          //       item.alamat,
-          //       maxLines: 1,
-          //       overflow: TextOverflow.ellipsis,
-          //       style: TextStyle(fontSize: 14),
-          //     ),
-          //   ],
-          // ),
-        ],
-      ),
-      style: ListTileStyle.list,
-      trailing: _popUpMenuButton(item),
+    );
+  }
+
+  BoxDecoration _containerDecoration() {
+    return BoxDecoration(
+      color: Colors.white,
+      border: Border.all(color: Colors.grey.withOpacity(0.3)),
+      borderRadius: BorderRadius.circular(10),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.grey.withOpacity(0.1),
+          spreadRadius: 1,
+          blurRadius: 5,
+          offset: Offset(0, 3),
+        ),
+      ],
     );
   }
 
