@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
+import 'package:progmob_magical_destroyers/external/requester/mobile_api/mobile_api.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/base/anggota_type.dart';
+import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/list_tabungan_anggota_type.dart';
+import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/saldo_anggota_type.dart';
 import 'package:progmob_magical_destroyers/providers/profile_provider.dart';
+import 'package:progmob_magical_destroyers/providers/transaction_provider.dart';
+import 'package:progmob_magical_destroyers/utils/helpless_util.dart';
 import 'package:progmob_magical_destroyers/widgets/anggota/info_anggota.dart';
 import 'package:progmob_magical_destroyers/widgets/app_bar_with_back_button.dart';
 import 'package:get/get.dart';
 import 'package:progmob_magical_destroyers/widgets/transaction/transaction_history.dart';
 import 'package:progmob_magical_destroyers/widgets/transaction/transaction_type_list.dart';
 import 'package:progmob_magical_destroyers/widgets/photo_view.dart';
-import 'package:progmob_magical_destroyers/widgets/section_header.dart';
 import 'package:progmob_magical_destroyers/widgets/text_title.dart';
 import 'package:progmob_magical_destroyers/widgets/wrapper/bottom_sheet_fit_content_wrapper.dart';
+import 'package:provider/provider.dart';
 
 class DetailAnggotaScreen extends StatefulWidget {
   const DetailAnggotaScreen({super.key});
@@ -20,9 +25,26 @@ class DetailAnggotaScreen extends StatefulWidget {
 }
 
 class _DetailAnggotaScreenState extends State<DetailAnggotaScreen> {
-  final int saldo = 50000;
+  int? _saldo;
 
   final Anggota anggota = Get.arguments['anggota'] as Anggota;
+
+  MoblieApiRequester _apiRequester = MoblieApiRequester();
+
+  void _getSaldoAnggota(Anggota anggota) async {
+    SaldoAnggota data = await _apiRequester.getSaldoByAnggotaId(
+        anggotaId: anggota.id.toString());
+    setState(() {
+      _saldo = data.saldo!;
+    });
+  }
+
+  @override
+  void initState() {
+    _getSaldoAnggota(anggota);
+    context.read<TransactionProvider>().getListTabunganAnggota(anggota);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +118,10 @@ class _DetailAnggotaScreenState extends State<DetailAnggotaScreen> {
             ),
           ],
         ),
-        TextTitle(title: "Rp50.000"),
+        TextTitle(
+            title: _saldo != null
+                ? "Rp${HelplessUtil.formatNumber(_saldo!)}"
+                : "Loading"),
       ],
     );
   }
@@ -122,7 +147,7 @@ class _DetailAnggotaScreenState extends State<DetailAnggotaScreen> {
             onPressed: () {
               bottomSheetFitContentWrapper(
                 context: context,
-                content: TransactionTypeList(saldo: saldo),
+                content: TransactionTypeList(saldo: _saldo!),
                 isHorizontalPaddingActive: false,
               );
             },

@@ -56,4 +56,11 @@ class HelplessUtil {
     final formatter = NumberFormat('#,##0', 'en_US');
     return formatter.format(number).replaceAll(',', '.');
   }
+
+  static String formatDateTimeString(String datetimeStr, bool withtime) {
+    String outputFormat = withtime ? "dd MMM yyyy HH:mm:ss" : "dd MMM yyyy";
+
+    DateTime dateTime = DateTime.parse(datetimeStr);
+    return DateFormat(outputFormat).format(dateTime);
+  }
 }
