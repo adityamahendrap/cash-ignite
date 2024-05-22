@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
+import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/base/anggota_type.dart';
 import 'package:progmob_magical_destroyers/widgets/section_header.dart';
 
 class InfoAnggota extends StatelessWidget {
-  const InfoAnggota({super.key});
+  final Anggota anggota;
+
+  const InfoAnggota({super.key, required this.anggota});
 
   @override
   Widget build(BuildContext context) {
@@ -18,15 +21,15 @@ class InfoAnggota extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _verticalRow("Full Name", "Arya Stark"),
+                _verticalRow("Full Name", anggota.nama),
                 Divider(color: Colors.grey.shade300),
-                _horizonralRow("No. Induk", "1234567890"),
+                _horizonralRow("No. Induk", anggota.nomorInduk.toString()),
                 Divider(color: Colors.grey.shade300),
-                _horizonralRow("Phone", "+6281234567890"),
+                _horizonralRow("Phone", anggota.telepon),
                 Divider(color: Colors.grey.shade300),
-                _horizonralRow("Birthdate", "12 Januari 1999"),
+                _horizonralRow("Birthdate", anggota.tglLahir),
                 Divider(color: Colors.grey.shade300),
-                _verticalRow("Address", "Jalan Imam Bonjol No. 123, Jakarta"),
+                _verticalRow("Address", anggota.alamat),
               ],
             ),
           ),

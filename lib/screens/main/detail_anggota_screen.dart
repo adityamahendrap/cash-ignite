@@ -1,7 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
+import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/base/anggota_type.dart';
 import 'package:progmob_magical_destroyers/providers/profile_provider.dart';
 import 'package:progmob_magical_destroyers/widgets/anggota/info_anggota.dart';
 import 'package:progmob_magical_destroyers/widgets/app_bar_with_back_button.dart';
@@ -22,6 +21,8 @@ class DetailAnggotaScreen extends StatefulWidget {
 
 class _DetailAnggotaScreenState extends State<DetailAnggotaScreen> {
   final int saldo = 50000;
+
+  final Anggota anggota = Get.arguments['anggota'] as Anggota;
 
   @override
   Widget build(BuildContext context) {
@@ -83,12 +84,12 @@ class _DetailAnggotaScreenState extends State<DetailAnggotaScreen> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text("Full Name", style: TextStyle(fontSize: 18)),
+            Text(anggota.nama, style: TextStyle(fontSize: 18)),
             SizedBox(width: 5),
             InkWell(
               onTap: () => bottomSheetFitContentWrapper(
                 context: context,
-                content: InfoAnggota(),
+                content: InfoAnggota(anggota: anggota),
                 isHorizontalPaddingActive: false,
               ),
               child: Icon(Icons.info_outline, color: ColorPlanet.primary),
