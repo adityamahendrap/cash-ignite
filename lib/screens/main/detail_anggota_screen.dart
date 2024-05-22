@@ -1,8 +1,12 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
 import 'package:progmob_magical_destroyers/providers/profile_provider.dart';
+import 'package:progmob_magical_destroyers/widgets/anggota/info_anggota.dart';
 import 'package:progmob_magical_destroyers/widgets/app_bar_with_back_button.dart';
 import 'package:get/get.dart';
+import 'package:progmob_magical_destroyers/widgets/transaction/transaction_history.dart';
 import 'package:progmob_magical_destroyers/widgets/transaction/transaction_type_list.dart';
 import 'package:progmob_magical_destroyers/widgets/photo_view.dart';
 import 'package:progmob_magical_destroyers/widgets/section_header.dart';
@@ -17,6 +21,8 @@ class DetailAnggotaScreen extends StatefulWidget {
 }
 
 class _DetailAnggotaScreenState extends State<DetailAnggotaScreen> {
+  final int saldo = 50000;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,7 +32,6 @@ class _DetailAnggotaScreenState extends State<DetailAnggotaScreen> {
       ),
       body: Container(
         color: ColorPlanet.secondary,
-        height: double.infinity,
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -35,10 +40,21 @@ class _DetailAnggotaScreenState extends State<DetailAnggotaScreen> {
               _profilePicture(),
               SizedBox(height: 20),
               _profile(),
-              SizedBox(height: 20),
+              SizedBox(height: 30),
               _createTransactionButton(),
-              SizedBox(height: 60),
-              _tranactionList()
+              SizedBox(height: 25),
+              Container(
+                padding: EdgeInsets.only(top: 25),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [ColorPlanet.secondary, Colors.white],
+                  ),
+                ),
+              ),
+              TransactionHistory()
             ],
           ),
         ),
@@ -64,64 +80,123 @@ class _DetailAnggotaScreenState extends State<DetailAnggotaScreen> {
   Widget _profile() {
     return Column(
       children: [
-        Text("Full Name", style: TextStyle(fontSize: 18)),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text("Full Name", style: TextStyle(fontSize: 18)),
+            SizedBox(width: 5),
+            InkWell(
+              onTap: () => bottomSheetFitContentWrapper(
+                context: context,
+                content: InfoAnggota(),
+                isHorizontalPaddingActive: false,
+              ),
+              child: Icon(Icons.info_outline, color: ColorPlanet.primary),
+            ),
+          ],
+        ),
         TextTitle(title: "Rp50.000"),
       ],
     );
   }
 
-  ElevatedButton _createTransactionButton() {
-    return ElevatedButton(
-      onPressed: () => bottomSheetFitContentWrapper(
-        context: context,
-        content: TransactionTypeList(),
-        isHorizontalPaddingActive: false,
-      ),
-      child: Text(
-        "Create Transaction",
-        style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
-      ),
-      style: ElevatedButton.styleFrom(
-        shape: StadiumBorder(),
-        backgroundColor: ColorPlanet.primary,
-        elevation: 0,
-      ),
-    );
-  }
-
-  Widget _tranactionList() {
-    return Container(
-      color: Colors.white,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(height: 20),
-          SectionHeader(title: "Transaction History", showButton: false),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            child: Text("APR 2024",
-                style: TextStyle(
-                    fontSize: 18, color: Colors.black.withOpacity(0.6))),
+  Widget _createTransactionButton() {
+    return Column(
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            color: ColorPlanet.primary,
+            shape: BoxShape.circle,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.2),
+                blurRadius: 5,
+                offset: Offset(0, 3),
+              ),
+            ],
           ),
-          ListView.builder(
-            itemCount: 5,
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            itemBuilder: (context, index) {
-              return ListTile(
-                leading: CircleAvatar(
-                  backgroundColor: ColorPlanet.primary,
-                  child: Icon(Icons.account_balance_wallet),
-                ),
-                title: Text("Transaction ${index + 1}"),
-                subtitle: Text("17 Apr 2024"),
-                trailing: Text("+Rp50.000", style: TextStyle(fontSize: 18)),
+          child: IconButton(
+            icon: Icon(Icons.add),
+            color: Colors.white,
+            onPressed: () {
+              bottomSheetFitContentWrapper(
+                context: context,
+                content: TransactionTypeList(saldo: saldo),
+                isHorizontalPaddingActive: false,
               );
             },
           ),
-        ],
-      ),
+        ),
+        SizedBox(height: 5),
+        Text("Add Transaction", style: TextStyle(fontSize: 14)),
+      ],
+    );
+  }
+
+  Text _tabText(String text) {
+    return Text(
+      text,
+      style: TextStyle(fontSize: 16),
     );
   }
 }
+
+
+// DefaultTabController(
+//       length: 2,
+//       child: Scaffold(
+//         appBar: AppBarWithBackButton(
+//           title: "SL Pocket",
+//           backgroundColor: ColorPlanet.secondary,
+//         ),
+//         body: Container(
+//           // color: ColorPlanet.secondary,
+//           color: Colors.white,
+//           child: SingleChildScrollView(
+//             child: ConstrainedBox(
+//               constraints:
+//                   BoxConstraints(maxHeight: MediaQuery.of(context).size.height),
+//               child: Column(
+//                 crossAxisAlignment: CrossAxisAlignment.center,
+//                 children: [
+//                   SizedBox(height: 50),
+//                   _profilePicture(),
+//                   SizedBox(height: 20),
+//                   _profile(),
+//                   SizedBox(height: 20),
+//                   _createTransactionButton(),
+//                   Container(
+//                     padding: EdgeInsets.only(top: 50),
+//                     decoration: BoxDecoration(
+//                       color: Colors.white,
+//                       // gradient: LinearGradient(
+//                       //   begin: Alignment.topCenter,
+//                       //   end: Alignment.bottomCenter,
+//                       //   colors: [ColorPlanet.secondary, Colors.white],
+//                       // ),
+//                     ),
+//                     child: TabBar(
+//                       tabs: [
+//                         Tab(child: _tabText('History')),
+//                         Tab(child: _tabText('Info')),
+//                       ],
+//                       labelColor: Colors.black,
+//                       unselectedLabelColor: Colors.grey,
+//                     ),
+//                   ),
+//                   // fit height based on content
+//                   Expanded(
+//                     child: TabBarView(
+//                       children: [
+//                         SingleChildScrollView(child: TransactionHistory()),
+//                         SingleChildScrollView(child: InfoAnggota()),
+//                       ],
+//                     ),
+//                   ),
+//                 ],
+//               ),
+//             ),
+//           ),
+//         ),
+//       ),
+//     );

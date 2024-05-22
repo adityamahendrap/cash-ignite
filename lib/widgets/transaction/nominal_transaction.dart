@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
+import 'package:progmob_magical_destroyers/types/transaction_type.dart';
 import 'package:progmob_magical_destroyers/widgets/full_width_button.dart';
 import 'package:progmob_magical_destroyers/widgets/input/nominal_input.dart';
 
-class NominalTransaction extends StatefulWidget {
-  const NominalTransaction({super.key});
+class NominalTransaction extends StatelessWidget {
+  final TransactionType transactionType;
+  final int saldo;
 
-  @override
-  State<NominalTransaction> createState() => _NominalTransactionState();
-}
+  NominalTransaction({
+    super.key,
+    required this.transactionType,
+    required this.saldo,
+  });
 
-class _NominalTransactionState extends State<NominalTransaction> {
   @override
   Widget build(BuildContext context) {
     return KeyboardVisibilityBuilder(
@@ -32,7 +35,7 @@ class _NominalTransactionState extends State<NominalTransaction> {
               ],
             ),
             SizedBox(height: 40),
-            NominalInput(),
+            NominalInput(transactionType: transactionType, saldo: saldo),
             SizedBox(height: 40),
             _transactionType(),
             SizedBox(height: 20),
@@ -63,13 +66,16 @@ class _NominalTransactionState extends State<NominalTransaction> {
         ),
         Row(
           children: [
-            Icon(
-              Icons.account_balance_wallet_sharp,
-              color: ColorPlanet.primary,
+            Container(
+              width: 30,
+              height: 30,
+              child: Center(
+                child: Image.asset(transactionType.imageUrl),
+              ),
             ),
-            SizedBox(width: 10),
+            SizedBox(width: 8),
             Text(
-              "Simpanan",
+              transactionType.name,
               style: TextStyle(fontSize: 18),
             ),
           ],

@@ -54,22 +54,21 @@ class AnggotaListTile extends StatelessWidget {
             SizedBox(height: 5),
             Row(
               children: [
-                TextLabel(
-                    text:
-                        '${HelplessUtil.calculateAge(DateTime.parse(item.tglLahir))} years'),
+                TextLabel(text: 'Rp. 100.000.000'),
+                // '${HelplessUtil.calculateAge(DateTime.parse(item.tglLahir))} years'),
                 SizedBox(width: 5),
-                Text("| "),
-                Icon(Icons.phone_outlined,
-                    color: ColorPlanet.primary, size: 20),
-                SizedBox(width: 5),
-                Flexible(
-                  child: Text(
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    '${item.telepon}',
-                    style: TextStyle(fontSize: 14),
-                  ),
-                ),
+                // Text("| "),
+                // Icon(Icons.phone_outlined,
+                //     color: ColorPlanet.primary, size: 20),
+                // SizedBox(width: 5),
+                // Flexible(
+                //   child: Text(
+                //     maxLines: 1,
+                //     overflow: TextOverflow.ellipsis,
+                //     '${item.telepon}',
+                //     style: TextStyle(fontSize: 14),
+                //   ),
+                // ),
               ],
             ),
             SizedBox(height: 5),
