@@ -52,6 +52,10 @@ class _DetailAnggotaScreenState extends State<DetailAnggotaScreen> {
       appBar: AppBarWithBackButton(
         title: "SL Pocket",
         backgroundColor: ColorPlanet.secondary,
+        onBackButtonPressed: () {
+          Get.back();
+          context.read<TransactionProvider>().clearTransactionList();
+        },
       ),
       body: Container(
         color: ColorPlanet.secondary,

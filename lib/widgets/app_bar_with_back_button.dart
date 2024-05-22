@@ -7,12 +7,14 @@ class AppBarWithBackButton extends StatelessWidget
   late final String? title;
   bool? centerTitle = true;
   final Color? backgroundColor;
+  final Function? onBackButtonPressed;
 
   AppBarWithBackButton({
     super.key,
     this.title,
     this.centerTitle,
     this.backgroundColor = Colors.white,
+    this.onBackButtonPressed,
   });
 
   @override
@@ -23,7 +25,11 @@ class AppBarWithBackButton extends StatelessWidget
       leading: IconButton(
         icon: Icon(Icons.arrow_back, color: Colors.black),
         onPressed: () {
-          Get.back();
+          if (onBackButtonPressed != null) {
+            onBackButtonPressed!();
+          } else {
+            Get.back();
+          }
         },
       ),
       centerTitle: this.centerTitle,

@@ -1,53 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
+import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/list_tabungan_anggota_type.dart';
+import 'package:progmob_magical_destroyers/providers/transaction_provider.dart';
 import 'package:progmob_magical_destroyers/widgets/transaction/nominal_transaction.dart';
 import 'package:progmob_magical_destroyers/types/transaction_type.dart';
 import 'package:progmob_magical_destroyers/widgets/wrapper/bottom_sheet_fit_content_wrapper.dart';
+import 'package:provider/provider.dart';
 
-final List<TransactionType> transactionTypes = [
-  TransactionType(
-    id: 1,
-    name: "Saldo Awal",
-    imageUrl: "assets/initial.png",
-    trxMultiply: 1,
-  ),
-  TransactionType(
-    id: 2,
-    name: "Simpanan",
-    imageUrl: "assets/simpanan.png",
-    trxMultiply: 1,
-  ),
-  TransactionType(
-    id: 3,
-    name: "Penarikan",
-    imageUrl: "assets/penarikan.png",
-    trxMultiply: -1,
-  ),
-  // TransactionType(
-  //   id: 4,
-  //   name: "Bunga Simpanan",
-  //   imageUrl: "assets/bunga.png",
-  //   trxMultiply: 1,
-  // ),
-  TransactionType(
-    id: 5,
-    name: "Koreksi Penambahan",
-    imageUrl: "assets/koreksi.png",
-    trxMultiply: 1,
-  ),
-  TransactionType(
-    id: 6,
-    name: "Koreksi Pengurangan",
-    imageUrl: "assets/koreksi.png",
-    trxMultiply: -1,
-  ),
-];
-
-class TransactionTypeList extends StatelessWidget {
+class TransactionTypeList extends StatefulWidget {
   final int saldo;
 
   TransactionTypeList({super.key, required this.saldo});
+
+  @override
+  State<TransactionTypeList> createState() => _TransactionTypeListState();
+}
+
+class _TransactionTypeListState extends State<TransactionTypeList> {
+  List<TransactionType> _filteredTransactionTypes = [];
+
+  void _getFilteredTransactionTypes(BuildContext context) {
+    List<Tabungan> transactionList =
+        context.read<TransactionProvider>().transactionList;
+
+    List<TransactionType> temp;
+
+    if (transactionList.isEmpty) {
+      temp = transactionTypes
+          .where((element) => [1, 2].contains(element.id))
+          .toList();
+    } else {
+      temp = transactionTypes
+          .where((element) => ![1].contains(element.id))
+          .toList();
+    }
+
+    setState(() {
+      _filteredTransactionTypes = temp;
+    });
+  }
 
   void _handleSelecedtTransactionType(
     BuildContext context,
@@ -56,9 +48,15 @@ class TransactionTypeList extends StatelessWidget {
     Get.back();
     bottomSheetFitContentWrapper(
       context: context,
-      content:
-          NominalTransaction(transactionType: transactionType, saldo: saldo),
+      content: NominalTransaction(
+          transactionType: transactionType, saldo: widget.saldo),
     );
+  }
+
+  @override
+  void initState() {
+    _getFilteredTransactionTypes(context);
+    super.initState();
   }
 
   @override
@@ -91,7 +89,7 @@ class TransactionTypeList extends StatelessWidget {
         //   padding: EdgeInsets.symmetric(horizontal: 20),
         //   child: Divider(color: Colors.grey.shade300),
         // ),
-        ...transactionTypes
+        ..._filteredTransactionTypes
             .map((e) => ListTile(
                   leading: Container(
                     width: 40,

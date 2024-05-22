@@ -7,7 +7,6 @@ import 'package:progmob_magical_destroyers/types/transaction_type.dart';
 import 'package:progmob_magical_destroyers/utils/helpless_util.dart';
 import 'package:progmob_magical_destroyers/widgets/data/empty_data.dart';
 import 'package:progmob_magical_destroyers/widgets/section_header.dart';
-import 'package:progmob_magical_destroyers/widgets/transaction/transaction_type_list.dart';
 import 'package:provider/provider.dart';
 
 class TransactionHistory extends StatelessWidget {
@@ -50,7 +49,10 @@ class TransactionHistory extends StatelessWidget {
                 // dataProvider.getListTabunganAnggota(anggota);
                 return CircularProgressIndicator();
               } else if (dataProvider.transactionList.isEmpty) {
-                return EmptyData();
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 20),
+                  child: Center(child: EmptyData()),
+                );
               }
               return ListView.builder(
                 itemCount: dataProvider.transactionList.length,

@@ -10,6 +10,7 @@ import 'package:progmob_magical_destroyers/widgets/app_snack_bar.dart';
 class HelplessUtil {
   static void handleApiError(DioException e) {
     clog.error(e.toString());
+    clog.error(e.response.toString());
     clog.error(e.response?.data.toString() ?? "No response data");
     inspect(e.response);
 
