@@ -10,23 +10,25 @@ import 'package:progmob_magical_destroyers/utils/helpless_util.dart';
 import 'package:progmob_magical_destroyers/widgets/app_bar_with_back_button.dart';
 import 'package:progmob_magical_destroyers/widgets/app_snack_bar.dart';
 import 'package:progmob_magical_destroyers/widgets/full_width_button_bottom_bar.dart';
+import 'package:progmob_magical_destroyers/widgets/input/date_input.dart';
+import 'package:progmob_magical_destroyers/widgets/input/phone_number_input.dart';
 import 'package:progmob_magical_destroyers/widgets/input/text_input.dart'
     as input;
 import 'package:progmob_magical_destroyers/widgets/twin_buttons.dart';
 import 'package:progmob_magical_destroyers/widgets/wrapper/bottom_sheet_fit_content_wrapper.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
-class UpdateAnggotaScreen extends StatefulWidget {
+class EditAnggotaScreen extends StatefulWidget {
   final Function(Anggota) updateAnggotaCallback;
 
-  const UpdateAnggotaScreen({Key? key, required this.updateAnggotaCallback})
+  const EditAnggotaScreen({Key? key, required this.updateAnggotaCallback})
       : super(key: key);
 
   @override
-  State<UpdateAnggotaScreen> createState() => UpdateAnggotaScreenState();
+  State<EditAnggotaScreen> createState() => EditAnggotaScreenState();
 }
 
-class UpdateAnggotaScreenState extends State<UpdateAnggotaScreen> {
+class EditAnggotaScreenState extends State<EditAnggotaScreen> {
   final _nameController = TextEditingController();
   final _birthdayController = TextEditingController();
   final _phoneNumberController = TextEditingController();
@@ -182,9 +184,15 @@ class UpdateAnggotaScreenState extends State<UpdateAnggotaScreen> {
                           validator: _checkAddress,
                         ),
                         SizedBox(height: 20),
-                        _birthdayInput(),
+                        DateInput(
+                          controller: _birthdayController,
+                          onTap: _showBirthdayDatePicker,
+                        ),
                         SizedBox(height: 20),
-                        _phoneNumberInput(),
+                        PhoneNumberInput(
+                          controller: _phoneNumberController,
+                          initialValue: number,
+                        ),
                       ],
                     ),
                   )
@@ -236,93 +244,6 @@ class UpdateAnggotaScreenState extends State<UpdateAnggotaScreen> {
           },
           onPressedCancelButton: () {
             Get.back();
-          },
-        ),
-      ],
-    );
-  }
-
-  Widget _birthdayInput() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
-        Flexible(
-          child: input.TextInput(
-            title: 'Birthday',
-            hintText: 'Birthday',
-            prefixIcon: Icons.cake_outlined,
-            controller: _birthdayController,
-            readOnly: true,
-            onTap: _showBirthdayDatePicker,
-          ),
-        ),
-        SizedBox(width: 10),
-        InkWell(
-          borderRadius: BorderRadius.circular(15),
-          onTap: () => _showBirthdayDatePicker(),
-          child: Container(
-            padding: EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              color: ColorPlanet.primary,
-              borderRadius: BorderRadius.circular(15),
-            ),
-            child: Icon(
-              Icons.calendar_month,
-              color: Colors.white,
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _phoneNumberInput() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Phone Number',
-          textAlign: TextAlign.start,
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-        SizedBox(height: 10),
-        InternationalPhoneNumberInput(
-          onInputChanged: (PhoneNumber number) {
-            // print(number.phoneNumber);
-          },
-          selectorConfig: SelectorConfig(
-            selectorType: PhoneInputSelectorType.DROPDOWN,
-            useBottomSheetSafeArea: false,
-            setSelectorButtonAsPrefixIcon: true,
-            trailingSpace: false,
-            useEmoji: true,
-          ),
-          ignoreBlank: false,
-          autoValidateMode: AutovalidateMode.onUserInteraction,
-          initialValue: number,
-          textFieldController: _phoneNumberController,
-          formatInput: true,
-          inputDecoration: InputDecoration(
-            prefix: SizedBox(width: 10),
-            hintText: 'Phone Number',
-            hintStyle: TextStyle(color: Color(0xff9E9E9E)),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(15.0),
-            ),
-            filled: true,
-            contentPadding: EdgeInsets.zero,
-            fillColor: Color.fromARGB(101, 241, 241, 241),
-            focusedBorder: InputBorder.none,
-            enabledBorder: InputBorder.none,
-            disabledBorder: InputBorder.none,
-            errorBorder: InputBorder.none,
-            focusedErrorBorder: InputBorder.none,
-          ),
-          keyboardType:
-              TextInputType.numberWithOptions(signed: true, decimal: true),
-          onSaved: (PhoneNumber number) {
-            print('On Saved: $number');
           },
         ),
       ],
