@@ -1,7 +1,10 @@
+import 'package:color_log/color_log.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
+import 'package:progmob_magical_destroyers/external/requester/mobile_api/mobile_api.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/base/anggota_type.dart';
+import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/saldo_anggota_type.dart';
 import 'package:progmob_magical_destroyers/providers/profile_provider.dart';
 import 'package:progmob_magical_destroyers/screens/main/detail_anggota_screen.dart';
 import 'package:progmob_magical_destroyers/screens/savings_loan/update_anggota_screen.dart';
@@ -9,7 +12,7 @@ import 'package:progmob_magical_destroyers/utils/helpless_util.dart';
 import 'package:progmob_magical_destroyers/widgets/photo_view.dart';
 import 'package:progmob_magical_destroyers/widgets/text_label.dart';
 
-class AnggotaListTile extends StatelessWidget {
+class AnggotaListTile extends StatefulWidget {
   final Anggota item;
   final Function(Anggota) updateAnggotaCallback;
   final Function(Anggota) deleteAnggotaCallback;
@@ -21,8 +24,19 @@ class AnggotaListTile extends StatelessWidget {
     required this.deleteAnggotaCallback,
   });
 
+  @override
+  State<AnggotaListTile> createState() => _AnggotaListTileState();
+}
+
+class _AnggotaListTileState extends State<AnggotaListTile> {
+  MoblieApiRequester _apiRequester = MoblieApiRequester();
+
   void _handleListTileOnTap() {
-    Get.to(() => DetailAnggotaScreen(), arguments: {'anggota': item});
+    Get.to(() => DetailAnggotaScreen(), arguments: {'anggota': widget.item});
+  }
+
+  Future<SaldoAnggota> _getSaldoAnggota(Anggota anggota) async {
+    return _apiRequester.getSaldoByAnggotaId(anggotaId: anggota.id.toString());
   }
 
   @override
@@ -46,7 +60,7 @@ class AnggotaListTile extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              item.nama,
+              widget.item.nama,
               style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
@@ -54,7 +68,7 @@ class AnggotaListTile extends StatelessWidget {
             SizedBox(height: 5),
             Row(
               children: [
-                TextLabel(text: 'Rp. 100.000.000'),
+                _saldoAnggota(widget.item),
                 // '${HelplessUtil.calculateAge(DateTime.parse(item.tglLahir))} years'),
                 SizedBox(width: 5),
                 // Text("| "),
@@ -90,8 +104,25 @@ class AnggotaListTile extends StatelessWidget {
           ],
         ),
         style: ListTileStyle.list,
-        trailing: _popUpMenuButton(item),
+        trailing: _popUpMenuButton(widget.item),
       ),
+    );
+  }
+
+  Widget _saldoAnggota(Anggota anggota) {
+    return FutureBuilder(
+      future: _getSaldoAnggota(anggota),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          final int saldo = snapshot.data!.saldo!;
+          return TextLabel(text: "Rp${HelplessUtil.formatNumber(saldo)}");
+        } else if (snapshot.hasError) {
+          clog.error('snaphot err: ${snapshot.error.toString()}');
+          return TextLabel(text: "Error");
+        }
+
+        return TextLabel(text: "Loading");
+      },
     );
   }
 
@@ -118,11 +149,11 @@ class AnggotaListTile extends StatelessWidget {
           case 'edit':
             Get.to(
                 () => UpdateAnggotaScreen(
-                    updateAnggotaCallback: updateAnggotaCallback),
+                    updateAnggotaCallback: widget.updateAnggotaCallback),
                 arguments: {'anggota': anggota});
             break;
           case 'delete':
-            deleteAnggotaCallback(anggota);
+            widget.deleteAnggotaCallback(anggota);
             break;
         }
       },

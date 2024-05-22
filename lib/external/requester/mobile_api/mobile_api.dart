@@ -207,7 +207,8 @@ class MoblieApiRequester {
   }
 
   Future<SaldoAnggota> getSaldoByAnggotaId({required String anggotaId}) async {
-    String url = '/tabungan/saldo/$anggotaId';
+    clog.info("anggotaId: $anggotaId");
+    String url = '/saldo/$anggotaId';
     Response response = await dio.get(url);
     return _getDataFromResponse(response, SaldoAnggota.fromJson);
   }
