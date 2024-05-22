@@ -1,46 +1,63 @@
-import 'package:color_log/color_log.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:intl/intl.dart';
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
+import 'package:progmob_magical_destroyers/providers/transaction_provider.dart';
 import 'package:progmob_magical_destroyers/types/transaction_type.dart';
-import 'package:progmob_magical_destroyers/utils/helpless_util.dart';
 import 'package:progmob_magical_destroyers/utils/number_input_formatter.dart';
+import 'package:provider/provider.dart';
 
-class NominalInput extends StatelessWidget {
-  final TextEditingController? controller;
+class NominalInput extends StatefulWidget {
   final TransactionType transactionType;
   final int saldo;
+  final TextEditingController controller;
 
   NominalInput({
     super.key,
-    this.controller,
     required this.transactionType,
     required this.saldo,
+    required this.controller,
   });
 
+  @override
+  State<NominalInput> createState() => _NominalInputState();
+}
+
+class _NominalInputState extends State<NominalInput> {
   final double borderRadius = 15.0;
 
-  String? nominalValidator(String? value) {
-    if (transactionType.trxMultiply == -1) {
-      if (value == null || value.isEmpty) {
-        clog.info("Nominal tidak boleh kosong");
-        return "Nominal tidak boleh kosong";
-      }
-      if (int.parse(value) > saldo) {
-        clog.info("Saldo tidak mencukupi");
-        return "Saldo tidak mencukupi";
-      }
+  String? _nominalValidator(String? value, BuildContext context) {
+    int valueNum;
+    bool isValid = true;
+    String? errorMessage = null;
+
+    if (value != null && value.isNotEmpty) {
+      valueNum = int.parse(value.replaceAll('.', ''));
+    } else {
+      valueNum = 0;
     }
-    return null;
+
+    if (widget.transactionType.trxMultiply == -1 && valueNum > widget.saldo) {
+      isValid = false;
+      errorMessage = "Balance is not enough";
+    } else if (valueNum == 0) {
+      isValid = false;
+    }
+
+    // defer after build
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      context.read<TransactionProvider>().isNominalValid = isValid;
+    });
+
+    return errorMessage;
   }
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      validator: nominalValidator,
+      validator: (value) => _nominalValidator(value, context),
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       autofocus: true,
-      controller: controller,
+      controller: widget.controller,
       keyboardType: TextInputType.number,
       style: TextStyle(
         fontSize: 32,
@@ -59,13 +76,13 @@ class NominalInput extends StatelessWidget {
       decoration: InputDecoration(
         // fillColor: Colors.grey.shade100,
         // filled: true,
-        contentPadding: EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+        contentPadding: EdgeInsets.symmetric(vertical: 20),
         hintText: "0",
         prefixIconConstraints: BoxConstraints(minWidth: 0, minHeight: 0),
         prefixIcon: Padding(
           padding: const EdgeInsets.only(left: 24),
           child: Text(
-            "${transactionType.trxMultiply == 1 ? "+" : "-"}Rp",
+            "${widget.transactionType.trxMultiply == 1 ? "+" : "-"}Rp",
             style: TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.w900,

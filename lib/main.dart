@@ -5,6 +5,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:progmob_magical_destroyers/configs/themes/theme.dart';
 import 'package:progmob_magical_destroyers/controllers/app_controller.dart';
 import 'package:progmob_magical_destroyers/providers/profile_provider.dart';
+import 'package:progmob_magical_destroyers/providers/transaction_provider.dart';
 import 'package:progmob_magical_destroyers/widgets/loading.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
@@ -32,6 +33,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => ProfileProvider()),
+        ChangeNotifierProvider(create: (context) => TransactionProvider()),
       ],
       child: GetMaterialApp(
         debugShowCheckedModeBanner: false,

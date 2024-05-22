@@ -1,6 +1,7 @@
 
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:progmob_magical_destroyers/utils/helpless_util.dart';
 
 class NumberInputFormatter extends TextInputFormatter {
   @override
@@ -16,7 +17,7 @@ class NumberInputFormatter extends TextInputFormatter {
 
     // Format the number with periods as thousands separators
     final number = int.parse(newText);
-    final formattedText = formatNumber(number);
+    final formattedText = HelplessUtil.formatNumber(number);
 
     // Calculate the new cursor position
     final newCursorPosition = formattedText.length;
@@ -25,10 +26,5 @@ class NumberInputFormatter extends TextInputFormatter {
       text: formattedText,
       selection: TextSelection.collapsed(offset: newCursorPosition),
     );
-  }
-
-  String formatNumber(int number) {
-    final formatter = NumberFormat('#,##0', 'en_US');
-    return formatter.format(number).replaceAll(',', '.');
   }
 }

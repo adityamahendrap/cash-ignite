@@ -7,12 +7,14 @@ class FullWidthButton extends StatelessWidget {
   final FullWidthButtonType type;
   final String text;
   final void Function() onPressed;
+  final bool isDisabled;
 
-  const FullWidthButton(
+  FullWidthButton(
       {Key? key,
       required this.type,
       required this.text,
-      required this.onPressed})
+      required this.onPressed,
+      this.isDisabled = false})
       : super(key: key);
 
   Color getBgColor() {
@@ -30,15 +32,18 @@ class FullWidthButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: this.onPressed,
+      onPressed: this.isDisabled ? null : this.onPressed,
       child: Text(
         this.text,
-        style: TextStyle(fontWeight: FontWeight.bold, color: getFontColor()),
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+          color: this.isDisabled ? Colors.grey.shade400 : getFontColor(),
+        ),
       ),
       style: ElevatedButton.styleFrom(
         minimumSize: Size.fromHeight(50),
         shape: StadiumBorder(),
-        backgroundColor: getBgColor(),
+        backgroundColor: this.isDisabled ? Colors.grey.shade50 : getBgColor(),
         elevation: 0,
       ),
     );
