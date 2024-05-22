@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/mobile_api.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/base/anggota_type.dart';
-import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/list_tabungan_anggota_type.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/saldo_anggota_type.dart';
 import 'package:progmob_magical_destroyers/providers/profile_provider.dart';
 import 'package:progmob_magical_destroyers/providers/transaction_provider.dart';
@@ -17,14 +16,14 @@ import 'package:progmob_magical_destroyers/widgets/text_title.dart';
 import 'package:progmob_magical_destroyers/widgets/wrapper/bottom_sheet_fit_content_wrapper.dart';
 import 'package:provider/provider.dart';
 
-class DetailAnggotaScreen extends StatefulWidget {
-  const DetailAnggotaScreen({super.key});
+class AnggotaDetailScreen extends StatefulWidget {
+  const AnggotaDetailScreen({super.key});
 
   @override
-  State<DetailAnggotaScreen> createState() => _DetailAnggotaScreenState();
+  State<AnggotaDetailScreen> createState() => AnggotaDetailScreenState();
 }
 
-class _DetailAnggotaScreenState extends State<DetailAnggotaScreen> {
+class AnggotaDetailScreenState extends State<AnggotaDetailScreen> {
   int? _saldo;
 
   final Anggota anggota = Get.arguments['anggota'] as Anggota;

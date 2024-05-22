@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
-import 'package:progmob_magical_destroyers/screens/main/account_screen.dart';
-import 'package:progmob_magical_destroyers/screens/main/anggota_screen.dart';
+import 'package:progmob_magical_destroyers/screens/main/account/account_screen.dart';
+import 'package:progmob_magical_destroyers/screens/main/anggota/anggota_screen.dart';
 import 'package:progmob_magical_destroyers/screens/main/home_screen.dart';
 
 class MainScreen extends StatefulWidget {

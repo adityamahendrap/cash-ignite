@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/list_tabungan_anggota_type.dart';
 import 'package:progmob_magical_destroyers/providers/transaction_provider.dart';
-import 'package:progmob_magical_destroyers/screens/main/transaction_detail.dart';
+import 'package:progmob_magical_destroyers/screens/_/transaction_detail.dart';
 import 'package:progmob_magical_destroyers/types/transaction_type.dart';
 import 'package:progmob_magical_destroyers/utils/helpless_util.dart';
 import 'package:progmob_magical_destroyers/widgets/data/empty_data.dart';

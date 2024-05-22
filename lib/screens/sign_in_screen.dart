@@ -10,7 +10,7 @@ import 'package:progmob_magical_destroyers/widgets/app_bar_with_back_button.dart
 import 'package:progmob_magical_destroyers/widgets/app_snack_bar.dart';
 import 'package:progmob_magical_destroyers/widgets/full_width_button_bottom_bar.dart';
 import 'package:progmob_magical_destroyers/widgets/horizontal_divider.dart';
-import 'package:progmob_magical_destroyers/widgets/icon_button_circ;e.dart';
+import 'package:progmob_magical_destroyers/widgets/icon_button_circle.dart';
 import 'package:progmob_magical_destroyers/widgets/input/password_input.dart';
 import 'package:progmob_magical_destroyers/widgets/input/text_input.dart';
 import 'package:progmob_magical_destroyers/widgets/text_title.dart';

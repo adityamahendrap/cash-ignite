@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
 import 'package:progmob_magical_destroyers/widgets/carousel_slider_product.dart';
-import 'package:progmob_magical_destroyers/widgets/product_sold_text.dart';
-import 'package:progmob_magical_destroyers/widgets/quantity_counter.dart';
+import 'package:progmob_magical_destroyers/widgets/_/product_sold_text.dart';
+import 'package:progmob_magical_destroyers/widgets/_/quantity_counter.dart';
 import 'package:progmob_magical_destroyers/widgets/text_title.dart';
 import 'package:readmore/readmore.dart';
 

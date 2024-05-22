@@ -6,8 +6,8 @@ import 'package:progmob_magical_destroyers/external/requester/mobile_api/mobile_
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/base/anggota_type.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/saldo_anggota_type.dart';
 import 'package:progmob_magical_destroyers/providers/profile_provider.dart';
-import 'package:progmob_magical_destroyers/screens/main/detail_anggota_screen.dart';
-import 'package:progmob_magical_destroyers/screens/savings_loan/update_anggota_screen.dart';
+import 'package:progmob_magical_destroyers/screens/main/anggota/anggota_detail_screen.dart';
+import 'package:progmob_magical_destroyers/screens/main/anggota/update_anggota_screen.dart';
 import 'package:progmob_magical_destroyers/utils/helpless_util.dart';
 import 'package:progmob_magical_destroyers/widgets/photo_view.dart';
 import 'package:progmob_magical_destroyers/widgets/text_label.dart';
@@ -32,7 +32,7 @@ class _AnggotaListTileState extends State<AnggotaListTile> {
   MoblieApiRequester _apiRequester = MoblieApiRequester();
 
   void _handleListTileOnTap() {
-    Get.to(() => DetailAnggotaScreen(), arguments: {'anggota': widget.item});
+    Get.to(() => AnggotaDetailScreen(), arguments: {'anggota': widget.item});
   }
 
   Future<SaldoAnggota> _getSaldoAnggota(Anggota anggota) async {

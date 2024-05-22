@@ -1,11 +1,9 @@
 import 'package:color_log/color_log.dart';
 import 'package:dio/dio.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/added_anggota_type.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/anggota_detail_type.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/anggota_list_type.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/current_user_type.dart';
-import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/deleted_anggota_type.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/inserted_transaksi_tabungan_type.dart'
     as ittt;
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/list_tabungan_anggota_type.dart';
@@ -13,7 +11,6 @@ import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/l
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/master_jenis_transaksi_type.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/register_type.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/saldo_anggota_type.dart';
-import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/updated_anggota_type.dart';
 import 'package:progmob_magical_destroyers/utils/helpless_util.dart';
 
 class MoblieApiRequester {
@@ -112,7 +109,7 @@ class MoblieApiRequester {
     return _getDataFromResponse(response, AnggotaDetail.fromJson);
   }
 
-  Future<AddedAnggota?> addAnggota({
+  Future<AnggotaDetail?> addAnggota({
     required int nomorInduk,
     required String nama,
     required String alamat,
@@ -130,10 +127,10 @@ class MoblieApiRequester {
         'telepon': telepon,
       },
     );
-    return _getDataFromResponse(response, AddedAnggota.fromJson);
+    return _getDataFromResponse(response, AnggotaDetail.fromJson);
   }
 
-  Future<UpdatedAnggota?> updateAnggota({
+  Future<AnggotaDetail?> updateAnggota({
     required int id,
     required int nomorInduk,
     required String nama,
@@ -154,15 +151,15 @@ class MoblieApiRequester {
         'status': status,
       },
     );
-    return _getDataFromResponse(response, UpdatedAnggota.fromJson);
+    return _getDataFromResponse(response, AnggotaDetail.fromJson);
   }
 
-  Future<DeletedAnggota?> deleteAnggota({
+  Future<AnggotaDetail?> deleteAnggota({
     required int id,
   }) async {
     String url = '/anggota/$id';
     Response response = await dio.delete(url);
-    return _getDataFromResponse(response, DeletedAnggota.fromJson);
+    return _getDataFromResponse(response, AnggotaDetail.fromJson);
   }
 
   Future<MasterJenisTransaksi?> getMasterJenisTransaksi() async {

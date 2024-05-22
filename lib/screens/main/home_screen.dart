@@ -13,7 +13,7 @@ import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/b
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/anggota_list_type.dart';
 import 'package:progmob_magical_destroyers/providers/profile_provider.dart';
 import 'package:progmob_magical_destroyers/screens/main/search_screen.dart';
-import 'package:progmob_magical_destroyers/screens/savings_loan/add_anggota_screen.dart';
+import 'package:progmob_magical_destroyers/screens/main/anggota/add_anggota_screen.dart';
 import 'package:progmob_magical_destroyers/utils/helpless_util.dart';
 import 'package:progmob_magical_destroyers/widgets/anggota/anggota_list_tile_skeleton.dart';
 import 'package:progmob_magical_destroyers/widgets/anggota/anggota_list_view.dart';

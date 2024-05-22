@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:progmob_magical_destroyers/screens/main/cart_screen.dart';
+import 'package:progmob_magical_destroyers/screens/_/cart_screen.dart';
 
 class AppBarWithBackButton extends StatelessWidget
     implements PreferredSizeWidget {
