@@ -37,6 +37,11 @@ class AddAnggotaScreenState extends State<AddAnggotaScreen> {
   String? _tempSelectedBirthday;
   String? _selectedBirthday = null;
   PhoneNumber number = PhoneNumber(isoCode: 'ID');
+  bool _isValidPhoneNumber = false;
+
+  void onPhoneNumberValidated(bool value) {
+    _isValidPhoneNumber = value;
+  }
 
   void _showBirthdayDatePicker() {
     bottomSheetFitContentWrapper(
@@ -88,7 +93,8 @@ class AddAnggotaScreenState extends State<AddAnggotaScreen> {
         _checkAddress(_addressController.text) == null &&
         _checkRegistrationNumber(_registrationController.text) == null &&
         _checkBirthday() == null &&
-        _checkPhoneNumber() == null;
+        _checkPhoneNumber() == null &&
+        _isValidPhoneNumber;
   }
 
   void save() async {
@@ -112,6 +118,11 @@ class AddAnggotaScreenState extends State<AddAnggotaScreen> {
       Get.back();
       AppSnackBar.success('Success', 'Anggota added successfully!');
     } on DioException catch (e) {
+      if (e.response!.data['message']
+          .contains("Integrity constraint violation")) {
+        AppSnackBar.error("Failed", "Nomor induk sudah digunakan");
+        return;
+      }
       HelplessUtil.handleApiError(e);
     } finally {
       EasyLoading.dismiss();
@@ -179,6 +190,7 @@ class AddAnggotaScreenState extends State<AddAnggotaScreen> {
                         PhoneNumberInput(
                           initialValue: number,
                           controller: _phoneNumberController,
+                          onInputValidated: onPhoneNumberValidated,
                         ),
                       ],
                     ),

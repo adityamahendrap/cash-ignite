@@ -38,8 +38,13 @@ class EditAnggotaScreenState extends State<EditAnggotaScreen> {
   String? _tempSelectedBirthday;
   String? _selectedBirthday = null;
   PhoneNumber number = PhoneNumber(isoCode: 'ID');
+  bool _isValidPhoneNumber = true;
 
   final Anggota anggota = Get.arguments['anggota'] as Anggota;
+
+  void onPhoneNumberValidated(bool value) {
+    _isValidPhoneNumber = value;
+  }
 
   void _showBirthdayDatePicker() {
     bottomSheetFitContentWrapper(
@@ -91,7 +96,8 @@ class EditAnggotaScreenState extends State<EditAnggotaScreen> {
         _checkAddress(_addressController.text) == null &&
         _checkRegistrationNumber(_registrationController.text) == null &&
         _checkBirthday() == null &&
-        _checkPhoneNumber() == null;
+        _checkPhoneNumber() == null &&
+        _isValidPhoneNumber;
   }
 
   void save() async {
@@ -115,6 +121,11 @@ class EditAnggotaScreenState extends State<EditAnggotaScreen> {
       Get.back();
       AppSnackBar.success('Success', 'Anggota added successfully!');
     } on DioException catch (e) {
+      if (e.response!.data['message']
+          .contains("Integrity constraint violation")) {
+        AppSnackBar.error("Failed", "Nomor induk sudah digunakan");
+        return;
+      }
       HelplessUtil.handleApiError(e);
     } finally {
       EasyLoading.dismiss();
@@ -192,6 +203,7 @@ class EditAnggotaScreenState extends State<EditAnggotaScreen> {
                         PhoneNumberInput(
                           controller: _phoneNumberController,
                           initialValue: number,
+                          onInputValidated: onPhoneNumberValidated,
                         ),
                       ],
                     ),

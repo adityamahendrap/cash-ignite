@@ -1,11 +1,18 @@
+import 'package:color_log/color_log.dart';
 import 'package:flutter/material.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 
 class PhoneNumberInput extends StatelessWidget {
   final PhoneNumber initialValue;
   final TextEditingController controller;
+  final Function onInputValidated;
 
-  const PhoneNumberInput({super.key, required this.initialValue, required this.controller});
+  const PhoneNumberInput({
+    super.key,
+    required this.initialValue,
+    required this.controller,
+    required this.onInputValidated,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +28,10 @@ class PhoneNumberInput extends StatelessWidget {
         InternationalPhoneNumberInput(
           onInputChanged: (PhoneNumber number) {
             // print(number.phoneNumber);
+          },
+          onInputValidated: (bool value) {
+            onInputValidated(value);
+            clog.debug('Phone Number Validated: $value');
           },
           selectorConfig: SelectorConfig(
             selectorType: PhoneInputSelectorType.DROPDOWN,
