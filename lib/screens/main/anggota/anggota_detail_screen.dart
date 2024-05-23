@@ -14,6 +14,7 @@ import 'package:progmob_magical_destroyers/widgets/transaction/transaction_type_
 import 'package:progmob_magical_destroyers/widgets/photo_view.dart';
 import 'package:progmob_magical_destroyers/widgets/text_title.dart';
 import 'package:progmob_magical_destroyers/widgets/wrapper/bottom_sheet_fit_content_wrapper.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import 'package:provider/provider.dart';
 
 class AnggotaDetailScreen extends StatefulWidget {
@@ -105,7 +106,10 @@ class AnggotaDetailScreenState extends State<AnggotaDetailScreen> {
         Consumer<TransactionProvider>(
           builder: (context, provider, child) {
             return provider.isLoadingSaldo
-                ? TextTitle(title: "Loading")
+                ? Skeletonizer(
+                    enabled: true,
+                    child: TextTitle(title: "Rp1.000.000"),
+                  )
                 : TextTitle(
                     title: "Rp${HelplessUtil.formatNumber(provider.saldo)}",
                   );
