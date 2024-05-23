@@ -12,13 +12,11 @@ import 'package:provider/provider.dart';
 class TransactionTypeList extends StatefulWidget {
   final int saldo;
   final Anggota anggota;
-  final Function updateSaldoStateCallback;
 
   TransactionTypeList({
     super.key,
     required this.saldo,
     required this.anggota,
-    required this.updateSaldoStateCallback,
   });
 
   @override
@@ -60,7 +58,6 @@ class _TransactionTypeListState extends State<TransactionTypeList> {
         transactionType: transactionType,
         saldo: widget.saldo,
         anggota: widget.anggota,
-        updateSaldoStateCallback: widget.updateSaldoStateCallback,
       ),
     );
   }

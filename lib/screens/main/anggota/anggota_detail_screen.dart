@@ -24,32 +24,11 @@ class AnggotaDetailScreen extends StatefulWidget {
 }
 
 class AnggotaDetailScreenState extends State<AnggotaDetailScreen> {
-  int? _saldo;
-
   final Anggota anggota = Get.arguments['anggota'] as Anggota;
-
-  MoblieApiRequester _apiRequester = MoblieApiRequester();
-
-  void _getSaldoAnggota(Anggota anggota) async {
-    SaldoAnggota data = await _apiRequester.getSaldoByAnggotaId(
-        anggotaId: anggota.id.toString());
-    setState(() {
-      _saldo = data.saldo!;
-    });
-  }
-
-  Future<void> _updateSaldoState() async {
-    try {
-      await _apiRequester.getSaldoByAnggotaId(anggotaId: anggota.id.toString());
-      setState(() {});
-    } catch (e) {
-      throw e;
-    }
-  }
 
   @override
   void initState() {
-    _getSaldoAnggota(anggota);
+    context.read<TransactionProvider>().getSaldo(anggota);
     context.read<TransactionProvider>().getListTabunganAnggota(anggota);
     super.initState();
   }
@@ -123,10 +102,15 @@ class AnggotaDetailScreenState extends State<AnggotaDetailScreen> {
     return Column(
       children: [
         Text(anggota.nama, style: TextStyle(fontSize: 18)),
-        TextTitle(
-            title: _saldo != null
-                ? "Rp${HelplessUtil.formatNumber(_saldo!)}"
-                : "Loading"),
+        Consumer<TransactionProvider>(
+          builder: (context, provider, child) {
+            return provider.isLoadingSaldo
+                ? TextTitle(title: "Loading")
+                : TextTitle(
+                    title: "Rp${HelplessUtil.formatNumber(provider.saldo)}",
+                  );
+          },
+        ),
       ],
     );
   }
@@ -136,38 +120,44 @@ class AnggotaDetailScreenState extends State<AnggotaDetailScreen> {
       width: 70,
       child: Column(
         children: [
-          Container(
-            decoration: BoxDecoration(
-              color:
-                  _saldo == null ? Colors.grey.shade400 : ColorPlanet.primary,
-              shape: BoxShape.circle,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.2),
-                  blurRadius: 5,
-                  offset: Offset(0, 3),
+          Consumer<TransactionProvider>(
+            builder: (context, provider, child) {
+              return Container(
+                decoration: BoxDecoration(
+                  color: provider.isLoadingSaldo
+                      ? Colors.grey.shade400
+                      : ColorPlanet.primary,
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.2),
+                      blurRadius: 5,
+                      offset: Offset(0, 3),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-            child: IconButton(
-              icon: Icon(
-                Icons.add,
-                color: _saldo == null ? Colors.grey.shade100 : Colors.white,
-              ),
-              onPressed: _saldo == null
-                  ? null
-                  : () {
-                      bottomSheetFitContentWrapper(
-                        context: context,
-                        content: TransactionTypeList(
-                          saldo: _saldo!,
-                          anggota: anggota,
-                          updateSaldoStateCallback: _updateSaldoState,
-                        ),
-                        isHorizontalPaddingActive: false,
-                      );
-                    },
-            ),
+                child: IconButton(
+                  icon: Icon(
+                    Icons.add,
+                    color: provider.isLoadingSaldo
+                        ? Colors.grey.shade100
+                        : Colors.white,
+                  ),
+                  onPressed: provider.isLoadingSaldo
+                      ? null
+                      : () {
+                          bottomSheetFitContentWrapper(
+                            context: context,
+                            content: TransactionTypeList(
+                              saldo: provider.saldo,
+                              anggota: anggota,
+                            ),
+                            isHorizontalPaddingActive: false,
+                          );
+                        },
+                ),
+              );
+            },
           ),
           SizedBox(height: 5),
           Text("Create\nTxn",

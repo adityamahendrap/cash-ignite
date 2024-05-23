@@ -21,14 +21,12 @@ class NominalTransaction extends StatefulWidget {
   final TransactionType transactionType;
   final int saldo;
   final Anggota anggota;
-  final Function updateSaldoStateCallback;
 
   NominalTransaction({
     super.key,
     required this.transactionType,
     required this.saldo,
     required this.anggota,
-    required this.updateSaldoStateCallback,
   });
 
   @override
@@ -38,6 +36,7 @@ class NominalTransaction extends StatefulWidget {
 class _NominalTransactionState extends State<NominalTransaction> {
   final TextEditingController _nominalController = TextEditingController();
   final MoblieApiRequester _apiRequester = MoblieApiRequester();
+  late TransactionProvider transactionProvider;
 
   Future<bool> _showConfirmationDialog(
     BuildContext context,
@@ -83,15 +82,15 @@ class _NominalTransactionState extends State<NominalTransaction> {
         trxId: widget.transactionType.id,
         trxNominal: nominal,
       );
-      await widget.updateSaldoStateCallback(); // Update saldo state
-      context
-          .read<TransactionProvider>()
-          .getListTabunganAnggota(widget.anggota);
+
+      await Future.wait([
+        transactionProvider.getSaldo(widget.anggota),
+        transactionProvider.getListTabunganAnggota(widget.anggota),
+      ]);
+
       AppSnackBar.success("Success", "Transaction success!");
     } on DioException catch (e) {
       HelplessUtil.handleApiError(e);
-    } catch (e) {
-      print(e);
     } finally {
       EasyLoading.dismiss();
     }
@@ -133,6 +132,13 @@ class _NominalTransactionState extends State<NominalTransaction> {
         ],
       ),
     );
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Save the reference to the provider here
+    transactionProvider = context.read<TransactionProvider>();
   }
 
   @override
