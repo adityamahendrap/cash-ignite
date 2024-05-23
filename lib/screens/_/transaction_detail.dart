@@ -49,7 +49,7 @@ class TransactionDetail extends StatelessWidget {
             padding: EdgeInsets.only(top: 30, left: 20, right: 20),
             child: TicketWidget(
               width: MediaQuery.of(context).size.width,
-              height: 500,
+              height: 520,
               isCornerRounded: true,
               padding: EdgeInsets.all(40),
               child: _transactionData(),
@@ -66,8 +66,9 @@ class TransactionDetail extends StatelessWidget {
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text(type.name, style: TextStyle(fontSize: 24)),
+            Expanded(child: Text(type.name, style: TextStyle(fontSize: 24))),
             Container(
               width: 40,
               height: 40,

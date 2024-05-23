@@ -6,7 +6,7 @@ import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/s
 import 'package:progmob_magical_destroyers/providers/profile_provider.dart';
 import 'package:progmob_magical_destroyers/providers/transaction_provider.dart';
 import 'package:progmob_magical_destroyers/utils/helpless_util.dart';
-import 'package:progmob_magical_destroyers/widgets/anggota/info_anggota.dart';
+import 'package:progmob_magical_destroyers/widgets/anggota/anggota_information.dart';
 import 'package:progmob_magical_destroyers/widgets/app_bar_with_back_button.dart';
 import 'package:get/get.dart';
 import 'package:progmob_magical_destroyers/widgets/transaction/transaction_history.dart';
@@ -65,9 +65,16 @@ class AnggotaDetailScreenState extends State<AnggotaDetailScreen> {
               SizedBox(height: 50),
               _profilePicture(),
               SizedBox(height: 20),
-              _profile(),
-              SizedBox(height: 30),
-              _createTransactionButton(),
+              _nameAndSaldo(),
+              SizedBox(height: 25),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  _createTransactionButton(),
+                  SizedBox(width: 40),
+                  _anggotaInfoButton(),
+                ],
+              ),
               SizedBox(height: 25),
               Container(
                 padding: EdgeInsets.only(top: 25),
@@ -103,24 +110,10 @@ class AnggotaDetailScreenState extends State<AnggotaDetailScreen> {
     );
   }
 
-  Widget _profile() {
+  Widget _nameAndSaldo() {
     return Column(
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(anggota.nama, style: TextStyle(fontSize: 18)),
-            SizedBox(width: 5),
-            InkWell(
-              onTap: () => bottomSheetFitContentWrapper(
-                context: context,
-                content: InfoAnggota(anggota: anggota),
-                isHorizontalPaddingActive: false,
-              ),
-              child: Icon(Icons.info_outline, color: ColorPlanet.primary),
-            ),
-          ],
-        ),
+        Text(anggota.nama, style: TextStyle(fontSize: 18)),
         TextTitle(
             title: _saldo != null
                 ? "Rp${HelplessUtil.formatNumber(_saldo!)}"
@@ -130,39 +123,83 @@ class AnggotaDetailScreenState extends State<AnggotaDetailScreen> {
   }
 
   Widget _createTransactionButton() {
-    return Column(
-      children: [
-        Container(
-          decoration: BoxDecoration(
-            color: _saldo == null ? Colors.grey.shade400 : ColorPlanet.primary,
-            shape: BoxShape.circle,
-            // boxShadow: [
-            //   BoxShadow(
-            //     color: Colors.black.withOpacity(0.2),
-            //     blurRadius: 5,
-            //     offset: Offset(0, 3),
-            //   ),
-            // ],
-          ),
-          child: IconButton(
-            icon: Icon(
-              Icons.add,
-              color: _saldo == null ? Colors.grey.shade100 : Colors.white,
+    return Container(
+      width: 70,
+      child: Column(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              color:
+                  _saldo == null ? Colors.grey.shade400 : ColorPlanet.primary,
+              shape: BoxShape.circle,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.2),
+                  blurRadius: 5,
+                  offset: Offset(0, 3),
+                ),
+              ],
             ),
-            onPressed: _saldo == null
-                ? null
-                : () {
-                    bottomSheetFitContentWrapper(
-                      context: context,
-                      content: TransactionTypeList(saldo: _saldo!),
-                      isHorizontalPaddingActive: false,
-                    );
-                  },
+            child: IconButton(
+              icon: Icon(
+                Icons.add,
+                color: _saldo == null ? Colors.grey.shade100 : Colors.white,
+              ),
+              onPressed: _saldo == null
+                  ? null
+                  : () {
+                      bottomSheetFitContentWrapper(
+                        context: context,
+                        content: TransactionTypeList(saldo: _saldo!),
+                        isHorizontalPaddingActive: false,
+                      );
+                    },
+            ),
           ),
-        ),
-        SizedBox(height: 5),
-        Text("Add Transaction", style: TextStyle(fontSize: 14)),
-      ],
+          SizedBox(height: 5),
+          Text("Create\nTxn",
+              textAlign: TextAlign.center, style: TextStyle(fontSize: 14)),
+        ],
+      ),
+    );
+  }
+
+  Widget _anggotaInfoButton() {
+    return Container(
+      width: 70,
+      child: Column(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              color: ColorPlanet.primary,
+              shape: BoxShape.circle,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.2),
+                  blurRadius: 5,
+                  offset: Offset(0, 3),
+                ),
+              ],
+            ),
+            child: IconButton(
+              icon: Icon(
+                Icons.info_outline_rounded,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                bottomSheetFitContentWrapper(
+                  context: context,
+                  content: AnggotaInformation(anggota: anggota),
+                  isHorizontalPaddingActive: false,
+                );
+              },
+            ),
+          ),
+          SizedBox(height: 5),
+          Text("Anggota\nInfo",
+              textAlign: TextAlign.center, style: TextStyle(fontSize: 14)),
+        ],
+      ),
     );
   }
 
@@ -195,7 +232,7 @@ class AnggotaDetailScreenState extends State<AnggotaDetailScreen> {
 //                   SizedBox(height: 50),
 //                   _profilePicture(),
 //                   SizedBox(height: 20),
-//                   _profile(),
+//                   _nameAndSaldo(),
 //                   SizedBox(height: 20),
 //                   _createTransactionButton(),
 //                   Container(
