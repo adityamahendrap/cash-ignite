@@ -7,6 +7,7 @@ import 'package:progmob_magical_destroyers/types/transaction_type.dart';
 import 'package:progmob_magical_destroyers/utils/helpless_util.dart';
 import 'package:progmob_magical_destroyers/widgets/data/empty_data.dart';
 import 'package:progmob_magical_destroyers/widgets/section_header.dart';
+import 'package:progmob_magical_destroyers/widgets/transaction/transaction_history_lsit_tile_skeleton.dart';
 import 'package:provider/provider.dart';
 
 class TransactionHistory extends StatelessWidget {
@@ -33,21 +34,12 @@ class TransactionHistory extends StatelessWidget {
           SizedBox(height: 20),
           SectionHeader(title: "Transaction History", showButton: false),
           SizedBox(height: 5),
-          // Padding(
-          //   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-          //   child: Text(
-          //     "APR 2024",
-          //     style: TextStyle(
-          //       fontSize: 18,
-          //       color: Colors.black.withOpacity(0.6),
-          //     ),
-          //   ),
-          // ),
+          // _monthYearHeader(),
           Consumer<TransactionProvider>(
             builder: (context, dataProvider, child) {
               if (dataProvider.isLoading) {
                 // dataProvider.getListTabunganAnggota(anggota);
-                return CircularProgressIndicator();
+                return TransactionHistoryListTileSkeleton(itemCount: 3);
               } else if (dataProvider.transactionList.isEmpty) {
                 return Padding(
                   padding: const EdgeInsets.symmetric(vertical: 20),
@@ -90,28 +82,20 @@ class TransactionHistory extends StatelessWidget {
               );
             },
           ),
-          // ListView.builder(
-          //   itemCount: 5,
-          //   shrinkWrap: true,
-          //   physics: NeverScrollableScrollPhysics(),
-          //   itemBuilder: (context, index) {
-          //     return Material(
-          //       child: InkWell(
-          //         onTap: () => Get.to(() => TransactionDetail()),
-          //         child: ListTile(
-          //           leading: CircleAvatar(
-          //             backgroundColor: ColorPlanet.primary,
-          //             child: Icon(Icons.account_balance_wallet),
-          //           ),
-          //           title: Text("Transaction ${index + 1}"),
-          //           subtitle: Text("17 Apr 2024"),
-          //           trailing: Text("+Rp50.000", style: TextStyle(fontSize: 18)),
-          //         ),
-          //       ),
-          //     );
-          //   },
-          // ),
         ],
+      ),
+    );
+  }
+
+  Widget _monthYearHeader() {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      child: Text(
+        "APR 2024",
+        style: TextStyle(
+          fontSize: 18,
+          color: Colors.black.withOpacity(0.6),
+        ),
       ),
     );
   }

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
 import 'package:progmob_magical_destroyers/screens/_/detail_product_screen.dart';
-import 'package:progmob_magical_destroyers/types/product_type.dart';
+import 'package:progmob_magical_destroyers/types/_/product_type.dart';
 import 'package:progmob_magical_destroyers/widgets/_/product_sold_text.dart';
 
 class ProductCard extends StatelessWidget {
