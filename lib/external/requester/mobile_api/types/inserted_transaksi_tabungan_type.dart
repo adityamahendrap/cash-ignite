@@ -22,13 +22,13 @@ class InsertedTransaksiTabungan {
 }
 
 class Data {
-  Tabungan? tabungan;
+  TabunganI? tabungan;
 
   Data({this.tabungan});
 
   Data.fromJson(Map<String, dynamic> json) {
     tabungan = json['tabungan'] != null
-        ? new Tabungan.fromJson(json['tabungan'])
+        ? new TabunganI.fromJson(json['tabungan'])
         : null;
   }
 
@@ -41,7 +41,7 @@ class Data {
   }
 }
 
-class Tabungan {
+class TabunganI {
   String? anggotaId;
   String? trxId;
   String? trxNominal;
@@ -51,7 +51,7 @@ class Tabungan {
   String? createdAt;
   int? id;
 
-  Tabungan(
+  TabunganI(
       {this.anggotaId,
       this.trxId,
       this.trxNominal,
@@ -61,7 +61,7 @@ class Tabungan {
       this.createdAt,
       this.id});
 
-  Tabungan.fromJson(Map<String, dynamic> json) {
+  TabunganI.fromJson(Map<String, dynamic> json) {
     anggotaId = json['anggota_id'];
     trxId = json['trx_id'];
     trxNominal = json['trx_nominal'];

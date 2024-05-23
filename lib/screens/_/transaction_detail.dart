@@ -1,11 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
-import 'package:progmob_magical_destroyers/widgets/anggota/info_anggota.dart';
+import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/base/anggota_type.dart';
+import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/list_tabungan_anggota_type.dart';
+import 'package:progmob_magical_destroyers/types/transaction_type.dart';
+import 'package:progmob_magical_destroyers/utils/helpless_util.dart';
 import 'package:progmob_magical_destroyers/widgets/app_bar_with_back_button.dart';
+import 'package:progmob_magical_destroyers/widgets/transaction/transaction_history.dart';
 import 'package:ticket_widget/ticket_widget.dart';
 
 class TransactionDetail extends StatelessWidget {
-  const TransactionDetail({super.key});
+  final Tabungan item;
+  final TransactionType type;
+  final Anggota anggota;
+
+  TransactionDetail(
+      {super.key,
+      required this.item,
+      required this.type,
+      required this.anggota});
+
+  final String _personInCharge = GetStorage().read('user')['name'];
+
+  Text _getTextNominal(int nominal, TransactionType txnType) {
+    Color color = txnType.trxMultiply == 1 ? Colors.green : Colors.black;
+    String prefix = txnType.trxMultiply == 1 ? "+" : "-";
+    String formattedNominal = HelplessUtil.formatNumber(nominal);
+
+    return Text(
+      "${prefix}Rp${formattedNominal}",
+      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: color),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +49,7 @@ class TransactionDetail extends StatelessWidget {
             padding: EdgeInsets.only(top: 30, left: 20, right: 20),
             child: TicketWidget(
               width: MediaQuery.of(context).size.width,
-              height: 550,
+              height: 500,
               isCornerRounded: true,
               padding: EdgeInsets.all(40),
               child: _transactionData(),
@@ -41,25 +67,19 @@ class TransactionDetail extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text("Transaction Type", style: TextStyle(fontSize: 24)),
+            Text(type.name, style: TextStyle(fontSize: 24)),
             Container(
               width: 40,
               height: 40,
               child: Center(
-                child: Image.asset("assets/bunga.png"),
+                child: Image.asset(type.imageUrl),
               ),
             ),
           ],
         ),
         SizedBox(height: 20),
         Center(
-          child: Text(
-            "+Rp50.000",
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
+          child: _getTextNominal(item.trxNominal!, type),
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -74,11 +94,13 @@ class TransactionDetail extends StatelessWidget {
           ],
         ),
         SizedBox(height: 20),
-        _verticalRow("Transaction ID", "111"),
-        _verticalRow("Recipient", "Aditya Mahendra"),
-        _verticalRow("Datetime", "17 Apr 2024"),
-        _verticalRow("Transaction ID", "111"),
-        _verticalRow("Person In Charge", "Sigma Skibidi"),
+        _verticalRow("Transaction ID", item.id.toString()),
+        _verticalRow("Recipient", anggota.nama),
+        _verticalRow(
+          "Datetime",
+          HelplessUtil.formatDateTimeString(item.trxTanggal.toString(), true),
+        ),
+        _verticalRow("Person In Charge", _personInCharge),
       ],
     );
   }

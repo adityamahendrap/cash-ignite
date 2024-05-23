@@ -12,8 +12,11 @@ class HelplessUtil {
     clog.error(e.toString());
     clog.error(e.response.toString());
     clog.error(e.response?.data.toString() ?? "No response data");
+    inspect(e);
     inspect(e.response);
+    inspect(e.response?.data);
 
+    clog.error('Error Status Code: ${e.response?.statusCode}');
     if (e.response!.statusCode == 406) {
       AuthController().signOut();
       AppSnackBar.error("Session Expired",

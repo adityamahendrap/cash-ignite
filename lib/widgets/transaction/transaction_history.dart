@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/base/anggota_type.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/list_tabungan_anggota_type.dart';
 import 'package:progmob_magical_destroyers/providers/transaction_provider.dart';
 import 'package:progmob_magical_destroyers/screens/_/transaction_detail.dart';
@@ -11,7 +12,9 @@ import 'package:progmob_magical_destroyers/widgets/transaction/transaction_histo
 import 'package:provider/provider.dart';
 
 class TransactionHistory extends StatelessWidget {
-  TransactionHistory({super.key});
+  final Anggota anggota;
+
+  TransactionHistory({super.key, required this.anggota});
 
   Text _getTextNominal(int nominal, TransactionType txnType) {
     Color color = txnType.trxMultiply == 1 ? Colors.green : Colors.red;
@@ -57,7 +60,13 @@ class TransactionHistory extends StatelessWidget {
 
                   return Material(
                     child: InkWell(
-                      onTap: () => Get.to(() => TransactionDetail()),
+                      onTap: () => Get.to(
+                        () => TransactionDetail(
+                          item: txn,
+                          type: txnType,
+                          anggota: anggota,
+                        ),
+                      ),
                       child: ListTile(
                         leading: Container(
                           width: 30,

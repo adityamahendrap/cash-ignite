@@ -80,7 +80,7 @@ class AnggotaDetailScreenState extends State<AnggotaDetailScreen> {
                   ),
                 ),
               ),
-              TransactionHistory()
+              TransactionHistory(anggota: anggota)
             ],
           ),
         ),
@@ -134,26 +134,30 @@ class AnggotaDetailScreenState extends State<AnggotaDetailScreen> {
       children: [
         Container(
           decoration: BoxDecoration(
-            color: ColorPlanet.primary,
+            color: _saldo == null ? Colors.grey.shade400 : ColorPlanet.primary,
             shape: BoxShape.circle,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.2),
-                blurRadius: 5,
-                offset: Offset(0, 3),
-              ),
-            ],
+            // boxShadow: [
+            //   BoxShadow(
+            //     color: Colors.black.withOpacity(0.2),
+            //     blurRadius: 5,
+            //     offset: Offset(0, 3),
+            //   ),
+            // ],
           ),
           child: IconButton(
-            icon: Icon(Icons.add),
-            color: Colors.white,
-            onPressed: () {
-              bottomSheetFitContentWrapper(
-                context: context,
-                content: TransactionTypeList(saldo: _saldo!),
-                isHorizontalPaddingActive: false,
-              );
-            },
+            icon: Icon(
+              Icons.add,
+              color: _saldo == null ? Colors.grey.shade100 : Colors.white,
+            ),
+            onPressed: _saldo == null
+                ? null
+                : () {
+                    bottomSheetFitContentWrapper(
+                      context: context,
+                      content: TransactionTypeList(saldo: _saldo!),
+                      isHorizontalPaddingActive: false,
+                    );
+                  },
           ),
         ),
         SizedBox(height: 5),
