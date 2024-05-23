@@ -13,14 +13,14 @@ import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/r
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/saldo_anggota_type.dart';
 import 'package:progmob_magical_destroyers/utils/helpless_util.dart';
 
-class MoblieApiRequester {
+class MobileApiRequester {
   static const String BASE_URL = 'https://mobileapis.manpits.xyz/api';
 
   final Dio dio = Dio();
   late String? token;
   final GetStorage _box = GetStorage();
 
-  MoblieApiRequester() {
+  MobileApiRequester() {
     _loadToken();
     _setDioOptions();
   }

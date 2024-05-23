@@ -29,7 +29,7 @@ class TransactionProvider extends ChangeNotifier {
   Future<void> getListTabunganAnggota(Anggota anggota) async {
     _isLoadingList = true;
     try {
-      final MoblieApiRequester _apiRequester = MoblieApiRequester();
+      final MobileApiRequester _apiRequester = MobileApiRequester();
       ListTabunganAnggota data = await _apiRequester
           .getListAllTabunganByAnggota(anggotaId: anggota.id);
       _transactionList = data.tabungan!;
@@ -45,9 +45,9 @@ class TransactionProvider extends ChangeNotifier {
   Future<void> getSaldo(Anggota anggota) async {
     _isLoadingSaldo = true;
     try {
-      final MoblieApiRequester _apiRequester = MoblieApiRequester();
-      SaldoAnggota data =
-          await _apiRequester.getSaldoByAnggotaId(anggotaId: anggota.id.toString());
+      final MobileApiRequester _apiRequester = MobileApiRequester();
+      SaldoAnggota data = await _apiRequester.getSaldoByAnggotaId(
+          anggotaId: anggota.id.toString());
       _saldo = data.saldo!;
       notifyListeners();
     } on DioException catch (e) {

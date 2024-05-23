@@ -35,7 +35,7 @@ class NominalTransaction extends StatefulWidget {
 
 class _NominalTransactionState extends State<NominalTransaction> {
   final TextEditingController _nominalController = TextEditingController();
-  final MoblieApiRequester _apiRequester = MoblieApiRequester();
+  final MobileApiRequester _apiRequester = MobileApiRequester();
   late TransactionProvider transactionProvider;
 
   Future<bool> _showConfirmationDialog(

@@ -29,7 +29,7 @@ class AnggotaListTile extends StatefulWidget {
 }
 
 class _AnggotaListTileState extends State<AnggotaListTile> {
-  MoblieApiRequester _apiRequester = MoblieApiRequester();
+  MobileApiRequester _apiRequester = MobileApiRequester();
 
   void _handleListTileOnTap() {
     Get.to(() => AnggotaDetailScreen(), arguments: {'anggota': widget.item});

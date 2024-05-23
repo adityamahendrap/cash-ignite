@@ -30,7 +30,7 @@ class AnggotaScreen extends StatefulWidget {
 }
 
 class _AnggotaScreenState extends State<AnggotaScreen> {
-  final MoblieApiRequester _apiRequester = MoblieApiRequester();
+  final MobileApiRequester _apiRequester = MobileApiRequester();
   late Future<AnggotaList?> _anggotaList;
 
   Future<void> _getAnggotaList() async {

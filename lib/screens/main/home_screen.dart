@@ -39,7 +39,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final GetStorage _box = GetStorage();
-  final MoblieApiRequester _apiRequester = MoblieApiRequester();
+  final MobileApiRequester _apiRequester = MobileApiRequester();
 
   late User _user;
   late Future<AnggotaList?> _anggotaList;

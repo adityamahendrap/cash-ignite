@@ -17,7 +17,7 @@ import 'package:progmob_magical_destroyers/widgets/app_snack_bar.dart';
 class AuthController {
   final AuthService _authService = AuthService();
   final GetStorage _box = GetStorage();
-  final MoblieApiRequester _mobileApi = MoblieApiRequester();
+  final MobileApiRequester _apiRequester = MobileApiRequester();
 
   void _saveToken(String token) {
     _box.write('token', token);
@@ -48,7 +48,7 @@ class AuthController {
 
     try {
       EasyLoading.show();
-      await _mobileApi.register(
+      await _apiRequester.register(
         name: name,
         email: email,
         password: password,
@@ -77,7 +77,7 @@ class AuthController {
 
     try {
       EasyLoading.show();
-      Login? data = await _mobileApi.login(
+      Login? data = await _apiRequester.login(
         email: email,
         password: password,
       );

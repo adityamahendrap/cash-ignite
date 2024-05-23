@@ -7,7 +7,7 @@ import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/l
 import 'package:progmob_magical_destroyers/services/firebase_service.dart';
 
 class AuthService {
-  final _apiRequester = MoblieApiRequester();
+  final _apiRequester = MobileApiRequester();
 
   Future<Login?> emulateGoogleOauth() async {
     final String provider = 'google.com';
