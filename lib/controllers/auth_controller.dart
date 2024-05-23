@@ -141,7 +141,6 @@ class AuthController {
   }
 
   void signOut() {
-    _mobileApi.logout();
     _box.remove('token');
     _box.remove('user');
     clog.info('Signin out success. Token removed.');

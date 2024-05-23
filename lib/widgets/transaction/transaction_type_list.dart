@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
+import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/base/anggota_type.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/list_tabungan_anggota_type.dart';
 import 'package:progmob_magical_destroyers/providers/transaction_provider.dart';
 import 'package:progmob_magical_destroyers/widgets/transaction/nominal_transaction.dart';
@@ -10,8 +11,15 @@ import 'package:provider/provider.dart';
 
 class TransactionTypeList extends StatefulWidget {
   final int saldo;
+  final Anggota anggota;
+  final Function updateSaldoStateCallback;
 
-  TransactionTypeList({super.key, required this.saldo});
+  TransactionTypeList({
+    super.key,
+    required this.saldo,
+    required this.anggota,
+    required this.updateSaldoStateCallback,
+  });
 
   @override
   State<TransactionTypeList> createState() => _TransactionTypeListState();
@@ -49,7 +57,11 @@ class _TransactionTypeListState extends State<TransactionTypeList> {
     bottomSheetFitContentWrapper(
       context: context,
       content: NominalTransaction(
-          transactionType: transactionType, saldo: widget.saldo),
+        transactionType: transactionType,
+        saldo: widget.saldo,
+        anggota: widget.anggota,
+        updateSaldoStateCallback: widget.updateSaldoStateCallback,
+      ),
     );
   }
 

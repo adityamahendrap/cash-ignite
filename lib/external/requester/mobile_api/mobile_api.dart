@@ -196,6 +196,7 @@ class MoblieApiRequester {
 
     clog.info('Response Data:');
     HelplessUtil.printPrettyJson(dataJson);
+    HelplessUtil.printPrettyJson(reqJson);
 
     return ittt.InsertedTransaksiTabungan(
       data: ittt.Data.fromJson(dataJson),

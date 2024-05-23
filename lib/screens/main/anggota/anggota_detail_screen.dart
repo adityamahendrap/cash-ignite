@@ -38,6 +38,15 @@ class AnggotaDetailScreenState extends State<AnggotaDetailScreen> {
     });
   }
 
+  Future<void> _updateSaldoState() async {
+    try {
+      await _apiRequester.getSaldoByAnggotaId(anggotaId: anggota.id.toString());
+      setState(() {});
+    } catch (e) {
+      throw e;
+    }
+  }
+
   @override
   void initState() {
     _getSaldoAnggota(anggota);
@@ -150,7 +159,11 @@ class AnggotaDetailScreenState extends State<AnggotaDetailScreen> {
                   : () {
                       bottomSheetFitContentWrapper(
                         context: context,
-                        content: TransactionTypeList(saldo: _saldo!),
+                        content: TransactionTypeList(
+                          saldo: _saldo!,
+                          anggota: anggota,
+                          updateSaldoStateCallback: _updateSaldoState,
+                        ),
                         isHorizontalPaddingActive: false,
                       );
                     },

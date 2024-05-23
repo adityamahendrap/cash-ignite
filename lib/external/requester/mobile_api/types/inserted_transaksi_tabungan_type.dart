@@ -43,8 +43,8 @@ class Data {
 
 class TabunganI {
   String? anggotaId;
-  String? trxId;
-  String? trxNominal;
+  int? trxId;
+  int? trxNominal;
   int? createdByUserid;
   String? trxTanggal;
   String? updatedAt;
@@ -88,8 +88,8 @@ class TabunganI {
 
 class Req {
   String? anggotaId;
-  String? trxId;
-  String? trxNominal;
+  int? trxId;
+  int? trxNominal;
   int? createdByUserid;
   String? trxTanggal;
 

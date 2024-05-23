@@ -18,6 +18,7 @@ import 'package:progmob_magical_destroyers/utils/helpless_util.dart';
 import 'package:progmob_magical_destroyers/widgets/anggota/anggota_list_tile_skeleton.dart';
 import 'package:progmob_magical_destroyers/widgets/anggota/anggota_list_view.dart';
 import 'package:progmob_magical_destroyers/widgets/app_snack_bar.dart';
+import 'package:progmob_magical_destroyers/widgets/confirmation_dialog_content.dart';
 import 'package:progmob_magical_destroyers/widgets/data/empty_data.dart';
 import 'package:progmob_magical_destroyers/widgets/data/error_fetching_data.dart';
 import 'package:progmob_magical_destroyers/widgets/floating_action_button_add.dart';
@@ -107,31 +108,17 @@ class _HomeScreenState extends State<HomeScreen> {
     late bool isConfirmed;
     await dialogWrapper(
       context: context,
-      content: Column(
-        children: [
-          SizedBox(height: 20),
-          Text('Are you sure you want to delete this anggota?'),
-          SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              TextButton(
-                onPressed: () {
-                  Get.back();
-                  isConfirmed = false;
-                },
-                child: Text('Cancel'),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  Get.back();
-                  isConfirmed = true;
-                },
-                child: Text('Delete'),
-              ),
-            ],
-          ),
-        ],
+      content: ConfirmationDialogContent(
+        text: "Are you sure you want to delete this anggota?",
+        onConfirmed: () {
+          Get.back();
+          isConfirmed = true;
+        },
+        onCanceled: () {
+          Get.back();
+          isConfirmed = false;
+        },
+        confirmText: "Delete",
       ),
     );
     return isConfirmed;

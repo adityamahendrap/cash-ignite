@@ -7,25 +7,23 @@ import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/l
 import 'package:progmob_magical_destroyers/utils/helpless_util.dart';
 
 class TransactionProvider extends ChangeNotifier {
-  bool _isLoading = false;
+  bool _isLoadingList = false;
   bool _isNominalValid = false;
   List<Tabungan> _transactionList = [];
 
-  bool get isLoading => _isLoading;
+  bool get isLoadingList => _isLoadingList;
   bool get isNominalValid => _isNominalValid;
   List<Tabungan> get transactionList => _transactionList;
 
-  final MoblieApiRequester _apiRequester = MoblieApiRequester();
-
   set isNominalValid(bool value) {
     _isNominalValid = value;
-    clog.debug('isNominalValid: $_isNominalValid');
     notifyListeners();
   }
 
   void getListTabunganAnggota(Anggota anggota) async {
-    _isLoading = true;
+    _isLoadingList = true;
     try {
+      final MoblieApiRequester _apiRequester = MoblieApiRequester();
       ListTabunganAnggota data = await _apiRequester
           .getListAllTabunganByAnggota(anggotaId: anggota.id);
       _transactionList = data.tabungan!;
@@ -33,7 +31,7 @@ class TransactionProvider extends ChangeNotifier {
     } on DioException catch (e) {
       HelplessUtil.handleApiError(e);
     } finally {
-      _isLoading = false;
+      _isLoadingList = false;
       notifyListeners();
     }
   }

@@ -40,7 +40,7 @@ class TransactionHistory extends StatelessWidget {
           // _monthYearHeader(),
           Consumer<TransactionProvider>(
             builder: (context, dataProvider, child) {
-              if (dataProvider.isLoading) {
+              if (dataProvider.isLoadingList) {
                 // dataProvider.getListTabunganAnggota(anggota);
                 return TransactionHistoryListTileSkeleton(itemCount: 3);
               } else if (dataProvider.transactionList.isEmpty) {
