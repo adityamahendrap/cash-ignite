@@ -1,3 +1,4 @@
+import 'package:color_log/color_log.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -218,6 +219,9 @@ class AddAnggotaScreenState extends State<AddAnggotaScreen> {
           initialSelectedDate: _selectedBirthday != null
               ? DateFormat('yyyy-MM-dd').parse(_selectedBirthday!)
               : null,
+          initialDisplayDate: _selectedBirthday != null
+              ? DateFormat('yyyy-MM-dd').parse(_selectedBirthday!)
+              : null,
           maxDate: DateTime.now(),
           headerStyle: DateRangePickerHeaderStyle(
             textAlign: TextAlign.center,
@@ -237,12 +241,17 @@ class AddAnggotaScreenState extends State<AddAnggotaScreen> {
           textOkButton: "OK",
           textCancelButton: "Cancel",
           onPressedOkButton: () {
+            if (_tempSelectedBirthday == null) {
+              AppSnackBar.error("Failed", "Please select a date");
+              return;
+            }
             _birthdayController.text = _tempSelectedBirthday!;
             _selectedBirthday = _tempSelectedBirthday;
             Get.back();
           },
           onPressedCancelButton: () {
             Get.back();
+            ;
           },
         ),
       ],

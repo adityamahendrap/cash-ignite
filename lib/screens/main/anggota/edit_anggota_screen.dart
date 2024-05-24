@@ -1,3 +1,4 @@
+import 'package:color_log/color_log.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -47,6 +48,7 @@ class EditAnggotaScreenState extends State<EditAnggotaScreen> {
   }
 
   void _showBirthdayDatePicker() {
+    FocusManager.instance.primaryFocus?.unfocus();
     bottomSheetFitContentWrapper(
       context: context,
       content: _birthdayDatePicker(),
@@ -140,6 +142,7 @@ class EditAnggotaScreenState extends State<EditAnggotaScreen> {
     _phoneNumberController.text = anggota.telepon;
     _registrationController.text = anggota.nomorInduk.toString();
     _selectedBirthday = anggota.tglLahir;
+    _tempSelectedBirthday = anggota.tglLahir;
   }
 
   @override
@@ -231,6 +234,9 @@ class EditAnggotaScreenState extends State<EditAnggotaScreen> {
           initialSelectedDate: _selectedBirthday != null
               ? DateFormat('yyyy-MM-dd').parse(_selectedBirthday!)
               : null,
+          initialDisplayDate: _selectedBirthday != null
+              ? DateFormat('yyyy-MM-dd').parse(_selectedBirthday!)
+              : null,
           maxDate: DateTime.now(),
           headerStyle: DateRangePickerHeaderStyle(
             textAlign: TextAlign.center,
@@ -250,6 +256,7 @@ class EditAnggotaScreenState extends State<EditAnggotaScreen> {
           textOkButton: "OK",
           textCancelButton: "Cancel",
           onPressedOkButton: () {
+            clog.debug(_tempSelectedBirthday!.toString());
             _birthdayController.text = _tempSelectedBirthday!;
             _selectedBirthday = _tempSelectedBirthday;
             Get.back();

@@ -6,6 +6,7 @@ class TwinButtons extends StatelessWidget {
   final Function onPressedCancelButton;
   final String textOkButton;
   final String textCancelButton;
+  final bool isDisabled;
 
   TwinButtons({
     super.key,
@@ -13,6 +14,7 @@ class TwinButtons extends StatelessWidget {
     required this.textCancelButton,
     required this.onPressedOkButton,
     required this.onPressedCancelButton,
+    this.isDisabled = false,
   });
 
   @override
@@ -32,6 +34,7 @@ class TwinButtons extends StatelessWidget {
             type: FullWidthButtonType.primary,
             text: this.textOkButton,
             onPressed: () => this.onPressedOkButton(),
+            isDisabled: this.isDisabled,
           ),
         )
       ],
