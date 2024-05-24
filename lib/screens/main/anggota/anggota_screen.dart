@@ -32,6 +32,7 @@ class AnggotaScreen extends StatefulWidget {
 class _AnggotaScreenState extends State<AnggotaScreen> {
   final MobileApiRequester _apiRequester = MobileApiRequester();
   late Future<AnggotaList?> _anggotaList;
+  int _anggotaCount = 0;
 
   Future<void> _getAnggotaList() async {
     try {
@@ -113,6 +114,14 @@ class _AnggotaScreenState extends State<AnggotaScreen> {
     return isConfirmed;
   }
 
+  Future<void> _handleRefresh() async {
+    setState(() {
+      _anggotaList = Future.value(null);
+    });
+    await _getAnggotaList();
+    setState(() {});
+  }
+
   @override
   void initState() {
     super.initState();
@@ -128,24 +137,28 @@ class _AnggotaScreenState extends State<AnggotaScreen> {
           () => AddAnggotaScreen(addAnggotaCallback: _addAnggota),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          decoration: BoxDecoration(
-            color: ColorPlanet.primary,
-            gradient: LinearGradient(
-              begin: Alignment.bottomLeft,
-              end: Alignment.topLeft,
-              colors: [
-                ColorPlanet.primary,
-                ColorPlanet.primary.withOpacity(0.8)
+      body: RefreshIndicator(
+        onRefresh: _handleRefresh,
+        child: SingleChildScrollView(
+          physics: AlwaysScrollableScrollPhysics(),
+          child: Container(
+            decoration: BoxDecoration(
+              color: ColorPlanet.primary,
+              gradient: LinearGradient(
+                begin: Alignment.bottomLeft,
+                end: Alignment.topLeft,
+                colors: [
+                  ColorPlanet.primary,
+                  ColorPlanet.primary.withOpacity(0.8)
+                ],
+              ),
+            ),
+            child: Column(
+              children: [
+                _boxHeader(),
+                _anggotaListView(),
               ],
             ),
-          ),
-          child: Column(
-            children: [
-              _boxHeader(),
-              _anggotaListView(),
-            ],
           ),
         ),
       ),
@@ -193,7 +206,7 @@ class _AnggotaScreenState extends State<AnggotaScreen> {
         borderRadius: BorderRadius.circular(10),
       ),
       child: Text(
-        "You have ... Sls",
+        "You have $_anggotaCount Sls",
         style: TextStyle(color: ColorPlanet.primary, fontSize: 15),
         textAlign: TextAlign.center,
       ),
@@ -213,7 +226,9 @@ class _AnggotaScreenState extends State<AnggotaScreen> {
       child: FutureBuilder(
         future: _anggotaList,
         builder: (context, snapshot) {
-          if (snapshot.hasData) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return AnggotaListTileSkeleton(itemCount: 6);
+          } else if (snapshot.hasData) {
             final List<Anggota> items = snapshot.data!.anggotaList;
 
             if (items.isEmpty) {

@@ -36,7 +36,7 @@ class _AnggotaListTileState extends State<AnggotaListTile> {
   }
 
   Future<SaldoAnggota> _getSaldoAnggota(Anggota anggota) async {
-    return SaldoAnggota(saldo: 1);
+    // return SaldoAnggota(saldo: 1);
     // TODO: some api path unaccessible when i do batch request like this
     return _apiRequester.getSaldoByAnggotaId(anggotaId: anggota.id.toString());
   }

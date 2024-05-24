@@ -26,11 +26,23 @@ class AnggotaDetailScreen extends StatefulWidget {
 
 class AnggotaDetailScreenState extends State<AnggotaDetailScreen> {
   final Anggota anggota = Get.arguments['anggota'] as Anggota;
+  late TransactionProvider txnProvider;
+
+  Future<void> _handleRefresh() async {
+    txnProvider.clearTransactionList();
+    txnProvider.clearSaldo();
+
+    await Future.wait([
+      txnProvider.getSaldo(anggota),
+      txnProvider.getListTabunganAnggota(anggota),
+    ]);
+  }
 
   @override
   void initState() {
-    context.read<TransactionProvider>().getSaldo(anggota);
-    context.read<TransactionProvider>().getListTabunganAnggota(anggota);
+    txnProvider = context.read<TransactionProvider>();
+    txnProvider.getSaldo(anggota);
+    txnProvider.getListTabunganAnggota(anggota);
     super.initState();
   }
 
@@ -42,42 +54,45 @@ class AnggotaDetailScreenState extends State<AnggotaDetailScreen> {
         backgroundColor: ColorPlanet.secondary,
         onBackButtonPressed: () {
           Get.back();
-          context.read<TransactionProvider>().clearTransactionList();
+          txnProvider.clearTransactionList();
         },
       ),
       body: Container(
         color: ColorPlanet.secondary,
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(height: 50),
-              _profilePicture(),
-              SizedBox(height: 20),
-              _nameAndSaldo(),
-              SizedBox(height: 25),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  _createTransactionButton(),
-                  SizedBox(width: 40),
-                  _anggotaInfoButton(),
-                ],
-              ),
-              SizedBox(height: 25),
-              Container(
-                padding: EdgeInsets.only(top: 25),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [ColorPlanet.secondary, Colors.white],
+        child: RefreshIndicator(
+          onRefresh: _handleRefresh,
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(height: 50),
+                _profilePicture(),
+                SizedBox(height: 20),
+                _nameAndSaldo(),
+                SizedBox(height: 25),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    _createTransactionButton(),
+                    SizedBox(width: 40),
+                    _anggotaInfoButton(),
+                  ],
+                ),
+                SizedBox(height: 25),
+                Container(
+                  padding: EdgeInsets.only(top: 25),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [ColorPlanet.secondary, Colors.white],
+                    ),
                   ),
                 ),
-              ),
-              TransactionHistory(anggota: anggota)
-            ],
+                TransactionHistory(anggota: anggota)
+              ],
+            ),
           ),
         ),
       ),
@@ -147,7 +162,7 @@ class AnggotaDetailScreenState extends State<AnggotaDetailScreen> {
                         ? Colors.grey.shade100
                         : Colors.white,
                   ),
-                  onPressed: provider.isLoadingSaldo
+                  onPressed: provider.isLoadingSaldo || provider.isLoadingList
                       ? null
                       : () {
                           bottomSheetFitContentWrapper(

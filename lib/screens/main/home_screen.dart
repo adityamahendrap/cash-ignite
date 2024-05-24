@@ -124,6 +124,14 @@ class _HomeScreenState extends State<HomeScreen> {
     return isConfirmed;
   }
 
+  Future<void> _handleRefresh() async {
+    setState(() {
+      _anggotaList = Future.value(null);
+    });
+    await _getAnggotaList();
+    setState(() {});
+  }
+
   @override
   void initState() {
     super.initState();
@@ -140,39 +148,43 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       body: SafeArea(
-        child: CustomScrollView(
-          slivers: [
-            SliverPadding(
-              padding: EdgeInsets.only(bottom: 10),
-              sliver: SliverToBoxAdapter(
-                child: _header(),
+        child: RefreshIndicator(
+          onRefresh: _handleRefresh,
+          child: CustomScrollView(
+            physics: AlwaysScrollableScrollPhysics(),
+            slivers: [
+              SliverPadding(
+                padding: EdgeInsets.only(bottom: 10),
+                sliver: SliverToBoxAdapter(
+                  child: _header(),
+                ),
               ),
-            ),
-            SliverAppBar(
-              title: _searchInput(),
-              floating: true,
-              pinned: true,
-              titleSpacing: 0,
-              toolbarHeight: 80,
-              surfaceTintColor: Colors.white,
-            ),
-            SliverPadding(
-              padding: EdgeInsets.only(bottom: 15, top: 5),
-              sliver: SliverToBoxAdapter(
-                child: _hero(),
+              SliverAppBar(
+                title: _searchInput(),
+                floating: true,
+                pinned: true,
+                titleSpacing: 0,
+                toolbarHeight: 80,
+                surfaceTintColor: Colors.white,
               ),
-            ),
-            SliverPadding(
-              padding: EdgeInsets.only(top: 10),
-              sliver: SliverToBoxAdapter(
-                child: _anggotaListView(),
+              SliverPadding(
+                padding: EdgeInsets.only(bottom: 15, top: 5),
+                sliver: SliverToBoxAdapter(
+                  child: _hero(),
+                ),
               ),
-            ),
-            SliverPadding(
-              padding: EdgeInsets.only(top: 20),
-              sliver: SliverToBoxAdapter(child: Container()),
-            ),
-          ],
+              SliverPadding(
+                padding: EdgeInsets.only(top: 10),
+                sliver: SliverToBoxAdapter(
+                  child: _anggotaListView(),
+                ),
+              ),
+              SliverPadding(
+                padding: EdgeInsets.only(top: 20),
+                sliver: SliverToBoxAdapter(child: Container()),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -308,19 +320,25 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: FutureBuilder(
                   future: _anggotaList,
                   builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      return Text(
-                        '${snapshot.data!.anggotaList.length}',
-                        style:
-                            TextStyle(fontSize: 16, color: ColorPlanet.primary),
-                      );
-                    } else {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
                       return Text(
                         '...',
                         style:
                             TextStyle(fontSize: 16, color: ColorPlanet.primary),
                       );
+                    } else if (snapshot.hasData) {
+                      return Text(
+                        '${snapshot.data!.anggotaList.length}',
+                        style:
+                            TextStyle(fontSize: 16, color: ColorPlanet.primary),
+                      );
                     }
+
+                    return Text(
+                      '...',
+                      style:
+                          TextStyle(fontSize: 16, color: ColorPlanet.primary),
+                    );
                   },
                 ),
               ),
@@ -353,7 +371,9 @@ class _HomeScreenState extends State<HomeScreen> {
         FutureBuilder(
           future: _anggotaList,
           builder: (context, snapshot) {
-            if (snapshot.hasData) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return AnggotaListTileSkeleton(itemCount: 3);
+            } else if (snapshot.hasData) {
               final List<Anggota> items = snapshot.data!.anggotaList;
 
               if (items.isEmpty) {

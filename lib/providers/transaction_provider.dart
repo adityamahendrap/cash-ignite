@@ -62,4 +62,9 @@ class TransactionProvider extends ChangeNotifier {
     _transactionList = [];
     notifyListeners();
   }
+
+  void clearSaldo() {
+    _saldo = 0;
+    notifyListeners();
+  }
 }
