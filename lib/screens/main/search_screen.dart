@@ -64,7 +64,7 @@ class _SearchScreenState extends State<SearchScreen> {
             cursorColor: ColorPlanet.primary,
             decoration: InputDecoration(
               filled: true,
-              hintText: 'Search products skibidi ...',
+              hintText: 'Search igniter here...',
               hintStyle: TextStyle(color: Colors.grey),
               border: InputBorder.none,
               fillColor: Colors.grey.shade100,
@@ -123,7 +123,7 @@ class _SearchScreenState extends State<SearchScreen> {
             physics: NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) {
               return ListTile(
-                title: Text('Majogari $index'),
+                title: Text('Search history $index'),
                 trailing: Icon(CupertinoIcons.xmark, color: Colors.black54),
                 contentPadding: EdgeInsets.zero,
                 visualDensity: VisualDensity(vertical: -2),

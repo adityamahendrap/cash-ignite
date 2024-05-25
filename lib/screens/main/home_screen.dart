@@ -259,7 +259,7 @@ class _HomeScreenState extends State<HomeScreen> {
             },
             decoration: InputDecoration(
               filled: true,
-              hintText: 'Search for skibidi...',
+              hintText: 'Search igniter here...',
               hintStyle: TextStyle(color: Colors.grey),
               border: InputBorder.none,
               fillColor: Colors.grey.shade100,
@@ -305,7 +305,7 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           Row(
             children: [
-              Text('Saver & Loaner',
+              Text('Igniters',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
               SizedBox(width: 10),
               Container(
@@ -398,7 +398,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: Text(
-                            "You're viewing the top 3 SLs",
+                            "You're viewing the top 3 Igniters",
                             style: TextStyle(
                                 color: ColorPlanet.primary, fontSize: 15),
                             textAlign: TextAlign.center,
@@ -409,7 +409,10 @@ class _HomeScreenState extends State<HomeScreen> {
               );
             } else if (snapshot.hasError) {
               clog.error('snaphot err: ${snapshot.error.toString()}');
-              return ErrorFetchingData();
+              return Container(
+                margin: EdgeInsets.only(top: 20),
+                child: ErrorFetchingData(),
+              );
             }
 
             return AnggotaListTileSkeleton(itemCount: 3);

@@ -2,9 +2,8 @@ import 'package:color_log/color_log.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:get/state_manager.dart';
-import 'package:get/utils.dart';
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/mobile_api.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/anggota_list_type.dart';
@@ -13,14 +12,15 @@ import 'package:progmob_magical_destroyers/screens/main/anggota/add_anggota_scre
 import 'package:progmob_magical_destroyers/utils/helpless_util.dart';
 import 'package:progmob_magical_destroyers/widgets/anggota/anggota_list_tile_skeleton.dart';
 import 'package:progmob_magical_destroyers/widgets/anggota/anggota_list_view.dart';
-import 'package:progmob_magical_destroyers/widgets/app_bar_with_logo.dart';
 import 'package:progmob_magical_destroyers/widgets/app_snack_bar.dart';
 import 'package:progmob_magical_destroyers/widgets/confirmation_dialog_content.dart';
 import 'package:progmob_magical_destroyers/widgets/data/empty_data.dart';
 import 'package:progmob_magical_destroyers/widgets/data/error_fetching_data.dart';
 import 'package:progmob_magical_destroyers/widgets/floating_action_button_add.dart';
+import 'package:progmob_magical_destroyers/widgets/text_title.dart';
 import 'package:progmob_magical_destroyers/widgets/wrapper/dialog_wrapper.dart';
 import 'package:get/get.dart';
+import 'package:progmob_magical_destroyers/screens/main/search_screen.dart';
 
 class AnggotaScreen extends StatefulWidget {
   const AnggotaScreen({super.key});
@@ -139,28 +139,121 @@ class _AnggotaScreenState extends State<AnggotaScreen> {
       ),
       body: RefreshIndicator(
         onRefresh: _handleRefresh,
-        child: SingleChildScrollView(
-          physics: AlwaysScrollableScrollPhysics(),
-          child: Container(
-            decoration: BoxDecoration(
-              color: ColorPlanet.primary,
-              gradient: LinearGradient(
-                begin: Alignment.bottomLeft,
-                end: Alignment.topLeft,
-                colors: [
-                  ColorPlanet.primary,
-                  ColorPlanet.primary.withOpacity(0.8)
-                ],
+        child: Container(
+          color: Color(0xFF5EB2FF),
+          child: CustomScrollView(
+            physics: AlwaysScrollableScrollPhysics(),
+            slivers: [
+              SliverToBoxAdapter(child: _header()),
+              SliverAppBar(
+                title: _searchInput(),
+                floating: true,
+                pinned: true,
+                titleSpacing: 0,
+                toolbarHeight: 80,
+                backgroundColor: Color(0xFF5EB2FF),
               ),
-            ),
-            child: Column(
-              children: [
-                _boxHeader(),
-                _anggotaListView(),
-              ],
-            ),
+              SliverToBoxAdapter(
+                child: _anggotaListView(),
+              ),
+            ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _header() {
+    final tempWidget = TextTitle(
+      title: 'You have _ Igniters',
+      color: Colors.white,
+    );
+
+    return Center(
+      child: Padding(
+        padding: EdgeInsets.only(left: 20, right: 20, top: 0, bottom: 10),
+        child: FutureBuilder(
+          future: _anggotaList,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return tempWidget;
+            } else if (snapshot.hasData) {
+              final List<Anggota> items = snapshot.data!.anggotaList;
+
+              return TextTitle(
+                title: 'You have ${items.length} Igniters',
+                color: Colors.white,
+              );
+            } else if (snapshot.hasError) {
+              clog.error('snaphot err: ${snapshot.error.toString()}');
+              return tempWidget;
+            }
+
+            return tempWidget;
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget _searchInput() {
+    return Container(
+      // padding: EdgeInsets.symmetric(horizontal: 20),
+      margin: EdgeInsets.only(right: 20, left: 20, top: 10, bottom: 25),
+      decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 5,
+            offset: Offset(8, 8),
+          ),
+        ],
+      ),
+      child: Column(
+        children: [
+          TextField(
+            style: TextStyle(color: Colors.black),
+            cursorColor: ColorPlanet.primary,
+            readOnly: true,
+            onTap: () {
+              Get.to(
+                () => SearchScreen(),
+                transition: Transition.cupertinoDialog,
+                arguments: {'keyboard': true},
+              );
+            },
+            decoration: InputDecoration(
+              filled: true,
+              hintText: 'Search igniter here...',
+              hintStyle: TextStyle(color: Colors.grey),
+              border: InputBorder.none,
+              // fillColor: Colors.grey.shade100,
+              fillColor: Colors.white,
+              prefixIcon: Icon(CupertinoIcons.search, color: Colors.grey),
+              contentPadding:
+                  EdgeInsets.symmetric(vertical: 15, horizontal: 50),
+              suffixIcon: IconButton(
+                icon: Icon(CupertinoIcons.slider_horizontal_3),
+                color: Colors.black,
+                onPressed: () {
+                  Get.to(
+                    () => SearchScreen(),
+                    transition: Transition.cupertinoDialog,
+                    arguments: {'keyboard': false},
+                  );
+                },
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide(color: Colors.transparent),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide(color: Colors.transparent),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -176,7 +269,8 @@ class _AnggotaScreenState extends State<AnggotaScreen> {
           ),
         ),
       ),
-      leading: IconButton(
+      centerTitle: true,
+      title: IconButton(
         icon: Container(
           height: 24,
           width: 24,
@@ -184,69 +278,49 @@ class _AnggotaScreenState extends State<AnggotaScreen> {
         ),
         onPressed: null,
       ),
-      centerTitle: true,
-      title: Text(
-        "All Saver & Loaner",
-        style: TextStyle(
-          fontSize: 20,
-          fontWeight: FontWeight.bold,
-          color: Colors.white,
-        ),
-      ),
-    );
-  }
-
-  Container _boxHeader() {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 10),
-      margin: EdgeInsets.only(right: 20, left: 20, top: 10, bottom: 25),
-      width: double.infinity,
-      decoration: BoxDecoration(
-        color: ColorPlanet.secondary,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Text(
-        "You have $_anggotaCount Sls",
-        style: TextStyle(color: ColorPlanet.primary, fontSize: 15),
-        textAlign: TextAlign.center,
-      ),
     );
   }
 
   Widget _anggotaListView() {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(20),
-          // topRight: Radius.circular(20),
-        ),
+    return ConstrainedBox(
+      constraints: BoxConstraints(
+        minHeight: MediaQuery.of(context).size.height * 0.7,
+        maxHeight: double.infinity,
       ),
-      padding: EdgeInsets.only(top: 25),
-      child: FutureBuilder(
-        future: _anggotaList,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return AnggotaListTileSkeleton(itemCount: 6);
-          } else if (snapshot.hasData) {
-            final List<Anggota> items = snapshot.data!.anggotaList;
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20),
+            // topRight: Radius.circular(20),
+          ),
+        ),
+        padding: EdgeInsets.only(top: 25),
+        child: FutureBuilder(
+          future: _anggotaList,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return AnggotaListTileSkeleton(itemCount: 6);
+            } else if (snapshot.hasData) {
+              final List<Anggota> items = snapshot.data!.anggotaList;
 
-            if (items.isEmpty) {
-              return EmptyData();
+              if (items.isEmpty) {
+                return EmptyData();
+              }
+
+              return AnggotaListView(
+                items: items,
+                updateAnggotaCallback: _updateAnggota,
+                deleteAnggotaCallback: _deleteAnggota,
+              );
+            } else if (snapshot.hasError) {
+              clog.error('snaphot err: ${snapshot.error.toString()}');
+              return ErrorFetchingData();
             }
 
-            return AnggotaListView(
-              items: items,
-              updateAnggotaCallback: _updateAnggota,
-              deleteAnggotaCallback: _deleteAnggota,
-            );
-          } else if (snapshot.hasError) {
-            clog.error('snaphot err: ${snapshot.error.toString()}');
-            return ErrorFetchingData();
-          }
-
-          return AnggotaListTileSkeleton(itemCount: 6);
-        },
+            return AnggotaListTileSkeleton(itemCount: 6);
+          },
+        ),
       ),
     );
   }

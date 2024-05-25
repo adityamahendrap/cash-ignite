@@ -50,7 +50,7 @@ class AnggotaDetailScreenState extends State<AnggotaDetailScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBarWithBackButton(
-        title: "SL Pocket",
+        title: "Igniter Pocket",
         backgroundColor: ColorPlanet.secondary,
         onBackButtonPressed: () {
           Get.back();

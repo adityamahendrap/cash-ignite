@@ -14,7 +14,7 @@ class AnggotaInformation extends StatelessWidget {
       color: Colors.white,
       child: Column(
         children: [
-          SectionHeader(title: "Anggota Information", showButton: false),
+          SectionHeader(title: "Personal Information", showButton: false),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             child: Column(
