@@ -3,11 +3,11 @@ import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
 
 class CarouselSliderHero extends StatelessWidget {
-  final List items;
+  final List<String> pathImages;
 
   CarouselSliderHero({
     super.key,
-    required this.items,
+    required this.pathImages,
   });
 
   @override
@@ -19,17 +19,20 @@ class CarouselSliderHero extends StatelessWidget {
         slideIndicator: CircularSlideIndicator(
           currentIndicatorColor: ColorPlanet.primary,
           padding: EdgeInsets.only(bottom: 10),
-          indicatorBackgroundColor: Colors.grey.shade300,
+          indicatorBackgroundColor: Colors.white,
+          indicatorBorderColor: Colors.white,
+          indicatorBorderWidth: 1,
+          // indicatorBackgroundColor: Colors.grey.shade300,
         ),
         floatingIndicator: true,
         autoPlay: true,
-        autoPlayInterval: Duration(seconds: 3),
+        autoPlayInterval: Duration(seconds: 10),
         autoPlayCurve: Curves.fastOutSlowIn,
         enableInfiniteScroll: true,
         reverse: false,
         padEnds: true,
       ),
-      items: items.map((i) {
+      items: pathImages.map((path) {
         return Builder(
           builder: (BuildContext context) {
             return Container(
@@ -39,12 +42,20 @@ class CarouselSliderHero extends StatelessWidget {
                 color: ColorPlanet.secondary,
                 borderRadius: BorderRadius.circular(20),
               ),
-              child: Center(
-                child: Text(
-                  'Image $i',
-                  style: TextStyle(fontSize: 16.0, color: ColorPlanet.primary),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: Image.asset(
+                  path,
+                  fit: BoxFit.cover,
                 ),
               ),
+
+              // child: Center(
+              //   child: Text(
+              //     path,
+              //     style: TextStyle(fontSize: 16.0, color: ColorPlanet.primary),
+              //   ),
+              // ),
             );
           },
         );

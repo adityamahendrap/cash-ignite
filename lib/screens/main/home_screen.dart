@@ -291,8 +291,13 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _hero() {
     return Column(
       children: [
-        SectionHeader(title: AppConfig.APP_NAME),
-        CarouselSliderHero(items: [1, 2, 3, 4, 5]),
+        SectionHeader(title: AppConfig.APP_NAME, showButton: false),
+        SizedBox(height: 10),
+        CarouselSliderHero(pathImages: [
+          'assets/slider_1.png',
+          'assets/slider_2.png',
+          'assets/slider_3.png',
+        ]),
       ],
     );
   }
