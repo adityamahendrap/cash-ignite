@@ -36,12 +36,13 @@ class EditAnggotaScreenState extends State<EditAnggotaScreen> {
   final _addressController = TextEditingController();
   final _registrationController = TextEditingController();
 
+  final Anggota anggota = Get.arguments['anggota'] as Anggota;
+
   String? _tempSelectedBirthday;
   String? _selectedBirthday = null;
   PhoneNumber number = PhoneNumber(isoCode: 'ID');
   bool _isValidPhoneNumber = true;
-
-  final Anggota anggota = Get.arguments['anggota'] as Anggota;
+  late bool _statusAnggota;
 
   void onPhoneNumberValidated(bool value) {
     _isValidPhoneNumber = value;
@@ -110,6 +111,7 @@ class EditAnggotaScreenState extends State<EditAnggotaScreen> {
 
     try {
       EasyLoading.show();
+      clog.debug('status anggota: ${_statusAnggota}');
       await widget.updateAnggotaCallback(
         Anggota(
           id: anggota.id,
@@ -118,6 +120,7 @@ class EditAnggotaScreenState extends State<EditAnggotaScreen> {
           alamat: _addressController.text,
           tglLahir: _selectedBirthday!,
           telepon: _phoneNumberController.text,
+          statusAktif: _statusAnggota,
         ),
       );
       Get.back();
@@ -143,6 +146,7 @@ class EditAnggotaScreenState extends State<EditAnggotaScreen> {
     _registrationController.text = anggota.nomorInduk.toString();
     _selectedBirthday = anggota.tglLahir;
     _tempSelectedBirthday = anggota.tglLahir;
+    _statusAnggota = anggota.statusAktif!;
   }
 
   @override
@@ -208,6 +212,8 @@ class EditAnggotaScreenState extends State<EditAnggotaScreen> {
                           initialValue: number,
                           onInputValidated: onPhoneNumberValidated,
                         ),
+                        SizedBox(height: 10),
+                        _toggleStatusAnggota(),
                       ],
                     ),
                   )
@@ -263,6 +269,29 @@ class EditAnggotaScreenState extends State<EditAnggotaScreen> {
           },
           onPressedCancelButton: () {
             Get.back();
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _toggleStatusAnggota() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          "Status Aktif",
+          textAlign: TextAlign.start,
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        Switch(
+          value: _statusAnggota,
+          activeColor: ColorPlanet.primary,
+          onChanged: (bool value) {
+            setState(() {
+              _statusAnggota = value;
+              print(_statusAnggota ? 'active' : 'inactive');
+            });
           },
         ),
       ],

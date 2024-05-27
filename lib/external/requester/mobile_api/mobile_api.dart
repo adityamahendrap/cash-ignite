@@ -148,7 +148,7 @@ class MobileApiRequester {
         'alamat': alamat,
         'tgl_lahir': tglLahir,
         'telepon': telepon,
-        'status': status,
+        'status': status ? 1 : 0,
       },
     );
     return _getDataFromResponse(response, AnggotaDetail.fromJson);

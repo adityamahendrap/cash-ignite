@@ -78,7 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
         tglLahir: anggota.tglLahir,
         telepon: anggota.telepon,
         alamat: anggota.alamat,
-        status: anggota.statusAktif ?? true,
+        status: anggota.statusAktif!,
       );
       await _getAnggotaList();
       setState(() {}); // Rebuild the widget tree to reflect the updated list

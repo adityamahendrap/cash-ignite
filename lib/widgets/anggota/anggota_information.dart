@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/base/anggota_type.dart';
+import 'package:progmob_magical_destroyers/utils/helpless_util.dart';
 import 'package:progmob_magical_destroyers/widgets/section_header.dart';
 
 class AnggotaInformation extends StatelessWidget {
@@ -28,7 +29,9 @@ class AnggotaInformation extends StatelessWidget {
                 _horizonralRow("Phone", anggota.telepon, Icons.phone_outlined),
                 Divider(color: Colors.grey.shade300),
                 _horizonralRow(
-                    "Birthdate", anggota.tglLahir, Icons.cake_outlined),
+                    "Birthdate",
+                    HelplessUtil.formatDateTimeString(anggota.tglLahir, false),
+                    Icons.cake_outlined),
                 Divider(color: Colors.grey.shade300),
                 _verticalRow(
                     "Address", anggota.alamat, Icons.location_on_outlined),
