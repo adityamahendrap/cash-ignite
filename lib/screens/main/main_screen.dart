@@ -5,7 +5,7 @@ import 'package:progmob_magical_destroyers/screens/main/anggota/anggota_screen.d
 import 'package:progmob_magical_destroyers/screens/main/home_screen.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({super.key});
+  MainScreen({super.key});
 
   @override
   State<MainScreen> createState() => _MainScreenState();

@@ -32,7 +32,6 @@ class AnggotaScreen extends StatefulWidget {
 class _AnggotaScreenState extends State<AnggotaScreen> {
   final MobileApiRequester _apiRequester = MobileApiRequester();
   late Future<AnggotaList?> _anggotaList;
-  int _anggotaCount = 0;
 
   Future<void> _getAnggotaList() async {
     try {
@@ -62,7 +61,7 @@ class _AnggotaScreenState extends State<AnggotaScreen> {
   Future<void> _updateAnggota(Anggota anggota) async {
     try {
       await _apiRequester.updateAnggota(
-        id: anggota.id!,
+        id: anggota.id,
         nomorInduk: anggota.nomorInduk,
         nama: anggota.nama,
         tglLahir: anggota.tglLahir,
@@ -140,7 +139,8 @@ class _AnggotaScreenState extends State<AnggotaScreen> {
       body: RefreshIndicator(
         onRefresh: _handleRefresh,
         child: Container(
-          color: Color(0xFF5EB2FF),
+          // color: Color(0xFF5EB2FF),
+          color: ColorPlanet.primary,
           child: CustomScrollView(
             physics: AlwaysScrollableScrollPhysics(),
             slivers: [
@@ -151,7 +151,8 @@ class _AnggotaScreenState extends State<AnggotaScreen> {
                 pinned: true,
                 titleSpacing: 0,
                 toolbarHeight: 80,
-                backgroundColor: Color(0xFF5EB2FF),
+                // backgroundColor: Color(0xFF5EB2FF),
+                backgroundColor: ColorPlanet.primary,
               ),
               SliverToBoxAdapter(
                 child: _anggotaListView(),
@@ -262,11 +263,12 @@ class _AnggotaScreenState extends State<AnggotaScreen> {
     return AppBar(
       flexibleSpace: Container(
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomLeft,
-            colors: [ColorPlanet.primary, ColorPlanet.primary.withOpacity(0.8)],
-          ),
+          // gradient: LinearGradient(
+          //   begin: Alignment.topLeft,
+          //   end: Alignment.bottomLeft,
+          //   colors: [ColorPlanet.primary, ColorPlanet.primary.withOpacity(0.8)],
+          // ),
+          color: ColorPlanet.primary,
         ),
       ),
       centerTitle: true,
@@ -310,6 +312,7 @@ class _AnggotaScreenState extends State<AnggotaScreen> {
 
               return AnggotaListView(
                 items: items,
+                refreshAnggotaListCallback: _handleRefresh,
                 updateAnggotaCallback: _updateAnggota,
                 deleteAnggotaCallback: _deleteAnggota,
               );

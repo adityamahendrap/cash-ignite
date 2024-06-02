@@ -4,6 +4,7 @@ import 'package:progmob_magical_destroyers/widgets/anggota/anggota_list_tile.dar
 
 class AnggotaListView extends StatelessWidget {
   final List<Anggota> items;
+  final Function refreshAnggotaListCallback;
   final Function(Anggota) updateAnggotaCallback;
   final Function(Anggota) deleteAnggotaCallback;
   final bool? limitItems;
@@ -14,6 +15,7 @@ class AnggotaListView extends StatelessWidget {
     required this.updateAnggotaCallback,
     required this.deleteAnggotaCallback,
     this.limitItems = false,
+    required this.refreshAnggotaListCallback,
   });
 
   @override
@@ -31,6 +33,7 @@ class AnggotaListView extends StatelessWidget {
             final Anggota item = items[index];
             return AnggotaListTile(
               item: item,
+              refreshAnggotaListCallback: refreshAnggotaListCallback,
               updateAnggotaCallback: updateAnggotaCallback,
               deleteAnggotaCallback: deleteAnggotaCallback,
             );

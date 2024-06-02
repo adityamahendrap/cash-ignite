@@ -142,11 +142,11 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButtonAdd(
-        onPressed: () => Get.to(
-          () => AddAnggotaScreen(addAnggotaCallback: _addAnggota),
-        ),
-      ),
+      // floatingActionButton: FloatingActionButtonAdd(
+      //   onPressed: () => Get.to(
+      //     () => AddAnggotaScreen(addAnggotaCallback: _addAnggota),
+      //   ),
+      // ),
       body: SafeArea(
         child: RefreshIndicator(
           onRefresh: _handleRefresh,
@@ -389,6 +389,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   AnggotaListView(
                     items: items,
+                    refreshAnggotaListCallback: _handleRefresh,
                     updateAnggotaCallback: _updateAnggota,
                     deleteAnggotaCallback: _deleteAnggota,
                     limitItems: true,

@@ -78,6 +78,7 @@ class _AccountScreenState extends State<AccountScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            SizedBox(height: 20),
             Center(child: ProfilePicture()),
             SizedBox(height: 20),
             TextTitle(title: _user.name),

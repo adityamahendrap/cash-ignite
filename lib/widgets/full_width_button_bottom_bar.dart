@@ -5,12 +5,11 @@ class FullWidthButtonBottomBar extends StatelessWidget {
   final String text;
   final void Function() onPressed;
 
-  const FullWidthButtonBottomBar({
-    super.key,
-    required this.context,
-    required this.text,
-    required this.onPressed
-  });
+  const FullWidthButtonBottomBar(
+      {super.key,
+      required this.context,
+      required this.text,
+      required this.onPressed});
 
   final BuildContext context;
 
@@ -24,8 +23,8 @@ class FullWidthButtonBottomBar extends StatelessWidget {
           children: [
             Divider(
               height: 0,
-              thickness: 0.5,
-              color: Colors.black,
+              thickness: 1,
+              color: Colors.grey.shade400,
             ),
             Padding(
               padding: const EdgeInsets.all(20),

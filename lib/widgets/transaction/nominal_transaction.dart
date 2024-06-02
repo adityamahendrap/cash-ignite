@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/mobile_api.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/base/anggota_type.dart';
@@ -50,7 +51,7 @@ class _NominalTransactionState extends State<NominalTransaction> {
       columnMainAxisAlignment: MainAxisAlignment.start,
       content: ConfirmationDialogContent(
         textWidget: _getConfirmTextWidget(nominal, type),
-        confirmText: "Transfer",
+        confirmText: "Yes, I'm sure",
         onConfirmed: () {
           isConfirmed = true;
           Get.back();
@@ -107,27 +108,30 @@ class _NominalTransactionState extends State<NominalTransaction> {
         children: [
           TextSpan(
             text: "Are you sure to do ",
+            style: GoogleFonts.poppins(),
           ),
           TextSpan(
             text: "${type.name} ",
-            style: TextStyle(
+            style: GoogleFonts.poppins(
               color: textColor,
               fontWeight: FontWeight.bold,
             ),
           ),
           TextSpan(
             text: "as much ",
+            style: GoogleFonts.poppins(),
           ),
           TextSpan(
             text:
                 "${type.trxMultiply == 1 ? "+" : "-"}Rp${HelplessUtil.formatNumber(nominal)} ",
-            style: TextStyle(
+            style: GoogleFonts.poppins(
               color: textColor,
               fontWeight: FontWeight.bold,
             ),
           ),
           TextSpan(
             text: "on this anggota?",
+            style: GoogleFonts.poppins(),
           ),
         ],
       ),

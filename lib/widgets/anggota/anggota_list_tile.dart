@@ -14,6 +14,7 @@ import 'package:progmob_magical_destroyers/widgets/text_label.dart';
 
 class AnggotaListTile extends StatefulWidget {
   final Anggota item;
+  final Function refreshAnggotaListCallback;
   final Function(Anggota) updateAnggotaCallback;
   final Function(Anggota) deleteAnggotaCallback;
 
@@ -22,6 +23,7 @@ class AnggotaListTile extends StatefulWidget {
     required this.item,
     required this.updateAnggotaCallback,
     required this.deleteAnggotaCallback,
+    required this.refreshAnggotaListCallback,
   });
 
   @override
@@ -31,8 +33,10 @@ class AnggotaListTile extends StatefulWidget {
 class _AnggotaListTileState extends State<AnggotaListTile> {
   MobileApiRequester _apiRequester = MobileApiRequester();
 
-  void _handleListTileOnTap() {
-    Get.to(() => AnggotaDetailScreen(), arguments: {'anggota': widget.item});
+  Future<void> _handleListTileOnTap() async {
+    await Get.to(() => AnggotaDetailScreen(),
+        arguments: {'anggota': widget.item});
+    widget.refreshAnggotaListCallback();
   }
 
   Future<SaldoAnggota> _getSaldoAnggota(Anggota anggota) async {
