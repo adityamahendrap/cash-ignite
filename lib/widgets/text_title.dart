@@ -5,12 +5,14 @@ class TextTitle extends StatelessWidget {
   final String title;
   final TextAlign? textAlign;
   final Color color;
+  final double fontSize;
 
   const TextTitle({
     Key? key,
     required this.title,
     this.textAlign,
     this.color = Colors.black,
+    this.fontSize = 25,
   }) : super(key: key);
 
   @override
@@ -19,7 +21,7 @@ class TextTitle extends StatelessWidget {
       this.title,
       textAlign: this.textAlign ?? TextAlign.start,
       style: TextStyle(
-        fontSize: 25,
+        fontSize: this.fontSize,
         fontWeight: FontWeight.bold,
         color: this.color,
       ),

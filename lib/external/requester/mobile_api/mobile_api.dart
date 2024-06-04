@@ -6,6 +6,7 @@ import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/a
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/current_user_type.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/inserted_transaksi_tabungan_type.dart'
     as ittt;
+import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/list_setting_bunga_type.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/list_tabungan_anggota_type.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/login_type.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/master_jenis_transaksi_type.dart';
@@ -208,5 +209,25 @@ class MobileApiRequester {
     String url = '/saldo/$anggotaId';
     Response response = await dio.get(url);
     return _getDataFromResponse(response, SaldoAnggota.fromJson);
+  }
+
+  Future<ListSettingBunga> getListSettingBunga() async {
+    String url = '/settingbunga';
+    Response response = await dio.get(url);
+    return _getDataFromResponse(response, ListSettingBunga.fromJson);
+  }
+
+  Future<void> addSettingBunga({
+    required double percent,
+    required bool isActive,
+  }) async {
+    String url = '/addsettingbunga';
+    await dio.post(
+      url,
+      data: {
+        'persen': percent,
+        'isaktif': isActive ? 1 : 0,
+      },
+    );
   }
 }

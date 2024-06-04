@@ -1,5 +1,7 @@
+import 'package:color_log/color_log.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/base/anggota_type.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/list_tabungan_anggota_type.dart';
 import 'package:progmob_magical_destroyers/providers/transaction_provider.dart';
@@ -17,7 +19,7 @@ class TransactionHistory extends StatelessWidget {
   TransactionHistory({super.key, required this.anggota});
 
   Text _getTextNominal(int nominal, TransactionType txnType) {
-    Color color = txnType.trxMultiply == 1 ? Colors.green : Colors.red;
+    Color color = txnType.trxMultiply == 1 ? ColorPlanet.primary : Colors.red;
     String prefix = txnType.trxMultiply == 1 ? "+" : "-";
     String formattedNominal = HelplessUtil.formatNumber(nominal);
 
@@ -29,23 +31,29 @@ class TransactionHistory extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.white,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20),
+        ),
+        color: Colors.white,
+      ),
+      constraints:
+          BoxConstraints(minHeight: MediaQuery.of(context).size.height * 0.55),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: 20),
           SectionHeader(title: "Transaction History", showButton: false),
-          SizedBox(height: 5),
-          // _monthYearHeader(),
+          SizedBox(height: 10),
           Consumer<TransactionProvider>(
             builder: (context, dataProvider, child) {
               if (dataProvider.isLoadingList) {
+                clog.debug("loading transaction history list");
                 // dataProvider.getListTabunganAnggota(anggota);
-                return TransactionHistoryListTileSkeleton(itemCount: 3);
+                return TransactionHistoryListTileSkeleton(itemCount: 6);
               } else if (dataProvider.transactionList.isEmpty) {
+                clog.debug("empty transaction history list");
                 return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 20),
+                  padding: const EdgeInsets.symmetric(vertical: 150),
                   child: Center(child: EmptyData()),
                 );
               }
@@ -54,7 +62,9 @@ class TransactionHistory extends StatelessWidget {
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
-                  Tabungan txn = dataProvider.transactionList[index];
+                  // reverse to show the latest transaction on top
+                  Tabungan txn = dataProvider.transactionList[
+                      dataProvider.transactionList.length - 1 - index];
                   TransactionType txnType = transactionTypes
                       .firstWhere((element) => element.id == txn.trxId);
 

@@ -23,7 +23,7 @@ class TransactionDetail extends StatelessWidget {
   final String _personInCharge = GetStorage().read('user')['name'];
 
   Text _getTextNominal(int nominal, TransactionType txnType) {
-    Color color = txnType.trxMultiply == 1 ? Colors.green : Colors.black;
+    Color color = txnType.trxMultiply == 1 ? ColorPlanet.primary : Colors.black;
     String prefix = txnType.trxMultiply == 1 ? "+" : "-";
     String formattedNominal = HelplessUtil.formatNumber(nominal);
 
@@ -87,7 +87,7 @@ class TransactionDetail extends StatelessWidget {
           children: [
             Icon(
               Icons.check_circle,
-              color: Colors.green,
+              color: ColorPlanet.primary,
               size: 20,
             ),
             SizedBox(width: 5),

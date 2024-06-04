@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/base/anggota_type.dart';
+import 'package:progmob_magical_destroyers/providers/profile_provider.dart';
 import 'package:progmob_magical_destroyers/utils/helpless_util.dart';
+import 'package:progmob_magical_destroyers/widgets/photo_view.dart';
 import 'package:progmob_magical_destroyers/widgets/section_header.dart';
 
 class AnggotaInformation extends StatelessWidget {
@@ -15,12 +18,14 @@ class AnggotaInformation extends StatelessWidget {
       color: Colors.white,
       child: Column(
         children: [
-          SectionHeader(title: "Personal Information", showButton: false),
+          // SectionHeader(title: "Personal Information", showButton: false),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                _profilePicture(),
+                SizedBox(height: 20),
                 _verticalRow("Full Name", anggota.nama, Icons.person_outline),
                 Divider(color: Colors.grey.shade300),
                 _horizonralRow("No. Induk", anggota.nomorInduk.toString(),
@@ -39,6 +44,21 @@ class AnggotaInformation extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _profilePicture() {
+    return Center(
+      child: GestureDetector(
+        onTap: () {
+          Get.to(() => PhotoView(image: AssetImage(defaultImagePath)));
+        },
+        child: CircleAvatar(
+          radius: 50,
+          backgroundColor: ColorPlanet.primary,
+          backgroundImage: AssetImage(defaultImagePath),
+        ),
       ),
     );
   }
