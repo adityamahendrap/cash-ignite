@@ -1,17 +1,21 @@
+import 'package:color_log/color_log.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
 import 'package:progmob_magical_destroyers/providers/transaction_provider.dart';
 import 'package:progmob_magical_destroyers/types/transaction_type.dart';
+import 'package:progmob_magical_destroyers/utils/decimal_input_formatter.dart';
 import 'package:progmob_magical_destroyers/utils/number_input_formatter.dart';
 import 'package:provider/provider.dart';
 
 class SettingBungaInput extends StatefulWidget {
   final TextEditingController controller;
+  final Function(bool) setIsDisableButtonState;
 
   SettingBungaInput({
     super.key,
     required this.controller,
+    required this.setIsDisableButtonState,
   });
 
   @override
@@ -21,20 +25,24 @@ class SettingBungaInput extends StatefulWidget {
 class _SettingBungaInputState extends State<SettingBungaInput> {
   final double borderRadius = 15.0;
 
-  String? _nominalValidator(String? value, BuildContext context) {
-    int valueNum;
-    bool isValid = true;
+  String? _validator(String? value, BuildContext context) {
+    double valueNum;
+    bool isValid = false;
     String? errorMessage = null;
 
     if (value != null && value.isNotEmpty) {
-      valueNum = int.parse(value.replaceAll('.', ''));
-    } else {
-      valueNum = 0;
+      valueNum = double.parse(value);
+
+      if (valueNum >= 0 && valueNum <= 10) {
+        isValid = true;
+      } else {
+        errorMessage = "Interest rate must be between 0 and 10";
+      }
     }
 
     // defer after build
     WidgetsBinding.instance!.addPostFrameCallback((_) {
-      context.read<TransactionProvider>().isNominalValid = isValid;
+      widget.setIsDisableButtonState(!isValid);
     });
 
     return errorMessage;
@@ -43,11 +51,11 @@ class _SettingBungaInputState extends State<SettingBungaInput> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      validator: (value) => _nominalValidator(value, context),
+      validator: (value) => _validator(value, context),
       autovalidateMode: AutovalidateMode.onUserInteraction,
       autofocus: true,
       controller: widget.controller,
-      keyboardType: TextInputType.number,
+      keyboardType: TextInputType.numberWithOptions(decimal: true),
       style: TextStyle(
         fontSize: 32,
         fontWeight: FontWeight.w900,
@@ -56,8 +64,17 @@ class _SettingBungaInputState extends State<SettingBungaInput> {
       ),
       // textAlign: TextAlign.center,
       inputFormatters: [
-        FilteringTextInputFormatter.digitsOnly,
-        NumberInputFormatter()
+        FilteringTextInputFormatter.allow(RegExp(r"[0-9.]")),
+        TextInputFormatter.withFunction(
+          (oldValue, newValue) {
+            final text = newValue.text;
+            return text.isEmpty
+                ? newValue
+                : double.tryParse(text) == null
+                    ? oldValue
+                    : newValue;
+          },
+        ),
       ],
       cursorColor: Colors.blue,
       cursorWidth: 5,
@@ -65,14 +82,22 @@ class _SettingBungaInputState extends State<SettingBungaInput> {
       decoration: InputDecoration(
         // fillColor: Colors.grey.shade100,
         // filled: true,
-        contentPadding: EdgeInsets.all(20),
+        contentPadding: EdgeInsets.symmetric(horizontal: 0, vertical: 20),
         hintText: "0",
-        suffixText: " %",
-        suffixStyle: TextStyle(
-          fontSize: 32,
-          fontWeight: FontWeight.w900,
-          color: Colors.black,
-          height: 1,
+        prefixIcon: SizedBox(width: 24),
+        prefixIconConstraints: BoxConstraints(minWidth: 0, minHeight: 0),
+        suffixIconConstraints: BoxConstraints(minWidth: 0, minHeight: 0),
+        suffixIcon: Padding(
+          padding: const EdgeInsets.only(right: 24),
+          child: Text(
+            " %",
+            style: TextStyle(
+              fontSize: 32,
+              fontWeight: FontWeight.w900,
+              color: Colors.black,
+              height: 1,
+            ),
+          ),
         ),
         hintStyle: TextStyle(
           color: Colors.grey.shade400,

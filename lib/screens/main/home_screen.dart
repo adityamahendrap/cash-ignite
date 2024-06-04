@@ -148,6 +148,14 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {});
   }
 
+  Future<void> _refreshListBunga() async {
+    setState(() {
+      _listSettingBunga = Future.value(null);
+    });
+    await _getListOfSettingBunga();
+    setState(() {});
+  }
+
   @override
   void initState() {
     super.initState();
@@ -325,7 +333,10 @@ class _HomeScreenState extends State<HomeScreen> {
       children: [
         SectionHeader(
           title: 'Setting Interest',
-          onSeeAll: () => Get.to(() => SettingInterestScreen()),
+          onSeeAll: () async {
+            await Get.to(() => SettingInterestScreen());
+            _refreshListBunga();
+          },
         ),
         SizedBox(height: 5),
         FutureBuilder(
@@ -353,6 +364,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 type: SettingBungaGridViewType.moreCount,
                 items: items,
                 activeItem: activeItem,
+                refreshListSettingBungaCallback: _handleRefresh,
               );
             }
 

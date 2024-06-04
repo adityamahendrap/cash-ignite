@@ -20,7 +20,9 @@ import 'package:progmob_magical_destroyers/widgets/wrapper/dialog_wrapper.dart';
 import 'package:provider/provider.dart';
 
 class AddSettingBunga extends StatefulWidget {
-  AddSettingBunga({super.key});
+  final Function refreshListSettingBungaCallback;
+
+  AddSettingBunga({super.key, required this.refreshListSettingBungaCallback});
 
   @override
   State<AddSettingBunga> createState() => _AddSettingBungaState();
@@ -30,18 +32,17 @@ class _AddSettingBungaState extends State<AddSettingBunga> {
   final TextEditingController _settingBungaController = TextEditingController();
   final MobileApiRequester _apiRequester = MobileApiRequester();
 
-  Future<bool> _showConfirmationDialog(
-    BuildContext context,
-    int nominal,
-    TransactionType type,
-  ) async {
+  bool _isActive = true;
+  bool _isDisabledButton = true;
+
+  Future<bool> _showConfirmationDialog(BuildContext context) async {
     late bool isConfirmed;
 
     await dialogWrapper(
       context: context,
       columnMainAxisAlignment: MainAxisAlignment.start,
       content: ConfirmationDialogContent(
-        textWidget: _getConfirmTextWidget(nominal, type),
+        text: "Are you sure to add this interest rate?",
         confirmText: "Yes, I'm sure",
         onConfirmed: () {
           isConfirmed = true;
@@ -58,45 +59,29 @@ class _AddSettingBungaState extends State<AddSettingBunga> {
     return isConfirmed;
   }
 
-  _getConfirmTextWidget(int nominal, TransactionType type) {
-    Color textColor = type.trxMultiply == 1 ? ColorPlanet.primary : Colors.red;
-    return RichText(
-      text: TextSpan(
-        style: TextStyle(
-          color: Colors.black,
-          fontSize: 16.0,
-        ),
-        children: [
-          TextSpan(
-            text: "Are you sure to do ",
-            style: GoogleFonts.poppins(),
-          ),
-          TextSpan(
-            text: "${type.name} ",
-            style: GoogleFonts.poppins(
-              color: textColor,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          TextSpan(
-            text: "as much ",
-            style: GoogleFonts.poppins(),
-          ),
-          TextSpan(
-            text:
-                "${type.trxMultiply == 1 ? "+" : "-"}Rp${HelplessUtil.formatNumber(nominal)} ",
-            style: GoogleFonts.poppins(
-              color: textColor,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          TextSpan(
-            text: "on this anggota?",
-            style: GoogleFonts.poppins(),
-          ),
-        ],
-      ),
-    );
+  Future<void> _addSettingBunga(
+    BuildContext context,
+    double percent,
+    bool isActive,
+  ) async {
+    FocusManager.instance.primaryFocus?.unfocus(); // Close keyboard
+
+    final bool isConfirmed = await _showConfirmationDialog(context);
+    if (!isConfirmed) return;
+
+    try {
+      EasyLoading.show();
+      await _apiRequester.addSettingBunga(percent: percent, isActive: isActive);
+
+      AppSnackBar.success("Success", "Add interest success!");
+
+      // refresh list setting bunga here
+      await widget.refreshListSettingBungaCallback();
+    } on DioException catch (e) {
+      HelplessUtil.handleApiError(e);
+    } finally {
+      EasyLoading.dismiss();
+    }
   }
 
   @override
@@ -139,13 +124,24 @@ class _AddSettingBungaState extends State<AddSettingBunga> {
             SizedBox(height: 10),
             SettingBungaInput(
               controller: _settingBungaController,
+              setIsDisableButtonState: (bool isDisabled) {
+                setState(() {
+                  _isDisabledButton = isDisabled;
+                });
+              },
             ),
-            SizedBox(height: 40),
+            SizedBox(height: 30),
+            _activeToggle(),
+            SizedBox(height: 10),
             FullWidthButton(
               type: FullWidthButtonType.primary,
               text: "Submit",
-              onPressed: () {},
-              isDisabled: false,
+              onPressed: () => _addSettingBunga(
+                context,
+                double.parse(_settingBungaController.text),
+                _isActive,
+              ),
+              isDisabled: _isDisabledButton,
             ),
             isKeyboardVisible
                 ? SizedBox(height: MediaQuery.of(context).viewInsets.bottom)
@@ -153,6 +149,30 @@ class _AddSettingBungaState extends State<AddSettingBunga> {
           ],
         );
       },
+    );
+  }
+
+  Widget _activeToggle() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          "Active",
+          style: TextStyle(
+            fontSize: 18,
+            color: Colors.grey.shade500,
+          ),
+        ),
+        Switch(
+          value: _isActive,
+          activeColor: ColorPlanet.primary,
+          onChanged: (bool value) {
+            setState(() {
+              _isActive = value;
+            });
+          },
+        ),
+      ],
     );
   }
 }

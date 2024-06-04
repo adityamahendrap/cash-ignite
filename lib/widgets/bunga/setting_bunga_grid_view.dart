@@ -1,3 +1,4 @@
+import 'package:color_log/color_log.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
@@ -11,12 +12,14 @@ class SettingBungaGridView extends StatelessWidget {
   final SettingBungaGridViewType type;
   final List<SettingBunga> items;
   final SettingBunga activeItem;
+  final Function refreshListSettingBungaCallback;
 
   SettingBungaGridView({
     super.key,
     required this.type,
     required this.items,
     required this.activeItem,
+    required this.refreshListSettingBungaCallback,
   });
 
   @override
@@ -121,7 +124,10 @@ class SettingBungaGridView extends StatelessWidget {
     return InkWell(
       onTap: () {
         bottomSheetFitContentWrapper(
-            context: context, content: AddSettingBunga());
+            context: context,
+            content: AddSettingBunga(
+              refreshListSettingBungaCallback: refreshListSettingBungaCallback,
+            ));
       },
       child: Container(
         alignment: Alignment.center,

@@ -81,6 +81,7 @@ class _SettingInterestScreenState extends State<SettingInterestScreen> {
                     type: SettingBungaGridViewType.add,
                     items: items,
                     activeItem: activeItem,
+                    refreshListSettingBungaCallback: _handleRefresh,
                   );
                 }
 

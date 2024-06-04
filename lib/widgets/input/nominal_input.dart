@@ -1,3 +1,4 @@
+import 'package:color_log/color_log.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
@@ -42,6 +43,8 @@ class _NominalInputState extends State<NominalInput> {
     } else if (valueNum == 0) {
       isValid = false;
     }
+
+    clog.debug(valueNum.toString());
 
     // defer after build
     WidgetsBinding.instance!.addPostFrameCallback((_) {
