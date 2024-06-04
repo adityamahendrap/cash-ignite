@@ -49,36 +49,42 @@ class AnggotaDetailScreenState extends State<AnggotaDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/bg-abstract.jpg"),
-            fit: BoxFit.fill,
+      body: Stack(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/bg-abstract.jpg"),
+                fit: BoxFit.fitHeight, // Add this line
+              ),
+            ),
+            height: MediaQuery.of(context).size.height *
+                0.5, // Set the height to 50% of the screen
           ),
-        ),
-        child: SafeArea(
-          child: RefreshIndicator(
-            onRefresh: _handleRefresh,
-            child: ListView(
-              children: [
-                _backButton(),
-                SizedBox(height: 20),
-                _nameAndSaldo(),
-                SizedBox(height: 25),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    _createTransactionButton(),
-                    SizedBox(width: 40),
-                    _anggotaInfoButton(),
-                  ],
-                ),
-                SizedBox(height: 60),
-                TransactionHistory(anggota: anggota),
-              ],
+          SafeArea(
+            child: RefreshIndicator(
+              onRefresh: _handleRefresh,
+              child: ListView(
+                children: [
+                  _backButton(),
+                  SizedBox(height: 20),
+                  _nameAndSaldo(),
+                  SizedBox(height: 25),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      _createTransactionButton(),
+                      SizedBox(width: 40),
+                      _anggotaInfoButton(),
+                    ],
+                  ),
+                  SizedBox(height: 60),
+                  TransactionHistory(anggota: anggota),
+                ],
+              ),
             ),
           ),
-        ),
+        ],
       ),
     );
   }
