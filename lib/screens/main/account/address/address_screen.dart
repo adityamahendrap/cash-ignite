@@ -11,7 +11,10 @@ class AddressScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarWithBackButton(title: 'Address', centerTitle: true,),
+      appBar: AppBarWithBackButton(
+        title: 'Address',
+        centerTitle: true,
+      ),
       body: Stack(
         children: [
           Padding(
@@ -27,7 +30,7 @@ class AddressScreen extends StatelessWidget {
             context: context,
             text: 'Add New Adress',
             onPressed: () {
-              Get.to(() => AddNewAddressScreen());
+              // Get.to(() => AddNewAddressScreen());
             },
           )
         ],

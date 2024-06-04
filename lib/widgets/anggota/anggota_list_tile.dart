@@ -72,48 +72,8 @@ class _AnggotaListTileState extends State<AnggotaListTile> {
               overflow: TextOverflow.ellipsis,
             ),
             SizedBox(height: 5),
-            Row(
-              children: [
-                // TextLabel(
-                //   text: widget.item.statusAktif! ? "Active" : "Inactive",
-                //   bgColor: widget.item.statusAktif!
-                //       ? ColorPlanet.secondary
-                //       : Colors.red,
-                // ),
-                // SizedBox(width: 5),
-                _saldoAnggota(widget.item),
-                // '${HelplessUtil.calculateAge(DateTime.parse(item.tglLahir))} years'),
-                // SizedBox(width: 5),
-                // Text("| "),
-                // Icon(Icons.phone_outlined,
-                //     color: ColorPlanet.primary, size: 20),
-                // SizedBox(width: 5),
-                // Flexible(
-                //   child: Text(
-                //     maxLines: 1,
-                //     overflow: TextOverflow.ellipsis,
-                //     '${item.telepon}',
-                //     style: TextStyle(fontSize: 14),
-                //   ),
-                // ),
-              ],
-            ),
+            _saldoAnggota(widget.item),
             SizedBox(height: 5),
-            // Row(
-            //   children: [
-            //     Icon(
-            //       Icons.location_on_outlined,
-            //       color: ColorPlanet.primary,
-            //     ),
-            //     SizedBox(width: 5),
-            //     Text(
-            //       item.alamat,
-            //       maxLines: 1,
-            //       overflow: TextOverflow.ellipsis,
-            //       style: TextStyle(fontSize: 14),
-            //     ),
-            //   ],
-            // ),
           ],
         ),
         style: ListTileStyle.list,

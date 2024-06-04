@@ -14,10 +14,12 @@ import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/a
 import 'package:progmob_magical_destroyers/providers/profile_provider.dart';
 import 'package:progmob_magical_destroyers/screens/main/search_screen.dart';
 import 'package:progmob_magical_destroyers/screens/main/anggota/add_anggota_screen.dart';
+import 'package:progmob_magical_destroyers/screens/main/setting_bunga_screen.dart';
 import 'package:progmob_magical_destroyers/utils/helpless_util.dart';
 import 'package:progmob_magical_destroyers/widgets/anggota/anggota_list_tile_skeleton.dart';
 import 'package:progmob_magical_destroyers/widgets/anggota/anggota_list_view.dart';
 import 'package:progmob_magical_destroyers/widgets/app_snack_bar.dart';
+import 'package:progmob_magical_destroyers/widgets/bunga/setting_bunga_grid_view.dart';
 import 'package:progmob_magical_destroyers/widgets/confirmation_dialog_content.dart';
 import 'package:progmob_magical_destroyers/widgets/data/empty_data.dart';
 import 'package:progmob_magical_destroyers/widgets/data/error_fetching_data.dart';
@@ -142,11 +144,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // floatingActionButton: FloatingActionButtonAdd(
-      //   onPressed: () => Get.to(
-      //     () => AddAnggotaScreen(addAnggotaCallback: _addAnggota),
-      //   ),
-      // ),
       body: SafeArea(
         child: RefreshIndicator(
           onRefresh: _handleRefresh,
@@ -171,6 +168,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 padding: EdgeInsets.only(bottom: 15, top: 5),
                 sliver: SliverToBoxAdapter(
                   child: _hero(),
+                ),
+              ),
+              SliverPadding(
+                padding: EdgeInsets.only(top: 10, bottom: 15),
+                sliver: SliverToBoxAdapter(
+                  child: _settingBungaGridView(),
                 ),
               ),
               SliverPadding(
@@ -298,6 +301,19 @@ class _HomeScreenState extends State<HomeScreen> {
           'assets/slider_2.png',
           'assets/slider_3.png',
         ]),
+      ],
+    );
+  }
+
+  Widget _settingBungaGridView() {
+    return Column(
+      children: [
+        SectionHeader(
+          title: 'Setting Interest',
+          onSeeAll: () => Get.to(() => SettingInterestScreen()),
+        ),
+        SizedBox(height: 5),
+        SettingBungaGridView(type: SettingBungaGridViewType.moreCount),
       ],
     );
   }
