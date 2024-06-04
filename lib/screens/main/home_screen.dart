@@ -343,7 +343,7 @@ class _HomeScreenState extends State<HomeScreen> {
           future: _listSettingBunga,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
+              return SettingBungaGridViewSkeleton();
             } else if (snapshot.hasError) {
               return Container(
                 padding: EdgeInsets.only(top: 20),
@@ -368,7 +368,7 @@ class _HomeScreenState extends State<HomeScreen> {
               );
             }
 
-            return Center(child: CircularProgressIndicator());
+            return SettingBungaGridViewSkeleton();
           },
         ),
       ],

@@ -59,7 +59,7 @@ class _SettingInterestScreenState extends State<SettingInterestScreen> {
               future: _listSettingBunga,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
+                  return SettingBungaGridViewSkeleton(count: 8 * 4);
                 } else if (snapshot.hasError) {
                   clog.error('Error fetching data: ${snapshot.error}');
                   return Padding(
@@ -85,7 +85,7 @@ class _SettingInterestScreenState extends State<SettingInterestScreen> {
                   );
                 }
 
-                return Center(child: CircularProgressIndicator());
+                return SettingBungaGridViewSkeleton(count: 8 * 4);
               },
             ),
           ],

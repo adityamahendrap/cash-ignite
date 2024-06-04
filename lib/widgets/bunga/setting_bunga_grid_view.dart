@@ -5,6 +5,7 @@ import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/list_setting_bunga_type.dart';
 import 'package:progmob_magical_destroyers/widgets/bunga/add_setting_bunga.dart';
 import 'package:progmob_magical_destroyers/widgets/wrapper/bottom_sheet_fit_content_wrapper.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 enum SettingBungaGridViewType { add, moreCount }
 
@@ -171,6 +172,58 @@ class SettingBungaGridView extends StatelessWidget {
           offset: Offset(0, 3),
         ),
       ],
+    );
+  }
+}
+
+class SettingBungaGridViewSkeleton extends StatelessWidget {
+  final int? count;
+  const SettingBungaGridViewSkeleton({super.key, this.count = 4});
+
+  @override
+  Widget build(BuildContext context) {
+    return Skeletonizer(
+      enabled: true,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10),
+        child: GridView.count(
+          primary: false,
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          crossAxisSpacing: 10,
+          mainAxisSpacing: 10,
+          crossAxisCount: 4,
+          shrinkWrap: true,
+          children: List.generate(this.count!, (index) {
+            return Stack(
+              children: [
+                Container(
+                  alignment: Alignment.center,
+                  // decoration: BoxDecoration(
+                  //   border: Border.all(color: Colors.grey.withOpacity(0.3)),
+                  //   borderRadius: BorderRadius.circular(10),
+                  // ),
+                  child: Text(
+                    "0.00%",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                Positioned(
+                  child: Text(
+                    'Active',
+                    style: TextStyle(color: Colors.white, fontSize: 10),
+                  ),
+                  top: 5,
+                  left: 10,
+                ),
+              ],
+            );
+          }),
+        ),
+      ),
     );
   }
 }
