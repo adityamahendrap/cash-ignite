@@ -37,9 +37,9 @@ class SettingBunga {
   SettingBunga({this.id, this.persen, this.isaktif});
 
   SettingBunga.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    persen = json['persen'];
-    isaktif = json['isaktif'];
+    id = json['id'] as int;
+    persen = json['persen'].toDouble();
+    isaktif = json['isaktif'] as int;
   }
 
   Map<String, dynamic> toJson() {

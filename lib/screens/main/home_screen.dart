@@ -11,6 +11,7 @@ import 'package:progmob_magical_destroyers/external/requester/mobile_api/mobile_
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/base/anggota_type.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/base/user_type.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/anggota_list_type.dart';
+import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/list_setting_bunga_type.dart';
 import 'package:progmob_magical_destroyers/providers/profile_provider.dart';
 import 'package:progmob_magical_destroyers/screens/main/search_screen.dart';
 import 'package:progmob_magical_destroyers/screens/main/anggota/add_anggota_screen.dart';
@@ -45,6 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   late User _user;
   late Future<AnggotaList?> _anggotaList;
+  late Future<ListSettingBunga?> _listSettingBunga;
 
   Future<void> _getAnggotaList() async {
     try {
@@ -106,6 +108,14 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  Future<void> _getListOfSettingBunga() async {
+    try {
+      _listSettingBunga = _apiRequester.getListSettingBunga();
+    } on DioException catch (e) {
+      HelplessUtil.handleApiError(e);
+    }
+  }
+
   Future<bool> _showDeleteConfirmationDialog() async {
     late bool isConfirmed;
     await dialogWrapper(
@@ -129,8 +139,12 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<void> _handleRefresh() async {
     setState(() {
       _anggotaList = Future.value(null);
+      _listSettingBunga = Future.value(null);
     });
-    await _getAnggotaList();
+    Future.wait([
+      _getAnggotaList(),
+      _getListOfSettingBunga(),
+    ]);
     setState(() {});
   }
 
@@ -139,6 +153,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     _user = User.fromJson(_box.read('user'));
     _getAnggotaList();
+    _getListOfSettingBunga();
   }
 
   @override
@@ -313,7 +328,37 @@ class _HomeScreenState extends State<HomeScreen> {
           onSeeAll: () => Get.to(() => SettingInterestScreen()),
         ),
         SizedBox(height: 5),
-        SettingBungaGridView(type: SettingBungaGridViewType.moreCount),
+        FutureBuilder(
+          future: _listSettingBunga,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasError) {
+              return Container(
+                padding: EdgeInsets.only(top: 20),
+                child: ErrorFetchingData(),
+              );
+            } else if (snapshot.hasData) {
+              List<SettingBunga> items = snapshot.data!.settingbungas!;
+              SettingBunga activeItem = snapshot.data!.activebunga!;
+
+              if (items.isEmpty) {
+                return Container(
+                  padding: EdgeInsets.only(top: 20),
+                  child: EmptyData(),
+                );
+              }
+
+              return SettingBungaGridView(
+                type: SettingBungaGridViewType.moreCount,
+                items: items,
+                activeItem: activeItem,
+              );
+            }
+
+            return Center(child: CircularProgressIndicator());
+          },
+        ),
       ],
     );
   }

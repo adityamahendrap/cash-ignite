@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
+import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/list_setting_bunga_type.dart';
 import 'package:progmob_magical_destroyers/widgets/bunga/add_setting_bunga.dart';
 import 'package:progmob_magical_destroyers/widgets/wrapper/bottom_sheet_fit_content_wrapper.dart';
 
@@ -8,10 +9,21 @@ enum SettingBungaGridViewType { add, moreCount }
 
 class SettingBungaGridView extends StatelessWidget {
   final SettingBungaGridViewType type;
-  SettingBungaGridView({super.key, required this.type});
+  final List<SettingBunga> items;
+  final SettingBunga activeItem;
+
+  SettingBungaGridView({
+    super.key,
+    required this.type,
+    required this.items,
+    required this.activeItem,
+  });
 
   @override
   Widget build(BuildContext context) {
+    // reverse items
+    final reversedItems = items.reversed.toList();
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: GridView.count(
@@ -21,25 +33,52 @@ class SettingBungaGridView extends StatelessWidget {
         mainAxisSpacing: 10,
         crossAxisCount: 4,
         shrinkWrap: true,
-        children: <Widget>[
-          _gridTileActive(),
-          _gridTIle(),
-          _gridTIle(),
-          if (type == SettingBungaGridViewType.add)
-            _gridTIleAdd(context)
-          else
-            _gridTIleMoreCount()
-        ],
+        children: type == SettingBungaGridViewType.add
+            ? _gridTilesWithAdd(context, reversedItems)
+            : _gridTilesWithMoreCount(reversedItems),
       ),
     );
   }
 
-  Container _gridTIle() {
+  List<Widget> _gridTilesWithAdd(
+    BuildContext context,
+    List<SettingBunga> items,
+  ) {
+    return [
+      ...items.map((item) {
+        return item.id == activeItem.id
+            ? _gridTileActive(item)
+            : _gridTile(item);
+      }).toList(),
+      _gridTIleAdd(context),
+    ];
+  }
+
+  List<Widget> _gridTilesWithMoreCount(List<SettingBunga> items) {
+    // set active item to the first index
+    items.removeWhere((item) => item.id == activeItem.id);
+    items.insert(0, activeItem);
+
+    // limit to 3 items
+    List<SettingBunga> filteredItems =
+        items.length > 3 ? items.sublist(0, 3) : items;
+
+    return [
+      ...filteredItems.map((item) {
+        return item.id == activeItem.id
+            ? _gridTileActive(item)
+            : _gridTile(item);
+      }).toList(),
+      if (items.length >= 4) _gridTIleMoreCount(items.length - 3)
+    ];
+  }
+
+  Container _gridTile(SettingBunga item) {
     return Container(
       alignment: Alignment.center,
       decoration: _containerDecoration(color: ColorPlanet.secondary),
       child: Text(
-        "0.5%",
+        "${item.persen}%",
         textAlign: TextAlign.center,
         style: TextStyle(
           color: ColorPlanet.primary,
@@ -47,6 +86,34 @@ class SettingBungaGridView extends StatelessWidget {
           fontWeight: FontWeight.bold,
         ),
       ),
+    );
+  }
+
+  Stack _gridTileActive(SettingBunga item) {
+    return Stack(
+      children: [
+        Container(
+          alignment: Alignment.center,
+          decoration: _containerDecoration(color: ColorPlanet.primary),
+          child: Text(
+            "${item.persen}%",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        Positioned(
+          child: Text(
+            'Active',
+            style: TextStyle(color: Colors.white, fontSize: 10),
+          ),
+          top: 5,
+          left: 10,
+        ),
+      ],
     );
   }
 
@@ -68,12 +135,12 @@ class SettingBungaGridView extends StatelessWidget {
     );
   }
 
-  Container _gridTIleMoreCount() {
+  Container _gridTIleMoreCount(int count) {
     return Container(
       alignment: Alignment.center,
       decoration: _containerDecoration(color: ColorPlanet.secondary),
       child: Text(
-        "+2\nmore",
+        "+$count\nmore",
         textAlign: TextAlign.center,
         style: TextStyle(
           height: 1.2,
@@ -82,34 +149,6 @@ class SettingBungaGridView extends StatelessWidget {
           fontWeight: FontWeight.bold,
         ),
       ),
-    );
-  }
-
-  Stack _gridTileActive() {
-    return Stack(
-      children: [
-        Container(
-          alignment: Alignment.center,
-          decoration: _containerDecoration(color: ColorPlanet.primary),
-          child: Text(
-            "0.1%",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 22,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-        Positioned(
-          child: Text(
-            'Active',
-            style: TextStyle(color: Colors.white, fontSize: 10),
-          ),
-          top: 5,
-          left: 10,
-        ),
-      ],
     );
   }
 
