@@ -23,6 +23,10 @@ class SettingBungaGridView extends StatelessWidget {
     required this.refreshListSettingBungaCallback,
   });
 
+  String _formatPercent(double? persen) {
+    return persen.toString().replaceFirst('.', ',') + '%';
+  }
+
   @override
   Widget build(BuildContext context) {
     // reverse items
@@ -82,7 +86,7 @@ class SettingBungaGridView extends StatelessWidget {
       alignment: Alignment.center,
       decoration: _containerDecoration(color: ColorPlanet.secondary),
       child: Text(
-        "${item.persen}%",
+        _formatPercent(item.persen),
         textAlign: TextAlign.center,
         style: TextStyle(
           color: ColorPlanet.primary,
@@ -100,7 +104,7 @@ class SettingBungaGridView extends StatelessWidget {
           alignment: Alignment.center,
           decoration: _containerDecoration(color: ColorPlanet.primary),
           child: Text(
-            "${item.persen}%",
+            _formatPercent(item.persen),
             textAlign: TextAlign.center,
             style: TextStyle(
               color: Colors.white,

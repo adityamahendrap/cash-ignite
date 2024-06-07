@@ -138,7 +138,8 @@ class _AddSettingBungaState extends State<AddSettingBunga> {
               text: "Submit",
               onPressed: () => _addSettingBunga(
                 context,
-                double.parse(_settingBungaController.text),
+                double.parse(
+                    _settingBungaController.text.replaceFirst(',', '.')),
                 _isActive,
               ),
               isDisabled: _isDisabledButton,

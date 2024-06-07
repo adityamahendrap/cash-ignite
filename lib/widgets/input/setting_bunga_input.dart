@@ -31,17 +31,25 @@ class _SettingBungaInputState extends State<SettingBungaInput> {
     String? errorMessage = null;
 
     if (value != null && value.isNotEmpty) {
-      valueNum = double.parse(value);
+      // Replace commas with periods for parsing
+      valueNum = double.parse(value.replaceFirst(',', '.'));
 
+      // Check if the value is between 0 and 10
       if (valueNum >= 0 && valueNum <= 10) {
         isValid = true;
       } else {
         errorMessage = "Interest rate must be between 0 and 10";
       }
+
+      // Check if the value ends with a comma
+      if (value[value.length - 1] == ',') {
+        isValid = false;
+        errorMessage = "Invalid number";
+      }
     }
 
     // defer after build
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       widget.setIsDisableButtonState(!isValid);
     });
 
@@ -64,15 +72,18 @@ class _SettingBungaInputState extends State<SettingBungaInput> {
       ),
       // textAlign: TextAlign.center,
       inputFormatters: [
-        FilteringTextInputFormatter.allow(RegExp(r"[0-9.]")),
+        FilteringTextInputFormatter.allow(RegExp(r"[0-9,]")),
         TextInputFormatter.withFunction(
           (oldValue, newValue) {
             final text = newValue.text;
-            return text.isEmpty
+
+            // Replace commas with periods for parsing
+            final replacedText = text.replaceAll(',', '.');
+
+            // Check if the replaced text can be parsed to a double
+            return replacedText.isEmpty || double.tryParse(replacedText) != null
                 ? newValue
-                : double.tryParse(text) == null
-                    ? oldValue
-                    : newValue;
+                : oldValue;
           },
         ),
       ],
