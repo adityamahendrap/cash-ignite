@@ -1,7 +1,9 @@
 import 'package:color_log/color_log.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
+import 'package:progmob_magical_destroyers/controllers/auth_controller.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/mobile_api.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/base/anggota_type.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/saldo_anggota_type.dart';
@@ -9,6 +11,7 @@ import 'package:progmob_magical_destroyers/controllers/profile_provider.dart';
 import 'package:progmob_magical_destroyers/screens/main/anggota/anggota_detail_screen.dart';
 import 'package:progmob_magical_destroyers/screens/main/anggota/edit_anggota_screen.dart';
 import 'package:progmob_magical_destroyers/utils/helpless_util.dart';
+import 'package:progmob_magical_destroyers/widgets/app_snack_bar.dart';
 import 'package:progmob_magical_destroyers/widgets/photo_view.dart';
 import 'package:progmob_magical_destroyers/widgets/text_label.dart';
 
@@ -34,10 +37,20 @@ class _AnggotaListTileState extends State<AnggotaListTile> {
     widget.refreshAnggotaListCallback();
   }
 
-  Future<SaldoAnggota> _getSaldoAnggota(Anggota anggota) async {
+  Future<SaldoAnggota?> _getSaldoAnggota(Anggota anggota) async {
     // return SaldoAnggota(saldo: 1);
     // TODO: some api path unaccessible when i do batch request like this
-    return _apiRequester.getSaldoByAnggotaId(anggotaId: anggota.id.toString());
+    try {
+      return _apiRequester.getSaldoByAnggotaId(
+          anggotaId: anggota.id.toString());
+    } on DioException catch (e) {
+      if (e.response!.statusCode == 406) {
+        AuthController().signOut();
+        AppSnackBar.error("Session Expired",
+            "Your session has been expired, please login again. Sorry for the inconvenience.");
+      }
+      return null;
+    }
   }
 
   @override
@@ -60,12 +73,15 @@ class _AnggotaListTileState extends State<AnggotaListTile> {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              widget.item.nama,
-              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
+            Expanded(
+              child: Text(
+                widget.item.nama,
+                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
+            SizedBox(width: 10),
             _saldoAnggota(widget.item),
           ],
         ),
@@ -78,9 +94,11 @@ class _AnggotaListTileState extends State<AnggotaListTile> {
     return FutureBuilder(
       future: _getSaldoAnggota(anggota),
       builder: (context, snapshot) {
-        if (snapshot.hasData) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return TextLabel(text: "Loading");
+        } else if (snapshot.hasData) {
           final int saldo = snapshot.data!.saldo!;
-          return TextLabel(text: "Rp${HelplessUtil.formatNumber(saldo)}");
+          return TextLabel(text: "Rp.${HelplessUtil.formatNumber(saldo)}");
         } else if (snapshot.hasError) {
           clog.error('snaphot err: ${snapshot.error.toString()}');
           return TextLabel(text: "Error");

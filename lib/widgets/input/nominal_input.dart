@@ -85,7 +85,7 @@ class _NominalInputState extends State<NominalInput> {
         prefixIcon: Padding(
           padding: const EdgeInsets.only(left: 24),
           child: Text(
-            "${widget.transactionType.trxMultiply == 1 ? "+" : "-"}Rp",
+            "${widget.transactionType.trxMultiply == 1 ? "+" : "-"}Rp.",
             style: TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.w900,

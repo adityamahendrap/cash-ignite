@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -32,7 +31,7 @@ class TransactionHistoryListTileSkeleton extends StatelessWidget {
               ),
             ),
             trailing: Text(
-              "-Rp1.000.000",
+              "-Rp.1.000.000",
               style: TextStyle(
                 fontSize: 18,
                 color: Colors.red,

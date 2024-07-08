@@ -138,7 +138,7 @@ class EditAnggotaScreenState extends State<EditAnggotaScreen> {
         ),
       );
       Get.back();
-      AppSnackBar.success('Success', 'Anggota added successfully!');
+      AppSnackBar.success('Success', 'Anggota updated successfully!');
     } on DioException catch (e) {
       if (e.response!.data['message']
           .contains("Integrity constraint violation")) {

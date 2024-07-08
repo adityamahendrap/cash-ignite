@@ -1,4 +1,3 @@
-import 'package:color_log/color_log.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/mobile_api.dart';

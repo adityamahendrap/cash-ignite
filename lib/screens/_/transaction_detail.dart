@@ -6,7 +6,6 @@ import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/l
 import 'package:progmob_magical_destroyers/types/transaction_type.dart';
 import 'package:progmob_magical_destroyers/utils/helpless_util.dart';
 import 'package:progmob_magical_destroyers/widgets/app_bar_with_back_button.dart';
-import 'package:progmob_magical_destroyers/widgets/transaction/transaction_history.dart';
 import 'package:ticket_widget/ticket_widget.dart';
 
 class TransactionDetail extends StatelessWidget {
@@ -28,7 +27,7 @@ class TransactionDetail extends StatelessWidget {
     String formattedNominal = HelplessUtil.formatNumber(nominal);
 
     return Text(
-      "${prefix}Rp${formattedNominal}",
+      "${prefix}Rp.${formattedNominal}",
       style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: color),
     );
   }

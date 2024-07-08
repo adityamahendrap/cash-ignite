@@ -123,7 +123,7 @@ class _NominalTransactionState extends State<NominalTransaction> {
           ),
           TextSpan(
             text:
-                "${type.trxMultiply == 1 ? "+" : "-"}Rp${HelplessUtil.formatNumber(nominal)} ",
+                "${type.trxMultiply == 1 ? "+" : "-"}Rp.${HelplessUtil.formatNumber(nominal)} ",
             style: GoogleFonts.poppins(
               color: textColor,
               fontWeight: FontWeight.bold,
@@ -184,7 +184,7 @@ class _NominalTransactionState extends State<NominalTransaction> {
               children: [
                 Text("Current balance is "),
                 Text(
-                  "Rp${HelplessUtil.formatNumber(widget.saldo)}",
+                  "Rp.${HelplessUtil.formatNumber(widget.saldo)}",
                   style: TextStyle(
                       color: ColorPlanet.primary, fontWeight: FontWeight.bold),
                 ),

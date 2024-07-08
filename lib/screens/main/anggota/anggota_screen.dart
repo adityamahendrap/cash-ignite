@@ -2,7 +2,6 @@ import 'package:color_log/color_log.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/mobile_api.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/anggota_list_type.dart';
@@ -11,15 +10,14 @@ import 'package:progmob_magical_destroyers/screens/main/anggota/add_anggota_scre
 import 'package:progmob_magical_destroyers/utils/helpless_util.dart';
 import 'package:progmob_magical_destroyers/widgets/anggota/anggota_list_tile_skeleton.dart';
 import 'package:progmob_magical_destroyers/widgets/anggota/anggota_list_view.dart';
-import 'package:progmob_magical_destroyers/widgets/app_snack_bar.dart';
-import 'package:progmob_magical_destroyers/widgets/confirmation_dialog_content.dart';
 import 'package:progmob_magical_destroyers/widgets/data/empty_data.dart';
 import 'package:progmob_magical_destroyers/widgets/data/error_fetching_data.dart';
 import 'package:progmob_magical_destroyers/widgets/floating_action_button_add.dart';
+import 'package:progmob_magical_destroyers/widgets/sort_filter.dart';
 import 'package:progmob_magical_destroyers/widgets/text_title.dart';
-import 'package:progmob_magical_destroyers/widgets/wrapper/dialog_wrapper.dart';
 import 'package:get/get.dart';
 import 'package:progmob_magical_destroyers/screens/main/search_screen.dart';
+import 'package:progmob_magical_destroyers/widgets/wrapper/bottom_sheet_fit_content_wrapper.dart';
 
 class AnggotaScreen extends StatefulWidget {
   const AnggotaScreen({super.key});
@@ -31,6 +29,32 @@ class AnggotaScreen extends StatefulWidget {
 class _AnggotaScreenState extends State<AnggotaScreen> {
   final MobileApiRequester _apiRequester = MobileApiRequester();
   late Future<AnggotaList?> _anggotaList;
+  int _selectedSortByIndex = 0;
+
+  void _setSortByIndex(int index) {
+    setState(() {
+      _selectedSortByIndex = index;
+    });
+  }
+
+  List<Anggota> _sortFilterAnggotaList(
+    List<Anggota> items,
+    int selectedSortByIndex,
+  ) {
+    switch (selectedSortByIndex) {
+      case 1:
+        items.sort((a, b) => a.nama.compareTo(b.nama));
+        break;
+      case 2:
+        items.sort((a, b) => b.nama.compareTo(a.nama));
+        break;
+      default:
+        items.sort((a, b) => a.nomorInduk.compareTo(b.nomorInduk));
+        break;
+    }
+
+    return items;
+  }
 
   Future<void> _getAnggotaList() async {
     try {
@@ -57,67 +81,25 @@ class _AnggotaScreenState extends State<AnggotaScreen> {
     }
   }
 
-  Future<void> _updateAnggota(Anggota anggota) async {
-    try {
-      await _apiRequester.updateAnggota(
-        id: anggota.id,
-        nomorInduk: anggota.nomorInduk,
-        nama: anggota.nama,
-        tglLahir: anggota.tglLahir,
-        telepon: anggota.telepon,
-        alamat: anggota.alamat,
-        status: anggota.statusAktif ?? true,
-      );
-      await _getAnggotaList();
-      setState(() {}); // Rebuild the widget tree to reflect the updated list
-    } on DioException catch (e) {
-      throw e;
-    }
-  }
-
-  Future<void> _deleteAnggota(Anggota anggota) async {
-    final bool isConfirmed = await _showDeleteConfirmationDialog();
-    if (!isConfirmed) return;
-
-    EasyLoading.show();
-    try {
-      await _apiRequester.deleteAnggota(id: anggota.id);
-      await _getAnggotaList();
-      setState(() {}); // Rebuild the widget tree to reflect the updated list
-      AppSnackBar.success('Success', 'Anggota deleted successfully!');
-    } on DioException catch (e) {
-      HelplessUtil.handleApiError(e);
-    } finally {
-      EasyLoading.dismiss();
-    }
-  }
-
-  Future<bool> _showDeleteConfirmationDialog() async {
-    late bool isConfirmed;
-    await dialogWrapper(
-      context: context,
-      content: ConfirmationDialogContent(
-        text: "Are you sure you want to delete this anggota?",
-        onConfirmed: () {
-          Get.back();
-          isConfirmed = true;
-        },
-        onCanceled: () {
-          Get.back();
-          isConfirmed = false;
-        },
-        confirmText: "Delete",
-      ),
-    );
-    return isConfirmed;
-  }
-
   Future<void> _handleRefresh() async {
     setState(() {
       _anggotaList = Future.value(null);
     });
     await _getAnggotaList();
     setState(() {});
+  }
+
+  void _showSortFilterBottomSheet(BuildContext context) async {
+    FocusManager.instance.primaryFocus?.unfocus();
+
+    await bottomSheetFitContentWrapper(
+      context: context,
+      content: SortFilter(
+        selectedSortByIndex: _selectedSortByIndex,
+        onApply: _setSortByIndex,
+      ),
+      isHorizontalPaddingActive: false,
+    );
   }
 
   @override
@@ -235,13 +217,14 @@ class _AnggotaScreenState extends State<AnggotaScreen> {
               suffixIcon: IconButton(
                 icon: Icon(CupertinoIcons.slider_horizontal_3),
                 color: Colors.black,
-                onPressed: () {
-                  Get.to(
-                    () => SearchScreen(),
-                    transition: Transition.cupertinoDialog,
-                    arguments: {'keyboard': false},
-                  );
-                },
+                onPressed: () => _showSortFilterBottomSheet(context),
+                // onPressed: () {
+                //   Get.to(
+                //     () => SearchScreen(),
+                //     transition: Transition.cupertinoDialog,
+                //     arguments: {'keyboard': false},
+                //   );
+                // },
               ),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
@@ -303,7 +286,8 @@ class _AnggotaScreenState extends State<AnggotaScreen> {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return AnggotaListTileSkeleton(itemCount: 6);
             } else if (snapshot.hasData) {
-              final List<Anggota> items = snapshot.data!.anggotaList;
+              List<Anggota> items = snapshot.data!.anggotaList;
+              items = _sortFilterAnggotaList(items, _selectedSortByIndex);
 
               if (items.isEmpty) {
                 return EmptyData();

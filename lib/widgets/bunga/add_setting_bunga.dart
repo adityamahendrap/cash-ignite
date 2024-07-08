@@ -1,23 +1,16 @@
-import 'package:color_log/color_log.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/mobile_api.dart';
-import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/base/anggota_type.dart';
-import 'package:progmob_magical_destroyers/controllers/transaction_provider.dart';
-import 'package:progmob_magical_destroyers/types/transaction_type.dart';
 import 'package:progmob_magical_destroyers/utils/helpless_util.dart';
 import 'package:progmob_magical_destroyers/widgets/app_snack_bar.dart';
 import 'package:progmob_magical_destroyers/widgets/confirmation_dialog_content.dart';
 import 'package:progmob_magical_destroyers/widgets/full_width_button.dart';
 import 'package:progmob_magical_destroyers/widgets/input/setting_bunga_input.dart';
-import 'package:progmob_magical_destroyers/widgets/input/nominal_input.dart';
 import 'package:progmob_magical_destroyers/widgets/wrapper/dialog_wrapper.dart';
-import 'package:provider/provider.dart';
 
 class AddSettingBunga extends StatefulWidget {
   final Function refreshListSettingBungaCallback;

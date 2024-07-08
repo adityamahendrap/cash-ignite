@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
 
 class AppSnackBar {
   static SnackbarController error(String title, dynamic message) {
@@ -17,9 +16,10 @@ class AppSnackBar {
     return Get.snackbar(
       title,
       message.toString(),
-      backgroundGradient: LinearGradient(
-        colors: [Colors.blue, Colors.lightBlue],
-      ),
+      // backgroundGradient: LinearGradient(
+      //   colors: [Colors.blue, Colors.lightBlue],
+      // ),
+      backgroundColor: Colors.white,
     );
   }
 }

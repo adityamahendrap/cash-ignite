@@ -25,7 +25,7 @@ class TransactionHistoryListTile extends StatelessWidget {
     String prefix = txnType.trxMultiply == 1 ? "+" : "-";
     String formattedNominal = HelplessUtil.formatNumber(nominal);
 
-    return Text("${prefix}Rp${formattedNominal}",
+    return Text("${prefix}Rp.${formattedNominal}",
         style:
             TextStyle(fontSize: 18, color: color, fontWeight: FontWeight.bold));
   }

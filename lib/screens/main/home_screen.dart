@@ -215,17 +215,17 @@ class _HomeScreenState extends State<HomeScreen> {
               prefixIcon: Icon(CupertinoIcons.search, color: Colors.grey),
               contentPadding:
                   EdgeInsets.symmetric(vertical: 15, horizontal: 50),
-              suffixIcon: IconButton(
-                icon: Icon(CupertinoIcons.slider_horizontal_3),
-                color: Colors.black,
-                onPressed: () {
-                  Get.to(
-                    () => SearchScreen(),
-                    transition: Transition.cupertinoDialog,
-                    arguments: {'keyboard': false},
-                  );
-                },
-              ),
+              // suffixIcon: IconButton(
+              //   icon: Icon(CupertinoIcons.slider_horizontal_3),
+              //   color: Colors.black,
+              //   onPressed: () {
+              //     Get.to(
+              //       () => SearchScreen(),
+              //       transition: Transition.cupertinoDialog,
+              //       arguments: {'keyboard': false},
+              //     );
+              //   },
+              // ),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
                 borderSide: BorderSide(color: Colors.transparent),

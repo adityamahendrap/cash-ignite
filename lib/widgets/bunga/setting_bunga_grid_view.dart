@@ -1,6 +1,4 @@
-import 'package:color_log/color_log.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/list_setting_bunga_type.dart';
 import 'package:progmob_magical_destroyers/widgets/bunga/add_setting_bunga.dart';

@@ -1,10 +1,8 @@
-import 'package:color_log/color_log.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
-import 'package:progmob_magical_destroyers/widgets/sort_filter.dart';
-import 'package:progmob_magical_destroyers/widgets/wrapper/bottom_sheet_fit_content_wrapper.dart';
+import 'package:progmob_magical_destroyers/screens/main/search_result_screen.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -19,11 +17,11 @@ class _SearchScreenState extends State<SearchScreen> {
   void _showSortFilterBottomSheet(BuildContext context) async {
     FocusManager.instance.primaryFocus?.unfocus();
 
-    await bottomSheetFitContentWrapper(
-      context: context,
-      content: SortFilter(),
-      isHorizontalPaddingActive: false,
-    );
+    // await bottomSheetFitContentWrapper(
+    //   context: context,
+    //   content: SortFilter(),
+    //   isHorizontalPaddingActive: false,
+    // );
   }
 
   @override
@@ -60,6 +58,9 @@ class _SearchScreenState extends State<SearchScreen> {
         children: [
           TextField(
             autofocus: _keyboard!,
+            onSubmitted: (value) => Get.to(
+              () => SearchResultScreen(keyword: value),
+            ),
             style: TextStyle(color: Colors.black),
             cursorColor: ColorPlanet.primary,
             decoration: InputDecoration(
@@ -71,13 +72,13 @@ class _SearchScreenState extends State<SearchScreen> {
               prefixIcon: Icon(CupertinoIcons.search, color: Colors.grey),
               contentPadding:
                   EdgeInsets.symmetric(vertical: 15, horizontal: 50),
-              suffixIcon: IconButton(
-                onPressed: () => _showSortFilterBottomSheet(context),
-                icon: Icon(
-                  CupertinoIcons.slider_horizontal_3,
-                  color: Colors.black,
-                ),
-              ),
+              // suffixIcon: IconButton(
+              //   onPressed: () => _showSortFilterBottomSheet(context),
+              //   icon: Icon(
+              //     CupertinoIcons.slider_horizontal_3,
+              //     color: Colors.black,
+              //   ),
+              // ),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
                 borderSide: BorderSide(color: Colors.transparent),

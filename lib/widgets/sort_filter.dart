@@ -1,26 +1,41 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
-import 'package:syncfusion_flutter_sliders/sliders.dart';
+import 'package:progmob_magical_destroyers/widgets/full_width_button.dart';
 
 class SortFilter extends StatefulWidget {
-  SortFilter({super.key});
+  final int selectedSortByIndex;
+  final Function(int) onApply;
+
+  SortFilter({
+    super.key,
+    required this.selectedSortByIndex,
+    required this.onApply,
+  });
 
   @override
   State<SortFilter> createState() => _SortFilterState();
 }
 
 class _SortFilterState extends State<SortFilter> {
-  SfRangeValues _values = SfRangeValues(40.0, 80.0);
-
-  List<String> categories = ['All', 'T-Shirt', 'Shoes', 'Pants', 'Hat'];
-  List<String> genders = ['All', 'Men', 'Women'];
-  List<String> sortBy = [
-    'Newest',
-    'Popular',
-    'Price: Low to High',
-    'Price: High to Low'
+  List<String> _sortBy = [
+    'Default',
+    'Name A-Z',
+    'Name Z-A',
   ];
-  List<String> retings = ['⭐All', '⭐5', '⭐4', '⭐3', '⭐2', '⭐1'];
+
+  late int _activeButtonSortByIndex = widget.selectedSortByIndex;
+
+  void _onSortByButtonPressed(int index) {
+    setState(() {
+      _activeButtonSortByIndex = index;
+    });
+  }
+
+  void _apply() {
+    widget.onApply(_activeButtonSortByIndex);
+    Get.back();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,41 +46,19 @@ class _SortFilterState extends State<SortFilter> {
           child: Text('Sort & Filter',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
         ),
-        SizedBox(height: 5),
-        Divider(color: Colors.grey.shade300),
-        SizedBox(height: 10),
-        _sortFilterText('Category'),
-        SizedBox(height: 10),
-        _sortFilterButtons(categories, 0),
-        SizedBox(height: 10),
-        _sortFilterText('Gender'),
-        SizedBox(height: 10),
-        _sortFilterButtons(genders, 0),
-        SizedBox(height: 10),
-        _sortFilterText('Price Range'),
-        SfRangeSlider(
-          min: 0.0,
-          max: 100.0,
-          values: _values,
-          interval: 20,
-          showTicks: true,
-          showLabels: true,
-          enableTooltip: true,
-          minorTicksPerInterval: 1,
-          onChanged: (SfRangeValues values) {
-            setState(() {
-              _values = values;
-            });
-          },
-        ),
-        SizedBox(height: 10),
         _sortFilterText('Sort By'),
         SizedBox(height: 10),
-        _sortFilterButtons(sortBy, 0),
-        SizedBox(height: 10),
-        _sortFilterText('Rating'),
-        SizedBox(height: 10),
-        _sortFilterButtons(retings, 0)
+        _sortFilterButtons(
+            items: _sortBy, activeIndex: _activeButtonSortByIndex),
+        SizedBox(height: 40),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20),
+          child: FullWidthButton(
+            type: FullWidthButtonType.primary,
+            text: "Apply",
+            onPressed: () => _apply(),
+          ),
+        )
       ],
     );
   }
@@ -78,7 +71,10 @@ class _SortFilterState extends State<SortFilter> {
     );
   }
 
-  Container _sortFilterButtons(List<String> items, int activeIndex) {
+  Container _sortFilterButtons({
+    required List<String> items,
+    required int activeIndex,
+  }) {
     return Container(
       height: 35,
       child: ListView.separated(
@@ -98,7 +94,7 @@ class _SortFilterState extends State<SortFilter> {
                 side: BorderSide(color: ColorPlanet.primary, width: 2),
               ),
             ),
-            onPressed: () {},
+            onPressed: () => _onSortByButtonPressed(index),
             child: Text(
               item,
               style: TextStyle(

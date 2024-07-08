@@ -43,6 +43,10 @@ class _MainScreenState extends State<MainScreen> {
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
+      // body: IndexedStack(
+      //   children: _widgetOptions,
+      //   index: _selectedIndex,
+      // ),
       bottomNavigationBar: Theme(
         data: Theme.of(context).copyWith(
           // splashColor: Colors.transparent,

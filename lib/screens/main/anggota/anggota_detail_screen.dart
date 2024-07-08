@@ -165,11 +165,11 @@ class AnggotaDetailScreenState extends State<AnggotaDetailScreen> {
                     enabled: true,
                     child: Padding(
                       padding: const EdgeInsets.only(top: 10),
-                      child: TextTitle(title: "Rp1.000.000"),
+                      child: TextTitle(title: "Rp.1.000.000"),
                     ),
                   )
                 : TextTitle(
-                    title: "Rp${HelplessUtil.formatNumber(provider.saldo)}",
+                    title: "Rp.${HelplessUtil.formatNumber(provider.saldo)}",
                     color: Colors.white,
                     fontSize: 32,
                   );

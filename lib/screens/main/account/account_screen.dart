@@ -5,7 +5,6 @@ import 'package:get_storage/get_storage.dart';
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
 import 'package:progmob_magical_destroyers/controllers/auth_controller.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/base/user_type.dart';
-import 'package:progmob_magical_destroyers/screens/main/account/address/address_screen.dart';
 import 'package:progmob_magical_destroyers/screens/main/account/edit_profile.dart';
 import 'package:progmob_magical_destroyers/screens/main/account/language_screen.dart';
 import 'package:progmob_magical_destroyers/screens/main/account/notification_screen.dart';

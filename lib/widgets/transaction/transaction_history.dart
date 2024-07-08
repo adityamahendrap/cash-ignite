@@ -1,13 +1,9 @@
 import 'package:color_log/color_log.dart';
 import 'package:flutter/material.dart';
-import 'package:get/utils.dart';
-import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/base/anggota_type.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/list_tabungan_anggota_type.dart';
 import 'package:progmob_magical_destroyers/controllers/transaction_provider.dart';
-import 'package:progmob_magical_destroyers/screens/_/transaction_detail.dart';
 import 'package:progmob_magical_destroyers/types/transaction_type.dart';
-import 'package:progmob_magical_destroyers/utils/helpless_util.dart';
 import 'package:progmob_magical_destroyers/widgets/data/empty_data.dart';
 import 'package:progmob_magical_destroyers/widgets/section_header.dart';
 import 'package:progmob_magical_destroyers/widgets/transaction/transaction_history_list_tile.dart';
