@@ -1,32 +1,30 @@
 import 'package:color_log/color_log.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get/utils.dart';
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/base/anggota_type.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/list_tabungan_anggota_type.dart';
-import 'package:progmob_magical_destroyers/providers/transaction_provider.dart';
+import 'package:progmob_magical_destroyers/controllers/transaction_provider.dart';
 import 'package:progmob_magical_destroyers/screens/_/transaction_detail.dart';
 import 'package:progmob_magical_destroyers/types/transaction_type.dart';
 import 'package:progmob_magical_destroyers/utils/helpless_util.dart';
 import 'package:progmob_magical_destroyers/widgets/data/empty_data.dart';
 import 'package:progmob_magical_destroyers/widgets/section_header.dart';
+import 'package:progmob_magical_destroyers/widgets/transaction/transaction_history_list_tile.dart';
 import 'package:progmob_magical_destroyers/widgets/transaction/transaction_history_lsit_tile_skeleton.dart';
 import 'package:provider/provider.dart';
+
+class GroupedTransaction {
+  final String monthYear;
+  final List<Tabungan> transactions;
+
+  GroupedTransaction({required this.monthYear, required this.transactions});
+}
 
 class TransactionHistory extends StatelessWidget {
   final Anggota anggota;
 
   TransactionHistory({super.key, required this.anggota});
-
-  Text _getTextNominal(int nominal, TransactionType txnType) {
-    Color color = txnType.trxMultiply == 1 ? ColorPlanet.primary : Colors.red;
-    String prefix = txnType.trxMultiply == 1 ? "+" : "-";
-    String formattedNominal = HelplessUtil.formatNumber(nominal);
-
-    return Text("${prefix}Rp${formattedNominal}",
-        style:
-            TextStyle(fontSize: 18, color: color, fontWeight: FontWeight.bold));
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,34 +66,10 @@ class TransactionHistory extends StatelessWidget {
                   TransactionType txnType = transactionTypes
                       .firstWhere((element) => element.id == txn.trxId);
 
-                  return Material(
-                    child: InkWell(
-                      onTap: () => Get.to(
-                        () => TransactionDetail(
-                          item: txn,
-                          type: txnType,
-                          anggota: anggota,
-                        ),
-                      ),
-                      child: ListTile(
-                        leading: Container(
-                          width: 30,
-                          height: 30,
-                          child: Center(
-                            child: Image.asset(txnType.imageUrl),
-                          ),
-                        ),
-                        title: Text(txnType.name),
-                        subtitle: Text(
-                          HelplessUtil.formatDateTimeString(
-                              txn.trxTanggal!, false),
-                          style: TextStyle(
-                            color: Colors.grey.shade600,
-                          ),
-                        ),
-                        trailing: _getTextNominal(txn.trxNominal!, txnType),
-                      ),
-                    ),
+                  return TransactionHistoryListTile(
+                    txn: txn,
+                    txnType: txnType,
+                    anggota: anggota,
                   );
                 },
               );
@@ -104,6 +78,27 @@ class TransactionHistory extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Map<String, List<Tabungan>> _groupByMonthYear(List<Tabungan> transactions) {
+    Map<String, List<Tabungan>> groupedTransactions = {};
+    for (Tabungan transaction in transactions) {
+      DateTime transactionDate = DateTime.parse(transaction.trxTanggal!);
+      String monthYear =
+          "${formatMonth(transactionDate.month)} ${transactionDate.year}";
+      if (groupedTransactions.containsKey(monthYear)) {
+        groupedTransactions[monthYear]!.add(transaction);
+      } else {
+        groupedTransactions[monthYear] = [transaction];
+      }
+    }
+
+    Map<String, dynamic> transactionsObject =
+        groupedTransactions.map((key, value) => MapEntry(key, value));
+
+    print(transactionsObject);
+
+    return groupedTransactions;
   }
 
   Widget _monthYearHeader() {
@@ -117,5 +112,36 @@ class TransactionHistory extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String formatMonth(int month) {
+    switch (month) {
+      case 1:
+        return "JAN";
+      case 2:
+        return "FEB";
+      case 3:
+        return "MAR";
+      case 4:
+        return "APR";
+      case 5:
+        return "MAY";
+      case 6:
+        return "JUN";
+      case 7:
+        return "JUL";
+      case 8:
+        return "AUG";
+      case 9:
+        return "SEP";
+      case 10:
+        return "OCT";
+      case 11:
+        return "NOV";
+      case 12:
+        return "DEC";
+      default:
+        return "";
+    }
   }
 }

@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/base/anggota_type.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/list_tabungan_anggota_type.dart';
-import 'package:progmob_magical_destroyers/providers/transaction_provider.dart';
+import 'package:progmob_magical_destroyers/controllers/transaction_provider.dart';
 import 'package:progmob_magical_destroyers/widgets/transaction/nominal_transaction.dart';
 import 'package:progmob_magical_destroyers/types/transaction_type.dart';
 import 'package:progmob_magical_destroyers/widgets/wrapper/bottom_sheet_fit_content_wrapper.dart';

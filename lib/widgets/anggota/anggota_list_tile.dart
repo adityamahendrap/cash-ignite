@@ -5,7 +5,7 @@ import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/mobile_api.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/base/anggota_type.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/saldo_anggota_type.dart';
-import 'package:progmob_magical_destroyers/providers/profile_provider.dart';
+import 'package:progmob_magical_destroyers/controllers/profile_provider.dart';
 import 'package:progmob_magical_destroyers/screens/main/anggota/anggota_detail_screen.dart';
 import 'package:progmob_magical_destroyers/screens/main/anggota/edit_anggota_screen.dart';
 import 'package:progmob_magical_destroyers/utils/helpless_util.dart';
@@ -15,14 +15,10 @@ import 'package:progmob_magical_destroyers/widgets/text_label.dart';
 class AnggotaListTile extends StatefulWidget {
   final Anggota item;
   final Function refreshAnggotaListCallback;
-  final Function(Anggota) updateAnggotaCallback;
-  final Function(Anggota) deleteAnggotaCallback;
 
   const AnggotaListTile({
     super.key,
     required this.item,
-    required this.updateAnggotaCallback,
-    required this.deleteAnggotaCallback,
     required this.refreshAnggotaListCallback,
   });
 
@@ -34,8 +30,7 @@ class _AnggotaListTileState extends State<AnggotaListTile> {
   MobileApiRequester _apiRequester = MobileApiRequester();
 
   Future<void> _handleListTileOnTap() async {
-    await Get.to(() => AnggotaDetailScreen(),
-        arguments: {'anggota': widget.item});
+    await Get.to(() => AnggotaDetailScreen(anggota: widget.item));
     widget.refreshAnggotaListCallback();
   }
 
@@ -61,9 +56,9 @@ class _AnggotaListTileState extends State<AnggotaListTile> {
             backgroundImage: AssetImage(defaultImagePath),
           ),
         ),
-        contentPadding: EdgeInsets.symmetric(horizontal: 20),
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
               widget.item.nama,
@@ -71,13 +66,10 @@ class _AnggotaListTileState extends State<AnggotaListTile> {
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),
-            SizedBox(height: 5),
             _saldoAnggota(widget.item),
-            SizedBox(height: 5),
           ],
         ),
         style: ListTileStyle.list,
-        trailing: _popUpMenuButton(widget.item),
       ),
     );
   }
@@ -112,42 +104,6 @@ class _AnggotaListTileState extends State<AnggotaListTile> {
           offset: Offset(0, 3),
         ),
       ],
-    );
-  }
-
-  PopupMenuButton<dynamic> _popUpMenuButton(Anggota anggota) {
-    return PopupMenuButton(
-      onSelected: (item) {
-        switch (item) {
-          case 'edit':
-            Get.to(
-                () => EditAnggotaScreen(
-                    updateAnggotaCallback: widget.updateAnggotaCallback),
-                arguments: {'anggota': anggota});
-            break;
-          case 'delete':
-            widget.deleteAnggotaCallback(anggota);
-            break;
-        }
-      },
-      itemBuilder: (BuildContext context) => [
-        PopupMenuItem(
-          value: 'edit',
-          child: Text('Edit'),
-        ),
-        PopupMenuItem(
-          value: 'delete',
-          child: Text('Delete'),
-        ),
-      ],
-      position: PopupMenuPosition.under,
-      child: Container(
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-        ),
-        padding: EdgeInsets.all(2),
-        child: Icon(Icons.more_vert),
-      ),
     );
   }
 }

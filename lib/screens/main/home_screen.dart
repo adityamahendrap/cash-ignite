@@ -2,7 +2,6 @@ import 'package:color_log/color_log.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
@@ -12,24 +11,19 @@ import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/b
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/base/user_type.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/anggota_list_type.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/list_setting_bunga_type.dart';
-import 'package:progmob_magical_destroyers/providers/profile_provider.dart';
+import 'package:progmob_magical_destroyers/controllers/profile_provider.dart';
 import 'package:progmob_magical_destroyers/screens/main/search_screen.dart';
-import 'package:progmob_magical_destroyers/screens/main/anggota/add_anggota_screen.dart';
 import 'package:progmob_magical_destroyers/screens/main/setting_bunga_screen.dart';
 import 'package:progmob_magical_destroyers/utils/helpless_util.dart';
 import 'package:progmob_magical_destroyers/widgets/anggota/anggota_list_tile_skeleton.dart';
 import 'package:progmob_magical_destroyers/widgets/anggota/anggota_list_view.dart';
-import 'package:progmob_magical_destroyers/widgets/app_snack_bar.dart';
 import 'package:progmob_magical_destroyers/widgets/bunga/setting_bunga_grid_view.dart';
-import 'package:progmob_magical_destroyers/widgets/confirmation_dialog_content.dart';
 import 'package:progmob_magical_destroyers/widgets/data/empty_data.dart';
 import 'package:progmob_magical_destroyers/widgets/data/error_fetching_data.dart';
-import 'package:progmob_magical_destroyers/widgets/floating_action_button_add.dart';
 import 'package:progmob_magical_destroyers/widgets/notification_button.dart';
 import 'package:progmob_magical_destroyers/widgets/photo_view.dart';
 import 'package:progmob_magical_destroyers/widgets/carousel_slider_hero.dart';
 import 'package:progmob_magical_destroyers/widgets/section_header.dart';
-import 'package:progmob_magical_destroyers/widgets/wrapper/dialog_wrapper.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -57,83 +51,12 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  Future<void> _addAnggota(Anggota anggota) async {
-    try {
-      await _apiRequester.addAnggota(
-        nomorInduk: anggota.nomorInduk,
-        nama: anggota.nama,
-        tglLahir: anggota.tglLahir,
-        telepon: anggota.telepon,
-        alamat: anggota.alamat,
-      );
-      await _getAnggotaList();
-      setState(() {}); // Rebuild the widget tree to reflect the updated list
-    } on DioException catch (e) {
-      throw e;
-    }
-  }
-
-  Future<void> _updateAnggota(Anggota anggota) async {
-    try {
-      await _apiRequester.updateAnggota(
-        id: anggota.id!,
-        nomorInduk: anggota.nomorInduk,
-        nama: anggota.nama,
-        tglLahir: anggota.tglLahir,
-        telepon: anggota.telepon,
-        alamat: anggota.alamat,
-        status: anggota.statusAktif!,
-      );
-      await _getAnggotaList();
-      setState(() {}); // Rebuild the widget tree to reflect the updated list
-    } on DioException catch (e) {
-      throw e;
-    }
-  }
-
-  Future<void> _deleteAnggota(Anggota anggota) async {
-    final bool isConfirmed = await _showDeleteConfirmationDialog();
-    if (!isConfirmed) return;
-
-    EasyLoading.show();
-    try {
-      await _apiRequester.deleteAnggota(id: anggota.id);
-      await _getAnggotaList();
-      setState(() {}); // Rebuild the widget tree to reflect the updated list
-      AppSnackBar.success('Success', 'Anggota deleted successfully!');
-    } on DioException catch (e) {
-      HelplessUtil.handleApiError(e);
-    } finally {
-      EasyLoading.dismiss();
-    }
-  }
-
   Future<void> _getListOfSettingBunga() async {
     try {
       _listSettingBunga = _apiRequester.getListSettingBunga();
     } on DioException catch (e) {
       HelplessUtil.handleApiError(e);
     }
-  }
-
-  Future<bool> _showDeleteConfirmationDialog() async {
-    late bool isConfirmed;
-    await dialogWrapper(
-      context: context,
-      content: ConfirmationDialogContent(
-        text: "Are you sure you want to delete this anggota?",
-        onConfirmed: () {
-          Get.back();
-          isConfirmed = true;
-        },
-        onCanceled: () {
-          Get.back();
-          isConfirmed = false;
-        },
-        confirmText: "Delete",
-      ),
-    );
-    return isConfirmed;
   }
 
   Future<void> _handleRefresh() async {
@@ -463,8 +386,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   AnggotaListView(
                     items: items,
                     refreshAnggotaListCallback: _handleRefresh,
-                    updateAnggotaCallback: _updateAnggota,
-                    deleteAnggotaCallback: _deleteAnggota,
                     limitItems: true,
                   ),
                   items.length >= 3

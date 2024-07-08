@@ -2,7 +2,7 @@ import 'package:color_log/color_log.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
-import 'package:progmob_magical_destroyers/providers/transaction_provider.dart';
+import 'package:progmob_magical_destroyers/controllers/transaction_provider.dart';
 import 'package:progmob_magical_destroyers/types/transaction_type.dart';
 import 'package:progmob_magical_destroyers/utils/decimal_input_formatter.dart';
 import 'package:progmob_magical_destroyers/utils/number_input_formatter.dart';

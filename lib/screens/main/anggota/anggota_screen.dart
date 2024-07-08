@@ -2,7 +2,6 @@ import 'package:color_log/color_log.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/mobile_api.dart';
@@ -313,8 +312,6 @@ class _AnggotaScreenState extends State<AnggotaScreen> {
               return AnggotaListView(
                 items: items,
                 refreshAnggotaListCallback: _handleRefresh,
-                updateAnggotaCallback: _updateAnggota,
-                deleteAnggotaCallback: _deleteAnggota,
               );
             } else if (snapshot.hasError) {
               clog.error('snaphot err: ${snapshot.error.toString()}');

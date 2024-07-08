@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/mobile_api.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/login_type.dart';
-import 'package:progmob_magical_destroyers/services/firebase_service.dart';
+import 'package:progmob_magical_destroyers/external/services/firebase_service.dart';
 
 class AuthService {
   final _apiRequester = MobileApiRequester();

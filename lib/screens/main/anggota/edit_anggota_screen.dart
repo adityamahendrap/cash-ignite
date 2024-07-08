@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
+import 'package:progmob_magical_destroyers/external/requester/mobile_api/mobile_api.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/base/anggota_type.dart';
 import 'package:progmob_magical_destroyers/utils/helpless_util.dart';
 import 'package:progmob_magical_destroyers/widgets/app_bar_with_back_button.dart';
@@ -20,10 +21,14 @@ import 'package:progmob_magical_destroyers/widgets/wrapper/bottom_sheet_fit_cont
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class EditAnggotaScreen extends StatefulWidget {
-  final Function(Anggota) updateAnggotaCallback;
+  final Anggota anggota;
+  final Function(Anggota) updateAnggotaStateCallback;
 
-  const EditAnggotaScreen({Key? key, required this.updateAnggotaCallback})
-      : super(key: key);
+  const EditAnggotaScreen({
+    Key? key,
+    required this.anggota,
+    required this.updateAnggotaStateCallback,
+  }) : super(key: key);
 
   @override
   State<EditAnggotaScreen> createState() => EditAnggotaScreenState();
@@ -36,7 +41,7 @@ class EditAnggotaScreenState extends State<EditAnggotaScreen> {
   final _addressController = TextEditingController();
   final _registrationController = TextEditingController();
 
-  final Anggota anggota = Get.arguments['anggota'] as Anggota;
+  final MobileApiRequester _apiRequester = MobileApiRequester();
 
   String? _tempSelectedBirthday;
   String? _selectedBirthday = null;
@@ -112,9 +117,18 @@ class EditAnggotaScreenState extends State<EditAnggotaScreen> {
     try {
       EasyLoading.show();
       clog.debug('status anggota: ${_statusAnggota}');
-      await widget.updateAnggotaCallback(
+      await _apiRequester.updateAnggota(
+        id: widget.anggota.id,
+        nomorInduk: int.parse(_registrationController.text),
+        nama: _nameController.text,
+        alamat: _addressController.text,
+        tglLahir: _selectedBirthday!,
+        telepon: _phoneNumberController.text,
+        status: _statusAnggota,
+      );
+      widget.updateAnggotaStateCallback(
         Anggota(
-          id: anggota.id,
+          id: widget.anggota.id,
           nomorInduk: int.parse(_registrationController.text),
           nama: _nameController.text,
           alamat: _addressController.text,
@@ -140,13 +154,13 @@ class EditAnggotaScreenState extends State<EditAnggotaScreen> {
   @override
   void initState() {
     super.initState();
-    _nameController.text = anggota.nama;
-    _addressController.text = anggota.alamat;
-    _phoneNumberController.text = anggota.telepon;
-    _registrationController.text = anggota.nomorInduk.toString();
-    _selectedBirthday = anggota.tglLahir;
-    _tempSelectedBirthday = anggota.tglLahir;
-    _statusAnggota = anggota.statusAktif!;
+    _nameController.text = widget.anggota.nama;
+    _addressController.text = widget.anggota.alamat;
+    _phoneNumberController.text = widget.anggota.telepon;
+    _registrationController.text = widget.anggota.nomorInduk.toString();
+    _selectedBirthday = widget.anggota.tglLahir;
+    _tempSelectedBirthday = widget.anggota.tglLahir;
+    _statusAnggota = widget.anggota.statusAktif!;
   }
 
   @override

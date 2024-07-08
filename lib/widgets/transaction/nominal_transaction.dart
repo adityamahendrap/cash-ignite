@@ -8,7 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/mobile_api.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/base/anggota_type.dart';
-import 'package:progmob_magical_destroyers/providers/transaction_provider.dart';
+import 'package:progmob_magical_destroyers/controllers/transaction_provider.dart';
 import 'package:progmob_magical_destroyers/types/transaction_type.dart';
 import 'package:progmob_magical_destroyers/utils/helpless_util.dart';
 import 'package:progmob_magical_destroyers/widgets/app_snack_bar.dart';
