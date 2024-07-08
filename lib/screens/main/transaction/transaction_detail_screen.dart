@@ -8,12 +8,12 @@ import 'package:progmob_magical_destroyers/utils/helpless_util.dart';
 import 'package:progmob_magical_destroyers/widgets/app_bar_with_back_button.dart';
 import 'package:ticket_widget/ticket_widget.dart';
 
-class TransactionDetail extends StatelessWidget {
+class TransactionDetailScreen extends StatelessWidget {
   final Tabungan item;
   final TransactionType type;
   final Anggota anggota;
 
-  TransactionDetail(
+  TransactionDetailScreen(
       {super.key,
       required this.item,
       required this.type,

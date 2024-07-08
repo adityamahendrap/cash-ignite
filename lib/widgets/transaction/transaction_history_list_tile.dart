@@ -1,12 +1,11 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:progmob_magical_destroyers/configs/colors/colors_planet.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/base/anggota_type.dart';
 import 'package:progmob_magical_destroyers/external/requester/mobile_api/types/list_tabungan_anggota_type.dart';
-import 'package:progmob_magical_destroyers/screens/_/transaction_detail.dart';
 import 'package:progmob_magical_destroyers/types/transaction_type.dart';
 import 'package:progmob_magical_destroyers/utils/helpless_util.dart';
 import 'package:get/get.dart';
+import 'package:progmob_magical_destroyers/screens/main/transaction/transaction_detail_screen.dart';
 
 class TransactionHistoryListTile extends StatelessWidget {
   final Tabungan txn;
@@ -35,7 +34,7 @@ class TransactionHistoryListTile extends StatelessWidget {
     return Material(
       child: InkWell(
         onTap: () => Get.to(
-          () => TransactionDetail(
+          () => TransactionDetailScreen(
             item: txn,
             type: txnType,
             anggota: anggota,
